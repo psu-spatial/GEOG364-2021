@@ -49,23 +49,22 @@ knitr::opts_chunk$set(echo = TRUE)
 \
 
 
-Welcome to the GEOG 364 website!  This website complements the class [Canvas](https://canvas.psu.edu/) site  
+Welcome to the GEOG 364 Lab Book!  This website complements the class [Canvas](https://canvas.psu.edu/) site  
 
 On this website you will find:
 
-* An abridged syllabus
+* The course syllabus
 * Lab guidelines 
 * Lab assignment material
 * R help
+* Links to datasets
 
-On Canvas you will find:
+On Canvas you will find everything else AKA:
 
 * A detailed syllabus
-* Reading material
-* Lecture slides
-* All your other assignments
-* Project and quiz material
-* Submit your homework
+* Lecture materials
+* All other assignments
+* Where you submit your labs
 * Grades
 
 \

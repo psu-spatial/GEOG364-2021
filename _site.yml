@@ -20,9 +20,9 @@ navbar:
     - text: "Other"
       menu: 
         - text: "Other1"
-          href: other1.html   
-        - text: "Other 2"
-          href: other2.html   
+          href: Other1.html   
+        - text: "Other2"
+          href: Other2.html   
 output:
   html_document:
     theme: flatly
