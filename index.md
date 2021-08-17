@@ -57,7 +57,7 @@ On this website you will find:
 * R help
 * Links to datasets
 
-On Canvas you will find everything else AKA:
+On Canvas you will find everything else, AKA:
 
 * A detailed syllabus
 * Lecture materials
