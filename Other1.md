@@ -1,7 +1,7 @@
 ---
 title: "Other page 1"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
-date: <h4 style="font-style:normal">Fall 2021</h4>
+date: <h4 style="font-style:normal">Aug 16, 2021</h4>
 output: 
   html_document:
     toc: true

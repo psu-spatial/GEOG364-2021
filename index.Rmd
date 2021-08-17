@@ -1,8 +1,8 @@
 ---
 title: 'GEOG-364 - Spatial Analysis'
 subtitle: <h4 style="font-style:normal">Dr Helen Greatrex</h4>
-author: <h4 style="font-style:normal">The Pennsylvania State University</h4>
-date: <h4 style="font-style:normal">Department of Geography</h4>
+author: <h4 style="font-style:normal">Penn State, Dept Geography</h4>
+date: <h4 style="font-style:normal">Aug 16, 2021</h4>
 ---
 
 
