@@ -7,22 +7,26 @@ navbar:
       href: index.html
     - text: "Syllabus"
       href: syllabus.html
-    - text: "Lab Guidelines"
-      href: hw_guidelines.html
+    - text: "Tutorials"
+      menu:
+        - text: "1. What is R"
+          href: Tutorial1_whatisR.html    
+        - text: "2. Download, Update & install"
+          href: Tutorial2_Install.html  
+        - text: "3. R basics"
+          href: Tutorial3_Basics.html     
+        - text: "4. Packages"
+          href: Tutorial4_Packages.html             
     - text: "Labs"
       menu:
         - text: "Lab 1"
-          href: lab1.html    
-        - text: "Lab 2"
-          href: lab2.html  
-        - text: "Lab 3"
-          href: lab3.html        
-    - text: "Other"
+          href: lab1.html     
+    - text: "Datasets"
       menu: 
         - text: "Other1"
           href: Other1.html   
         - text: "Other2"
-          href: Other2.html   
+          href: Other2.html      
 output:
   html_document:
     theme: flatly

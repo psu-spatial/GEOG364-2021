@@ -1,8 +1,6 @@
 ---
-title: "Lab 2: Basics of spatial data"
+title: "Tutorial 3: Getting Started"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
-author: <h4 style="font-style:normal">Dr Helen Greatrex</h4>
-date: <h4 style="font-style:normal">Aug 16, 2021</h4>
 output: 
   html_document:
     toc: true
@@ -11,7 +9,6 @@ output:
     theme: flatly
     code_folding: show
 ---
-
 
 <style>
 p.comment {
@@ -23,22 +20,8 @@ border-radius: 5px;
 font-style: normal;
 }
 
-.figure {
-   margin-top: 20px;
-   margin-bottom: 20px;
-}
-
-h1.title {
-  font-weight: bold;
-  font-family: Arial;  
-}
-
-h2.title {
-  font-family: Arial;  
-}
 
 </style>
-
 
 <style type="text/css">
 #TOC {
@@ -50,9 +33,20 @@ h2.title {
 
 \
 
+```{r, tut3fig1, echo=FALSE}
+knitr::include_graphics('Tutorial3_fig1_RRstudiologos.png')
+```
 
 
-Text goes here
+**Open R-studio** (NOT R!).  
+
+You should be greeted by three panels:
+
+ - The interactive R console (entire left)
+ - Environment/History (tabbed in upper right)
+ - Files/Plots/Packages/Help/Viewer (tabbed in lower right)
+
+If you click on the View/Panes/Pane Layout menu item, you can move these quadrants around.  I tend to like the console to be top left and scripts to be top right, with the plots and environment on the bottom - but this is totally personal choice. 
 
 ***
 
