@@ -44,11 +44,18 @@ For this course you will need BOTH R and R studio.  You have three options:
 2. R-Studio Cloud
 3. Lab computers
 
+<br>
+
+
 ### 2.1 Installing on your own computer {#S.Tutorial.2.1}
 
 R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.
 
 **If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.**  The easiest way to do this is to first uninstall both programmes.  If you are worried this will affect another class, chat with Dr Greatrex before starting out..
+
+
+<br>
+
 
 #### To install R:
 
@@ -58,11 +65,17 @@ R is free and having it on your own computer will give you a lot more freedom to
   
   3. On anything else: https://cloud.r-project.org/bin
 
+<br>
+
 #### To install R studio
 
 Go to the website here: https://www.rstudio.com/products/rstudio/download/#download and download the version for your operating system.
 
 **For Windows Users**: Sometimes R asks you to download something called RTools.  You can ignore this request as it is not relevant to our course.  If you really want the warning to go away, you can download Rtools here https://cran.r-project.org/bin/windows/Rtools/  Follow the instructions closely and ask if you need support.
+
+
+<br>
+
 
 ### 2.2 R-Studio Cloud {#S.Tutorial.2.2}
 
