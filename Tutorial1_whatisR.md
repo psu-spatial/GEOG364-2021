@@ -44,28 +44,38 @@ The easiest way I find to think about R is that it is literally a language, like
 
 There are two programmes needed to run R on your computer, "R" and "R-Studio"
 
-
+<div style="margin-bottom:25px;">
+</div>
 ### 1.1 What is R? {#S.Tutorial.1.1}
 
-When you install R on your computer, you are essentially teaching the computer to “speak in R” with some very basic Notepad-like software where you can enter commands.
+As described by Noli Brazil:*"R is a free, open source statistical programming language.  It is useful for data cleaning, analysis, and visualization. R is an interpreted language, not a compiled one. This means that you type something into R and it does it."* 
+
+When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*
 
 <div class="figure">
 <img src="Tutorial1_fig1_R.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="1686" />
 <p class="caption">*The basic R console. You write in blue, the computer replies in black. The > means it is waiting for a command*</p>
 </div>
- 
+
+<br>
+
+<div style="margin-bottom:25px;">
+</div> 
 ### 1.2 What is R-Studio? {#S.Tutorial.1.2}
  
 More recently, **R-studio** has been designed as a piece of software to make it easier to programme in R. 
 
-It’s Microsoft Word is compared to notepad - many more options and things to click. For example, you can easily see help files, run code, see your output and link to many other fancy features
+It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations.  R-Studio also allows us to make interactive documents called R-Markdown files.  
 
 <div class="figure">
 <img src="Tutorial1_fig2_Rstudio.png" alt="*R-studio is much more sophisticated*" width="3360" />
 <p class="caption">*R-studio is much more sophisticated*</p>
 </div>
  
+<br> 
  
+<div style="margin-bottom:25px;">
+</div> 
 ### 1.3 This Course {#S.Tutorial.1.3}
 
 For this course you will need BOTH R and R studio.  You have three options described in the next tutorial

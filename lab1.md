@@ -47,8 +47,24 @@ h2.title {
 
 
 
-Text goes here
 
+In this guide you will learn the basic fundamentals of the statistical software program R.  Because R is not a prerequisite for the class, this guide assumes no background in the language.  The objectives of the guide are as follows
+
+1. Download R and RStudio
+2. Get familiar with the RStudio interface
+3. Understand R data types
+4. Understand R data structures, in particular vectors and data frames
+5. Understand R functions
+6. Understand R Markdown and the process for submitting assignments
+
+
+This lab guide follows closely and supplements the material presented in Chapters 2, 4, and 21 in the textbook [R for Data Science](http://r4ds.had.co.nz/index.html) (RDS).
+
+<p class="comment">**Assignment 1 is due by 12:00 pm, January 14th on Canvas.**  See [here](https://crd150.github.io/hw_guidelines.html) for assignment guidelines.  You must submit an `.Rmd` file and its associated `.html` file. Name the files: yourLastName_firstInitial_asgn01. For example: brazil_n_asgn01</p>
+
+\b
+<div style="margin-bottom:25px;">
+</div>
 
 ***
 

@@ -36,7 +36,7 @@ font-style: normal;
 
 
 
-For this course you will need BOTH R and R studio.  You have three options:
+For this course you will need BOTH R and R studio.  You should have either installed R or made an account with R-Studio Cloud.  If not, you have 3 options.
 
 1. Installing on your own computer (recommended)
 2. R-Studio Cloud
@@ -44,7 +44,8 @@ For this course you will need BOTH R and R studio.  You have three options:
 
 <br>
 
-
+<div style="margin-bottom:25px;">
+</div> 
 ### 2.1 Installing on your own computer {#S.Tutorial.2.1}
 
 R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.
@@ -52,9 +53,8 @@ R is free and having it on your own computer will give you a lot more freedom to
 **If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.**  The easiest way to do this is to first uninstall both programmes.  If you are worried this will affect another class, chat with Dr Greatrex before starting out..
 
 
-<br>
-
-
+<div style="margin-bottom:25px;">
+</div> 
 #### To install R:
 
   1. On a windows machine, go to: https://cloud.r-project.org/bin/windows/base/ , download R v 4.1.1 and double click to install (click next through all the options)
@@ -65,6 +65,8 @@ R is free and having it on your own computer will give you a lot more freedom to
 
 <br>
 
+<div style="margin-bottom:25px;">
+</div> 
 #### To install R studio
 
 Go to the website here: https://www.rstudio.com/products/rstudio/download/#download and download the version for your operating system.
@@ -74,13 +76,18 @@ Go to the website here: https://www.rstudio.com/products/rstudio/download/#downl
 
 <br>
 
-
+<div style="margin-bottom:25px;">
+</div> 
 ### 2.2 R-Studio Cloud {#S.Tutorial.2.2}
 
 You can access both R and R-studio online without installing anything.  
 
 To do this, make an account at  https://rstudio.cloud/plans/free.  You can access this anywhere and I believe is free for the first 25hrs each month, then $5 a month.
 
+<br>
+
+<div style="margin-bottom:25px;">
+</div> 
 ### 2.3 Lab computers {#S.Tutorial.2.3}
 
 The geography lab computers should have the most up to date version of R, but sometimes the "packages" you will later install fill up your U-drive.  Equally, the version of R *outside* the geography lab room is going to be out of date and might cause issues. 
