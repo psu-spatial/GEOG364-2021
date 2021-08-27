@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 2: Installing R"
+title: "Tutorial 1b: Installing R"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
 output: 
   html_document:
@@ -33,7 +33,9 @@ font-style: normal;
 
 \
 
-
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
 
 
 For this course you will need BOTH R and R studio.  You should have either installed R or made an account with R-Studio Cloud.  If not, you have 3 options.
@@ -90,7 +92,7 @@ To do this, make an account at  https://rstudio.cloud/plans/free.  You can acces
 </div> 
 ### 2.3 Lab computers {#S.Tutorial.2.3}
 
-The geography lab computers should have the most up to date version of R, but sometimes the "packages" you will later install fill up your U-drive.  Equally, the version of R *outside* the geography lab room is going to be out of date and might cause issues. 
+The geography lab computers should have the most up to date version of R, but sometimes the "packages" you will later install fill up your U-drive.  Equally, the version of R *outside* the geography lab room is going to be out of date and might cause issues. Saying that, R and R-Studio are R installed on them & we have made it work in the past.
 
  
 

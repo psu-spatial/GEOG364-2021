@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 1: What are R and R studio?"
+title: "Tutorial 1a: What are R and R studio?"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
 output: 
   html_document:
@@ -55,7 +55,7 @@ As described by Noli Brazil:"R is a free, open source statistical programming la
 When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*
 
 <div class="figure">
-<img src="Tutorial1_fig1_R.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="1686" />
+<img src="Tutorial1a_fig1_R.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="1686" />
 <p class="caption">*The basic R console. You write in blue, the computer replies in black. The > means it is waiting for a command*</p>
 </div>
 
@@ -70,7 +70,7 @@ More recently, **R-studio** has been designed as a piece of software to make it 
 It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations.  R-Studio also allows us to make interactive documents called R-Markdown files.  
 
 <div class="figure">
-<img src="Tutorial1_fig2_Rstudio.png" alt="*R-studio is much more sophisticated*" width="3360" />
+<img src="Tutorial1a_fig2_Rstudio.png" alt="*R-studio is much more sophisticated*" width="3360" />
 <p class="caption">*R-studio is much more sophisticated*</p>
 </div>
  

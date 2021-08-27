@@ -9,10 +9,12 @@ navbar:
       href: syllabus.html
     - text: "Tutorials"
       menu:
-        - text: "1. What is R"
-          href: Tutorial1_whatisR.html    
-        - text: "2. Install and Update"
-          href: Tutorial2_Install.html                   
+        - text: "1a. What is R"
+          href: Tutorial1a_whatisR.html    
+        - text: "1b. Install and Update"
+          href: Tutorial1b_Install.html   
+        - text: "1c. Initial Setup"
+          href: Tutorial1c_InitialSetup.html                             
 output:
   html_document:
     theme: flatly

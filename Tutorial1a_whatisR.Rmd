@@ -1,5 +1,5 @@
 ---
-title: "Tutorial 1: What are R and R studio?"
+title: "Tutorial 1a: What are R and R studio?"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
 output: 
   html_document:
@@ -56,8 +56,8 @@ As described by Noli Brazil:"R is a free, open source statistical programming la
 
 When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*
 
-```{r, tut1fig1, echo=FALSE, fig.cap = "*The basic R console. You write in blue, the computer replies in black. The > means it is waiting for a command*"}
-knitr::include_graphics('Tutorial1_fig1_R.png')
+```{r, tut1afig1, echo=FALSE, fig.cap = "*The basic R console. You write in blue, the computer replies in black. The > means it is waiting for a command*"}
+knitr::include_graphics('Tutorial1a_fig1_R.png')
 ```
 
 <br>
@@ -70,8 +70,8 @@ More recently, **R-studio** has been designed as a piece of software to make it 
 
 It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations.  R-Studio also allows us to make interactive documents called R-Markdown files.  
 
-```{r, tut1fig2, echo=FALSE, fig.cap = "*R-studio is much more sophisticated*"}
-knitr::include_graphics('Tutorial1_fig2_Rstudio.png')
+```{r, tut1afig2, echo=FALSE, fig.cap = "*R-studio is much more sophisticated*"}
+knitr::include_graphics('Tutorial1a_fig2_Rstudio.png')
 ```
  
 <br> 

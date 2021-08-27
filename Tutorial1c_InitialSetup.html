@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 1: What are R and R studio?</title>
+<title>Tutorial 1c: Getting Started</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -337,10 +337,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Tutorial1_whatisR.html">1. What is R</a>
+      <a href="Tutorial1a_whatisR.html">1a. What is R</a>
     </li>
     <li>
-      <a href="Tutorial2_Install.html">2. Install and Update</a>
+      <a href="Tutorial1b_Install.html">1b. Install and Update</a>
+    </li>
+    <li>
+      <a href="Tutorial1c_InitialSetup.html">1c. Initial Setup</a>
     </li>
   </ul>
 </li>
@@ -364,7 +367,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 1: What are R and R studio?</h1>
+<h1 class="title toc-ignore">Tutorial 1c: Getting Started</h1>
 <h3 class="subtitle"><h4 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -392,54 +395,45 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p><strong>R</strong> is a programming language commonly used by statisticians and scientists across the world.</p>
-<p>By a “programming language”, I mean it is a collection of commands that you can type into the computer in order to analyse and visualise data.</p>
-<p>The easiest way I find to think about R is that it is literally a language, like Spanish or Hindi, that is spoken by your computer. Learning R means learning vocabulary and grammar in order to communicate. It also means it will get easier with experience and practice..</p>
-<p>There are two programmes needed to run R on your computer, “R” and “R-Studio”</p>
+<p>Everything in this tutorial is a one-off to get R and R-studio set up.</p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
-<div id="S.Tutorial.1.1" class="section level3">
-<h3>1.1 What is R?</h3>
-<p>As described by Noli Brazil:“R is a free, open source statistical programming language. It is useful for data cleaning, analysis, and visualization. R is an interpreted language, not a compiled one. This means that you type something into R and it does it.”</p>
-<p>When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*</p>
-<div class="figure">
-<img src="Tutorial1_fig1_R.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="1686" />
-<p class="caption">
-<em>The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command</em>
-</p>
-</div>
+<div id="getting-started" class="section level3">
+<h3>Getting started</h3>
+<p>First, in an easy to access place on your computer, make a folder called GEOG-364. This is where all your labs and projects are going to live.</p>
+<p><strong>Now everything is installed, open R-studio</strong> (NOT R!).</p>
+<p><img src="Tutorial1c_fig1_RRstudiologos.png" width="2097" /></p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="S.Tutorial.1.2" class="section level3">
-<h3>1.2 What is R-Studio?</h3>
-<p>More recently, <strong>R-studio</strong> has been designed as a piece of software to make it easier to programme in R.</p>
-<p>It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations. R-Studio also allows us to make interactive documents called R-Markdown files.</p>
-<div class="figure">
-<img src="Tutorial1_fig2_Rstudio.png" alt="*R-studio is much more sophisticated*" width="3360" />
-<p class="caption">
-<em>R-studio is much more sophisticated</em>
-</p>
-</div>
+<p>You will be greeted by three panels:</p>
+<ul>
+<li>The interactive R console (entire left)</li>
+<li>Environment/History (tabbed in upper right)</li>
+<li>Files/Plots/Packages/Help/Viewer (tabbed in lower right)</li>
+</ul>
+<p>If you click on the <em>View/Panes/Pane</em> Layout menu item, you can move these quadrants around. I tend to like the console to be top left and scripts to be top right, with the plots and environment on the bottom - but this is personal choice.</p>
+<p><img src="Tutorial1c_fig2Rstudio.png" width="1778" /></p>
+<p><br></p>
+<p>If you wish to learn more about what these windows do, have a look at this resource, from the Pirates Guide to R: <a href="https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html" class="uri">https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html</a>.</p>
+<p><strong>If you have used R before, you might see that there are variables and plots etc already loaded</strong>. It is always good to clear these before you start a new analysis. To do this, click the little broom symbol in your environment tab.</p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
 </div>
-<div id="S.Tutorial.1.3" class="section level3">
-<h3>1.3 This Course</h3>
-<p>For this course you will need BOTH R and R studio. You should have either installed R or made an account with R-Studio Cloud. If not, the next tutorial describes 3 options for accessing R.</p>
-<ol style="list-style-type: decimal">
-<li>Installing on your own computer (recommended)</li>
-<li>R-Studio Cloud</li>
-<li>Lab computers</li>
-</ol>
-<p><strong>If you have not installed/updated R yet, please complete Tutorial 2 EVEN if you already have R/RStudio installed on your computer. It is important that you update them.</strong></p>
+<div id="change-a-few-settings" class="section level3">
+<h3>Change a few settings</h3>
+<p>R-studio wants to be helpful and will try to re-load exactly where you were in a project when you log back in. This can get really confusing, so we are going to turn this off.</p>
+<p>ON A MAC: Click on the R-studio menu button on the top left of the screen, then click Preferences.</p>
+<p>ON A PC: Click on Tools-&gt; Global Options -&gt; Preferences</p>
+<p>Now:</p>
+<ul>
+<li>UNCLICK “Restore most recently opened project at startup”</li>
+<li>Set “Save workspace to .RData on” exit to Never</li>
+</ul>
 <hr />
+<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
 </div>
 
