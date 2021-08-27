@@ -5,7 +5,7 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "Syllabus"
+    - text: "About the labs"
       href: syllabus.html
     - text: "Tutorials"
       menu:
@@ -17,12 +17,16 @@ navbar:
           href: Tutorial1c_InitialSetup.html                             
         - text: "2. R-Projects"
           href: Tutorial2a_Projects.html                             
-        - text: "3. Console Basics"
+        - text: "3. The Console"
           href: Tutorial3a_ConsoleBasics.html 
         - text: "4. Packages"
           href: Tutorial4a_Packages.html 
-        - text: "5. Markdown Basics"
+        - text: "5. R-Markdown"
           href: Tutorial5a_MarkdownBasics.html 
+    - text: "Labs"
+      menu:
+        - text: "Lab 1: R-Basics"
+          href: GEOG364_Lab1_2021.html    
 output:
   html_document:
     theme: flatly

@@ -46,16 +46,27 @@ h2.title {
 \
 
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
 
+### Welcome to Lab 1!
 
-In this guide you will learn the basic fundamentals of the statistical software program R.  Because R is not a prerequisite for the class, this guide assumes no background in the language.  The objectives of the guide are as follows
+There are 8 labs in this course. Each one will build on the last one, with support provided in a series of tutorials (see the tutorials tab).  You should NOT submit the tutorial work. We will work through the tutorials together and then your job is to submit the requirements on this page.
 
-1. Download R and RStudio
+By the end of this week's lab, you will be able to:
+
+1. Get comfortable with the lab format & how to work through them
+2. Know how to get help
 2. Get familiar with the RStudio interface
-3. Understand R data types
-4. Understand R data structures, in particular vectors and data frames
-5. Understand R functions
-6. Understand R Markdown and the process for submitting assignments
+3. Run your first programming commands
+4. Put everything together into an interactive markdown website (like this guide)
+5. Understand the process for submitting assignments
+
+<p class="comment">**Assignment 1 is due by midnight the night before your next lab on Canvas.**  See [here](https://psu-spatial.github.io/Geog364-2021/syllabus.html) for assignment guidelines & we will cover them in detail here.</p>
+
+
+
 
 
 This lab guide follows closely and supplements the material presented in Chapters 2, 4, and 21 in the textbook [R for Data Science](http://r4ds.had.co.nz/index.html) (RDS).
