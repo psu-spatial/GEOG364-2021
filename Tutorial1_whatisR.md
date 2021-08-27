@@ -44,11 +44,13 @@ The easiest way I find to think about R is that it is literally a language, like
 
 There are two programmes needed to run R on your computer, "R" and "R-Studio"
 
+<br>
+
 <div style="margin-bottom:25px;">
 </div>
 ### 1.1 What is R? {#S.Tutorial.1.1}
 
-As described by Noli Brazil:*"R is a free, open source statistical programming language.  It is useful for data cleaning, analysis, and visualization. R is an interpreted language, not a compiled one. This means that you type something into R and it does it."* 
+As described by Noli Brazil:"R is a free, open source statistical programming language.  It is useful for data cleaning, analysis, and visualization. R is an interpreted language, not a compiled one. This means that you type something into R and it does it." 
 
 When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*
 
@@ -78,13 +80,13 @@ It’s Microsoft Word is compared to notepad; many more options and things to cl
 </div> 
 ### 1.3 This Course {#S.Tutorial.1.3}
 
-For this course you will need BOTH R and R studio.  You have three options described in the next tutorial
+For this course you will need BOTH R and R studio.  You should have either installed R or made an account with R-Studio Cloud.  If not, the next tutorial describes 3 options for accessing R. 
 
 1. Installing on your own computer (recommended)
 2. R-Studio Cloud
 3. Lab computers
 
-**Please complete Tutorial 2 EVEN if you already have R/RStudio installed on your computer. It is important that you update them.**
+**If you have not installed/updated R yet, please complete Tutorial 2 EVEN if you already have R/RStudio installed on your computer. It is important that you update them.**
 
 
  
