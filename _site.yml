@@ -12,7 +12,7 @@ navbar:
         - text: "1. What is R"
           href: Tutorial1_whatisR.html    
         - text: "2. Install and Update"
-          href: Tutorial2_Install.html                     
+          href: Tutorial2_Install.html                   
 output:
   html_document:
     theme: flatly
