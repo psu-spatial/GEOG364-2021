@@ -15,6 +15,14 @@ navbar:
           href: Tutorial1b_Install.html   
         - text: "1c. Initial Setup"
           href: Tutorial1c_InitialSetup.html                             
+        - text: "2. R-Projects"
+          href: Tutorial2a_Projects.html                             
+        - text: "3. Console Basics"
+          href: Tutorial3a_ConsoleBasics.html 
+        - text: "4. Packages"
+          href: Tutorial4a_Packages.html 
+        - text: "5. Markdown Basics"
+          href: Tutorial5a_MarkdownBasics.html 
 output:
   html_document:
     theme: flatly

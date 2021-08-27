@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 1b: Installing R</title>
+<title>Tutorial 2: Create your R project</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -379,7 +379,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 1b: Installing R</h1>
+<h1 class="title toc-ignore">Tutorial 2: Create your R project</h1>
 <h3 class="subtitle"><h4 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -407,59 +407,63 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p>For this course you will need BOTH R and R studio. You should have either installed R or made an account with R-Studio Cloud. If not, you have 3 options.</p>
+<p>Our first job is to create an R-project for your lab. YOU WILL DO THIS EVERY LAB.</p>
+<div id="what-are-projects" class="section level3">
+<h3>What are projects?</h3>
+<p>An R project is a special folder that will store everything to do with each lab in one place on your computer. This is incredibly useful - it means that if you switch from R-Cloud, to the lab computers, to your laptop, all you have to do is to move the folder and everything will just work. Learn more here.</p>
+<p><a href="https://www.linkedin.com/learning/learning-the-r-tidyverse/why-should-you-use-projects-in-rstudio?u=76811570" title="Why use R Projects"><img src="Tutorial2_VIDEO1_Projects.png" alt="Rproject" /></a></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="creating-your-first-lab-project" class="section level3">
+<h3>Creating your first lab project</h3>
+<p><img src="Tutorial1c_fig1_RRstudiologos.png" width="2097" /></p>
+<p><br></p>
 <ol style="list-style-type: decimal">
-<li>Installing on your own computer (recommended)</li>
-<li>R-Studio Cloud</li>
-<li>Lab computers</li>
+<li>If it’s not already open, open <strong>R-Studio</strong></li>
+<li>Go to the file menu at the very top and click <code>New Project</code></li>
+<li>Select <code>New Directory</code>, then <code>New Project</code></li>
+<li>Name your project <em>GEOG364-Lab1-Project</em></li>
+<li>Under “create project as a subdirectory of”, hit the browse button and go inside your GEOG-364 main folder (you just need to be in the folder, you don’t need to have selected anything). Press open</li>
+<li>Finally, press <code>Create Project</code></li>
 </ol>
+<p><img src="Tutorial2a_fig2_projectmethod.png" width="1320" /></p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
-<div id="S.Tutorial.2.1" class="section level3">
-<h3>2.1 Installing on your own computer</h3>
-<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
-<p><strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.</strong> The easiest way to do this is to first uninstall both programmes. If you are worried this will affect another class, chat with Dr Greatrex before starting out..</p>
+<div id="how-do-i-know-its-worked" class="section level4">
+<h4>How do I know it’s worked?</h4>
+<p>R will change slightly. If you look at the top of the screen in the title bar, it should say <em>GEOG364-Lab1-Project R Studio</em>.</p>
+<p>The Files tab should have gone to your project folder.</p>
+<p><img src="Tutorial2a_fig3_projectcheck.png" width="1690" /></p>
+<p><br></p>
+<p>Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
+<p>If you want one, final check, try typing this into the console (INCLUDING THE EMPTY PARANTHESES/BRACKETS), press enter and see if it prints out the location of Lab 1 on your computer. If not, talk to an instructor.</p>
+<pre class="r"><code>getwd()</code></pre>
+<p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
-<div id="to-install-r" class="section level4">
-<h4>To install R:</h4>
+</div>
+</div>
+<div id="returning-to-your-lab-project" class="section level3">
+<h3>Returning to your lab project</h3>
+<p>OK, let’s imagine that you get halfway through your lab and your computer dies. How do you get back to your Lab work? Try this now. Close down R-Studio.</p>
+<p>To reopen a lab:</p>
 <ol style="list-style-type: decimal">
-<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
-<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> , download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
-<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
+<li><strong>DO NOT RE-OPEN R-STUDIO!</strong></li>
+<li>Instead navigate on your computer to your <em>GEOG-364/GEOG364-Lab1-Project</em> folder.<br />
+</li>
+<li>Double click on the GEOG364-Lab1-Project.RProj file.</li>
 </ol>
+<p>This will reopen R for that specific lab, so you can continue where you left off.</p>
+<p>It means you can also open several versions of R studio for multiple projects, which can be very useful in keeping labs separate and staying sane.</p>
+<p><img src="Tutorial2a_fig4_reopenproject.png" width="1922" /></p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="to-install-r-studio" class="section level4">
-<h4>To install R studio</h4>
-<p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
-<p><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-</div>
-<div id="S.Tutorial.2.2" class="section level3">
-<h3>2.2 R-Studio Cloud</h3>
-<p>You can access both R and R-studio online without installing anything.</p>
-<p>To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>. You can access this anywhere and I believe is free for the first 25hrs each month, then $5 a month.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="S.Tutorial.2.3" class="section level3">
-<h3>2.3 Lab computers</h3>
-<p>The geography lab computers should have the most up to date version of R, but sometimes the “packages” you will later install fill up your U-drive. Equally, the version of R <em>outside</em> the geography lab room is going to be out of date and might cause issues. Saying that, R and R-Studio are R installed on them &amp; we have made it work in the past.</p>
 <hr />
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
 </div>
 

@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 1b: Installing R</title>
+<title>Tutorial 5: R-Markdown</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -379,7 +379,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 1b: Installing R</h1>
+<h1 class="title toc-ignore">Tutorial 5: R-Markdown</h1>
 <h3 class="subtitle"><h4 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -407,60 +407,55 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p>For this course you will need BOTH R and R studio. You should have either installed R or made an account with R-Studio Cloud. If not, you have 3 options.</p>
-<ol style="list-style-type: decimal">
-<li>Installing on your own computer (recommended)</li>
-<li>R-Studio Cloud</li>
-<li>Lab computers</li>
-</ol>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="S.Tutorial.2.1" class="section level3">
-<h3>2.1 Installing on your own computer</h3>
-<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
-<p><strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.</strong> The easiest way to do this is to first uninstall both programmes. If you are worried this will affect another class, chat with Dr Greatrex before starting out..</p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="to-install-r" class="section level4">
-<h4>To install R:</h4>
-<ol style="list-style-type: decimal">
-<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
-<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> , download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
-<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
-</ol>
+<div id="r-markdown-basics" class="section level2">
+<h2>R-Markdown Basics</h2>
+<div id="what-is-r-markdown" class="section level3">
+<h3>What is R-markdown?</h3>
+<p>As I said at the start, the console is like a phone call to the computer, you’re talking but you’re not keeping records of what you say (you can always press the up key to see previous commands but that’s about it). When you close R, everything you have done will be lost.</p>
+<p>What we need instead is a way to save the commands for future use - we can do this using scripts. There are several types of document, or script that you can create and save in R-Studio.</p>
+<ul>
+<li><p>A basic script (the filetype is .r). This is simply just a blank notepad where you can save code commands. When you “run” the commands in the script, R simply copy/pastes the commands over to the console.</p></li>
+<li><p>An R-Notebook or R-Markdown document (the filetype is .Rmd). These are very cool - and are how I wrote this lab book. This is what we will be using in our labs.</p></li>
+</ul>
+<p>Imagine a normal Microsoft Word document, but halfway through you can press a button and a mini R console appears. You type your code inside the mini console, it runs and puts the plots/output just below - then you leave the console and continue writing about the results. Essentially you never have to take another screenshot of results and move it to your output…</p>
+<p>Rmd files are also flexible. You can turn them into reports, websites, blogs, presentations or applications with a few short commands.</p>
+<p>In this course we are going to focus on the R-Markdown format and you are going to submit your labs as websites/html files.</p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
 </div>
-<div id="to-install-r-studio" class="section level4">
-<h4>To install R studio</h4>
-<p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
-<p><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</p>
+<div id="creating-a-markdown-document" class="section level3">
+<h3>Creating a markdown document</h3>
+<p>Time to make your own. Go to the File menu on the top left, then click New File - R-Markdown. It will ask you to name and save your file. Call it <code>Lab1_Tutorial</code>. A new file should appear on your screen, save it as <code>Lab1_Tutorial</code> INSIDE YOUR LAB 1 FOLDER.</p>
+<p><img src="Tutorial5a_MarkdownBasics_fig2_files.png" width="1734" /></p>
+<p>The new file on your screen is your first markdown script. Essentially, we have some space for text, some space for code, and a space at the top of the file where we can add information about themes/styles etc.</p>
+<p>Your file contains some friendly text to explain what is going on, which I have annotated here. Read the file and see what it says.</p>
+<p><img src="Tutorial5a_MarkdownBasics_fig1_basics.png" width="1478" /></p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-</div>
-<div id="S.Tutorial.2.2" class="section level3">
-<h3>2.2 R-Studio Cloud</h3>
-<p>You can access both R and R-studio online without installing anything.</p>
-<p>To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>. You can access this anywhere and I believe is free for the first 25hrs each month, then $5 a month.</p>
+<div id="code-chunks" class="section level4">
+<h4>Code chunks</h4>
+<p>Your mini-consoles are the grey areas. They are called “code chunks”. <strong>Click on the little right triangle arrow at the top-right of the code chunk, this will run all of the commands in that code chunk and put the results underneath</strong>.</p>
+<p>Try running the 3 code chunks in your document (the top one will do nothing).</p>
+<p>To see what this will become, click the “knit” button.. and your code will produce a website! This will pop up on your screen. Close that and look at your lab 1 folder - you will see a html file has appeared. Double click to open in your browser.</p>
+<p>Code chunks can be altered. For example, on line 19, delete <code>summary(cars)</code> and type <code>1+1</code>. Now press the green arrow and the new answer should appear directly under your code chunk.</p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
 </div>
-</div>
-<div id="S.Tutorial.2.3" class="section level3">
-<h3>2.3 Lab computers</h3>
-<p>The geography lab computers should have the most up to date version of R, but sometimes the “packages” you will later install fill up your U-drive. Equally, the version of R <em>outside</em> the geography lab room is going to be out of date and might cause issues. Saying that, R and R-Studio are R installed on them &amp; we have made it work in the past.</p>
+<div id="text-editing" class="section level4">
+<h4>Text editing</h4>
+<p>Now click in the white space at the end of the script, press enter a few times (around line 33) and press the green insert button (top right near the Run button). Insert a new R code chunk. Inside, type <code>1+2</code> and run it.</p>
+<p>Below the output, in the white space, click and press enter a few times,</p>
+<p>Now make a new heading by typing <code># my new heading</code> IN THE WHITE SPACE (this isn’t coding in R, this is just editing your word document.)</p>
+<p>Below that leave some white space and write some more text. Press knit again and all your changes should have been incorporated.</p>
+<p><img src="Tutorial5a_MarkdownBasics_fig3_additions.png" width="3180" /></p>
+<p><br></p>
+<p class="comment">
+Congratulations! You have reached the end of the first set of tutorials. Now you are ready to start Lab 1…
+</p>
 <hr />
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+</div>
 </div>
 
 

@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 1b: Installing R</title>
+<title>Tutorial 2: Projects and Starting each lab</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -379,7 +379,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 1b: Installing R</h1>
+<h1 class="title toc-ignore">Tutorial 2: Projects and Starting each lab</h1>
 <h3 class="subtitle"><h4 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -407,59 +407,34 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p>For this course you will need BOTH R and R studio. You should have either installed R or made an account with R-Studio Cloud. If not, you have 3 options.</p>
+<p>You will need to follow this process for EVERY lab</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+<div id="starting-each-lab-check-list" class="section level3">
+<h3>Starting each lab check-list</h3>
+<p>We go through each of these in more detail below</p>
+<p><strong>Create your project (a special folder containing the lab)</strong></p>
 <ol style="list-style-type: decimal">
-<li>Installing on your own computer (recommended)</li>
-<li>R-Studio Cloud</li>
-<li>Lab computers</li>
+<li>Open <strong>R-Studio</strong></li>
+<li>Click <code>New Project</code> in the File Menu</li>
+<li>Select <code>new directory</code>, then <code>new project</code>.</li>
+<li>Name your project Project_GEOG364_Lab1 (or whatever the lab number is) and create the project</li>
 </ol>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="S.Tutorial.2.1" class="section level3">
-<h3>2.1 Installing on your own computer</h3>
-<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
-<p><strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.</strong> The easiest way to do this is to first uninstall both programmes. If you are worried this will affect another class, chat with Dr Greatrex before starting out..</p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="to-install-r" class="section level4">
-<h4>To install R:</h4>
-<ol style="list-style-type: decimal">
-<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
-<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> , download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
-<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
+<p><strong>Create the file we are going to edit project (a special folder containing the lab)</strong></p>
+<ol start="5" style="list-style-type: decimal">
+<li></li>
 </ol>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
 </div>
-</div>
-<div id="to-install-r-studio" class="section level4">
-<h4>To install R studio</h4>
-<p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
-<p><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-</div>
-<div id="S.Tutorial.2.2" class="section level3">
-<h3>2.2 R-Studio Cloud</h3>
-<p>You can access both R and R-studio online without installing anything.</p>
-<p>To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>. You can access this anywhere and I believe is free for the first 25hrs each month, then $5 a month.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="S.Tutorial.2.3" class="section level3">
-<h3>2.3 Lab computers</h3>
-<p>The geography lab computers should have the most up to date version of R, but sometimes the “packages” you will later install fill up your U-drive. Equally, the version of R <em>outside</em> the geography lab room is going to be out of date and might cause issues. Saying that, R and R-Studio are R installed on them &amp; we have made it work in the past.</p>
+<div id="what-are-projects" class="section level3">
+<h3>What are projects?</h3>
+<p><a href="https://www.linkedin.com/learning/learning-the-r-tidyverse/why-should-you-use-projects-in-rstudio?u=76811570" title="Why use R Projects"><img src="images/Fig_01_03VIDEO_Projects.png" alt="Rproject" /></a></p>
+<p>One of the most useful new features in RStudio are R-Projects. We are going to use R-projects to store our lab data in. An R project is a place to store all your commands, data and output in the same place.</p>
+<p>Before R projects, we had to worry about where on your computer your data was saved in. Now, we can force R-Studio to immediately look inside your lab folder - making life much easier.</p>
+<p>Equally, projects allow you to have multiple versions of R-studio open. This is useful because say you have Lab-2 open, but want to re-open Lab-1 to check some code, clicking the “Lab 1 project file” will load a whole new version of R with Lab 1 ready to edit.</p>
+<p>It is <strong><em>really</em></strong> important that you stay organized in this course, for example making sure you know where you put your data and your labs.</p>
 <hr />
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
 </div>
 

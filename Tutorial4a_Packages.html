@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 1b: Installing R</title>
+<title>Tutorial 4: Packages and Libraries</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -379,7 +379,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 1b: Installing R</h1>
+<h1 class="title toc-ignore">Tutorial 4: Packages and Libraries</h1>
 <h3 class="subtitle"><h4 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -407,59 +407,46 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p>For this course you will need BOTH R and R studio. You should have either installed R or made an account with R-Studio Cloud. If not, you have 3 options.</p>
+<div id="packages" class="section level3">
+<h3>Packages</h3>
+<p>R is open source, meaning that anyone can create their own commands. Over the years, the number of commands available has risen to several million!</p>
+<p>This is too many to store on your computer, so most live on the internet, grouped together into collections, known as “packages” or “libraries”. Sometime packages contain cool datasets.</p>
+<p>A close analogy is your phone. There are millions of apps available from banking, to social media to camera filters. You don’t have every app in the world installed on your phone - and you don’t have every app you <em>do</em> download running at the same time. Instead you download the apps that you think you will need (occasionally downloading a new one on the fly) - and when you need to use an app, you click on it to open.</p>
+<p>R is just the same. We have</p>
+<ul>
+<li>R: The programming language itself</li>
+<li>Functions: Specific commands or actions written in the R language</li>
+<li>Packages/libraries: Commands are grouped into bundles by theme (dplyr makes table commands easier, bardr contains the full works of William Shakespeare as a test dataset..)</li>
+</ul>
+<p>You can see the full available list here: <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html" class="uri">https://cran.r-project.org/web/packages/available_packages_by_name.html</a></p>
+<p>If you look at the packages tab next to the plot one, you can see which ones are already preinstalled onto your computer</p>
+</div>
+<div id="how-to-downloadinstall-packages" class="section level3">
+<h3>How to download/install packages</h3>
+<p>Just as you don’t need to go to the app store every time you use your weather app, you only need to download and install packages once. There are two methods</p>
 <ol style="list-style-type: decimal">
-<li>Installing on your own computer (recommended)</li>
-<li>R-Studio Cloud</li>
-<li>Lab computers</li>
+<li>Clicking the INSTALL button in the Packages tab, then start typing the package name and it will show up (check the include dependencies box).</li>
+<li>In the console, run the <code>install.packages()</code> command with quotes around the package name e.g. <code>install.packages("bardr")</code>.</li>
 </ol>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="S.Tutorial.2.1" class="section level3">
-<h3>2.1 Installing on your own computer</h3>
-<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
-<p><strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.</strong> The easiest way to do this is to first uninstall both programmes. If you are worried this will affect another class, chat with Dr Greatrex before starting out..</p>
-<div style="margin-bottom:25px;">
-
-</div>
-<div id="to-install-r" class="section level4">
-<h4>To install R:</h4>
-<ol style="list-style-type: decimal">
-<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
-<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> , download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
-<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
-</ol>
+<p>Try installing the bardr package onto your computer</p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
 </div>
 </div>
-<div id="to-install-r-studio" class="section level4">
-<h4>To install R studio</h4>
-<p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
-<p><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
+<div id="how-to-load-packages-you-want-to-use" class="section level3">
+<h3>How to load packages you want to use</h3>
+<p>Installing a package doesn’t make it available to you. For that you need to load it (like clicking on an app). This can be done with the library command. In the console type</p>
+<p>If you have managed to install them successfully, often nothing happens - this is great! It means it loaded the package without errors.</p>
+<p>Sometimes, it will tell you friendly messages. For example, this is what shows up when you install the tidyverse package. The computer telling you the sub-packages that it downloaded and also that some commands, like filter - now have a different meaning. E.g. originally the filter command did one thing, but now the tidyverse package has made filter do something else.</p>
+<div class="figure">
+<img src="Tutorial4a_fig1_tidyversetext.png" alt="Tidyverse install messages" width="1532" />
+<p class="caption">
+Tidyverse install messages
+</p>
 </div>
-</div>
-</div>
-<div id="S.Tutorial.2.2" class="section level3">
-<h3>2.2 R-Studio Cloud</h3>
-<p>You can access both R and R-studio online without installing anything.</p>
-<p>To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>. You can access this anywhere and I believe is free for the first 25hrs each month, then $5 a month.</p>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="S.Tutorial.2.3" class="section level3">
-<h3>2.3 Lab computers</h3>
-<p>The geography lab computers should have the most up to date version of R, but sometimes the “packages” you will later install fill up your U-drive. Equally, the version of R <em>outside</em> the geography lab room is going to be out of date and might cause issues. Saying that, R and R-Studio are R installed on them &amp; we have made it work in the past.</p>
+<p><strong>To find out if what you are seeing is a friendly message or an error, run the command again. If you run it a second time and there is no error then nothing should happen.</strong></p>
 <hr />
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.</p>
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
 </div>
 
