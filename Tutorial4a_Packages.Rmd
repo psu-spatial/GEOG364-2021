@@ -33,8 +33,6 @@ font-style: normal;
 
 \
 
-GIANT SPELLING MISTAKE
-
 ### Packages
 
 R is open source, meaning that anyone can create their own commands.  Over the years, the number of commands available has risen to several million!  
