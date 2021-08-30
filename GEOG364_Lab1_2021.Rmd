@@ -65,21 +65,255 @@ By the end of this week's lab, you will be able to:
 
 <p class="comment">**Assignment 1 is due by midnight the night before your next lab on Canvas.**  See [here](https://psu-spatial.github.io/Geog364-2021/syllabus.html) for assignment guidelines & we will cover them in detail here.</p>
 
+<br>  
+
+### Step A: Tutorials
+
+#### Setting up R and R-Studio on your computer
+
+ - Covered during homework 1:  Read [Tutorial 1a](https://psu-spatial.github.io/Geog364-2021/Tutorial1a_whatisR.html).
+ - Covered during homework 1:  Install BOTH R and R-Studio, or create an R-Studio Cloud account. This is covered in  [Tutorial 1b](https://psu-spatial.github.io/Geog364-2021/Tutorial1b_Install.html).
+ - Set up your R and R studio. Work through [Tutorial 1c](https://psu-spatial.github.io/Geog364-2021/Tutorial1c_InitialSetup.html) and change your settings.
+ 
+<br>  
+
+#### Getting started
+
+ - Use [Tutorial 2](https://psu-spatial.github.io/Geog364-2021/Tutorial2a_Projects.html) to make your first R-project called GEOG364-Lab1-Project
+ - Now work through [Tutorial 3](https://psu-spatial.github.io/Geog364-2021/Tutorial3a_ConsoleBasics.html) to get used to the console
+ 
+<br>  
+  
+### Packages and Markdown basics
+
+ - Work through [Tutorial 4](https://psu-spatial.github.io/Geog364-2021/Tutorial4a_Packages.html) to understand what an R package is
+ - Work through [Tutorial 5](https://psu-spatial.github.io/Geog364-2021/Tutorial5a_MarkdownBasics.html) to make your first Markdown document
+ 
+<br>  
+ 
+ 
+### Step B: Actual lab
+
+Everything above was for your own learning.  Now we will start the actual lab you will submit:
 
 
+<br>  
+
+#### 1. Set up
+ 
+ - Inside your R project, create a new RMarkdown document called `GEOG-364-Lab1.Rmd`.
 
 
-This lab guide follows closely and supplements the material presented in Chapters 2, 4, and 21 in the textbook [R for Data Science](http://r4ds.had.co.nz/index.html) (RDS).
+ - Delete all the text below line 11 (e.g. everything from R Markdown onwards)
 
-<p class="comment">**Assignment 1 is due by 12:00 pm, January 14th on Canvas.**  See [here](https://crd150.github.io/hw_guidelines.html) for assignment guidelines.  You must submit an `.Rmd` file and its associated `.html` file. Name the files: yourLastName_firstInitial_asgn01. For example: brazil_n_asgn01</p>
+<br>  
 
-\b
-<div style="margin-bottom:25px;">
-</div>
+#### B. Adding text
+
+ - In the white text area, create a level 1 heading called *"Introduction to GEOG-364"*.  For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference (spaces and whitespace are important!)
+
+
+ - Leave a blank line, then use the GEOG-364 syllabus to describe the course late policy in your own words (e.g. you're writing about this in the white space).
+
+
+ -  Press "knit" at the top of the screen.  If you haven't made a mistake a pop up should appear with a html file and your edits.
+
+<br>  
+
+
+#### C. Adding maths and functions
+
+ - Leave another blank line and add a new heading called *"Code Showcase"*.  Add a blank line afterwards too.
+
+
+ - Create a code chunk.  Inside use R code to calculate the following (Hint, you can put these all in one code chunk, or have separate code chunks with them in.  Just remember to leave blank lines between them)
+
+    + 103^3^  (e.g `103*103*103`, or `103^3`)
+  
+    + The co-sine of your age (google is your friend, google R function for cosine)
+  
+    + Use R code to work out how many characters are in [the longest town name in Wales](https://www.bbcamerica.com/anglophenia/2015/09/how-to-pronounce-the-longest-place-name-in-the-u-k) *Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch*.(Hint, remember you can copy paste this into your code. Hint 2.. your tutorials and quote marks!)
+  
+    + Create a sequence from 1000 to 2000, incrementing by 100 (e.g. 1000,1100,1200...).  Hint, see what google says for R and sequences, or see [here](http://www.simonqueenborough.info/R/basic/lessons/Sequences_of_Numbers.html). 
+  
+  
+ - Press "knit" at the top of the screen.  If you haven't made a mistake a pop up should appear with a html file and your edits.
+
+<br>
+
+#### D. Downloading packages
+
+Now we are going to download/install (hopefully) all the packages you need for these labs.  Copy this command into the R CONSOLE and press enter to run
+
+```{r, warnings=FALSE, message=FALSE, eval=FALSE}
+install.packages(c("tidyverse","knitr","rgdal","sp","sf",
+                   "spatstat","raster","lattice","tmap",
+                   "dismo","maptools","RColorBrewer","ISLR",
+                   "yarrr","skimr","Stat2Data",
+                   "olsrr","USAboundaries","elevatr","corrplot",
+                   "ggpubr","car"," hrbrthemes",
+                   "plotly","rmapshaper","spatialreg",
+                   "spatialEco","tidycensus","tigris","units",
+                   "spdep","abind","fields","matlab","rasterVis","maps",
+                   "mapdata","mapview","ncdf4","remotes",
+                   "rmdformats","rnaturalearth","rgeos","car"))
+```
+
+If it doesn't work, it's because sometimes copy/pasting from the internet messes up the quote marks around each package name.  In that case, you can easily manually download them by clicking the INSTALL button at the top of the packages tab, then choosing each name in turn.
+
+Now, create a new heading called Packages, leave some white lines, then create a code chunk.  
+
+Inside the code chunk, copy and paste in the following code.
+
+Then run the code chunk TWICE (e.g. press the green arrow, wait until its finished running, then press it again).  The first time you run it, it will show a load of friendly text about the contents of each package, but the second time there should be no output at all other than errors.  Normally we would only load a few packages, but I want to make sure it all works.
+
+```{r,warnings=FALSE, message=FALSE, eval=FALSE}
+library(tidyverse)
+library(knitr) 
+library(rgdal) 
+library(sp) 
+library(sf) 
+library(spatstat) 
+library(raster) 
+library(lattice) 
+library(tmap) 
+library(dismo) 
+library(maptools) 
+library(RColorBrewer) 
+library(ISLR) 
+library(yarrr) 
+library(skimr) 
+library(Stat2Data) 
+library(olsrr) 
+library(USAboundaries) 
+library(elevatr) 
+library(corrplot) 
+library(ggpubr) 
+library(car) 
+library(hrbrthemes) 
+library(plotly) 
+library(rmapshaper) 
+library(spatialreg) 
+library(spatialEco) 
+library(tidycensus) 
+library(tigris) 
+library(units) 
+library(spdep) 
+library(abind) 
+library(fields) 
+library(matlab) 
+library(rasterVis) 
+library(maps)
+library(mapdata) 
+library(mapview) 
+library(ncdf4) 
+library(remotes) 
+library(rmdformats) 
+library(rnaturalearth) 
+library(rgeos) 
+library(car)
+```
+
+
+<br> 
+
+#### E. Data analysis
+
+Part E is taken from this tutorial (https://r4ds.had.co.nz/data-visualisation.html). 
+
+Leave a blank line, and create a new heading called *Car Analysis*.  Leave a blank line afterwards too.
+
+We’re going to work with a table of data that’s already pre-loaded into R. First, type the `?mpg` command in the console. This will bring up the help file. Read the background of the dataset and briefly summarise it in your file (in the white space).
+
+Now look at the data itself.  In the console, type `View(mpg)`.  This will open a new tab with the spreadsheet itself.
+
+Let's look at the summary statistics. Leave a blank line and create a new code chunk containing the following code
+
+```{r, eval=FALSE}
+skim(mpg)
+```
+
+and finally, let's make your first plot.
+
+Among the variables in the mpg dataset are:
+
+ - `displ`, a car’s engine size, in litres.
+
+ - `hwy`, a car’s fuel efficiency on the highway, in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance.
+
+ - `class`, the class of car e.g. mini, SUV, pick up..
+ 
+To make a nice looking plot, let's use the ggplot package rather than the basic r commands.  Create a code chunk
+
+```{r,  eval=FALSE}
+
+# Choose the dataset and tell R the columns to plot
+p <- ggplot(data = mpg) +                  
+     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
+
+ggplotly(p)  # Plot interactively
+```
+
+Now below your code, answer the following questions.
+
+1. What's the unit of observation? (e.g. what does one row correspond to)
+2. What is the mean/average age of the cars in the dataset?
+3. How many cars are in the dataset?  (hint, how many rows)
+4. As fully as possible, describe the relationship between car’s engine size and its fuel efficiency on the highway 
+
+If you want to make it neat, you can use sub headings, or bold/italic text (see that R cheatsheet).  Press knit a lot!  Check you haven't made a mistake, check it all works.
+
+<br>
+
+
+#### F. Submitting your Lab
+
+Remember to save your work throughout and to spell check your writing (next to the save button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 1 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.
+
+In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT
+
+Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 1.
+
+
+```{r, echo=FALSE}
+knitr::include_graphics("GEOG364_Lab1_fig01_Submit.png")
+```
+
+<br>
+
+### Lab 1 submission check
+
+**HTML FILE SUBMISSION - 8 marks**
+
+**RMD CODE SUBMISSION - 8 marks**
+
+**MARKDOWN/CODE STYLE - 20 MARKS**
+
+Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.  There is also a spell check next to the save button.  You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to. 
+    
+**Introduction to GEOG-364: 10 MARKS** 
+
+You have described the lab late policy clearly in a way I could share with a new student.
+
+**Code Showcase: 20 MARKS** 
+
+You have managed to successfully complete all the code challenges
+ 
+**Car analysis: 30 MARKS** 
+
+You included all the code and successfully answered the questions, providing reasoning where appropriate
+
+**Above and beyond: 4 MARKS**
+ 
+Here you need to go above and beyond the lab questions in some way.  Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc).  Maybe you worked out how to add axis labels to ggplot (note, it's a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.  
+
+You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.
+
+
+[100 marks total]
+
 
 ***
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
 
 Website created and maintained by [Helen Greatrex](https://www.geog.psu.edu/directory/helen-greatrex). Website template by [Noli Brazil](https://nbrazil.faculty.ucdavis.edu/)

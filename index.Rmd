@@ -49,23 +49,13 @@ knitr::opts_chunk$set(echo = TRUE)
 \
 
 
-Welcome to the GEOG 364 Lab Book!  This website complements the class [Canvas](https://canvas.psu.edu/) site  
+Welcome to the GEOG 364 Lab Book!  This website complements the class [Canvas](https://canvas.psu.edu/) site.  The website will update each week.
 
 On this website you will find:
 
-* The course syllabus
-* Lab guidelines 
-* Lab assignment material
-* R help
-* Links to datasets
-
-
-\
-
-
-## About the class
-
-This course is TO BE ADDED
+* Lab tutorials 
+* The labs themselves
+* There will be future Links to datasets
 
 <br>
 
@@ -82,7 +72,6 @@ The following websites were used in the construction of this course website. My 
 
 
 ***
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
 
 
 Website created and maintained by [Helen Greatrex](https://www.geog.psu.edu/directory/helen-greatrex). Website template by [Noli Brazil](https://nbrazil.faculty.ucdavis.edu/)

@@ -5,8 +5,6 @@ navbar:
   left:
     - text: "Home"
       href: index.html
-    - text: "About the labs"
-      href: syllabus.html
     - text: "Tutorials"
       menu:
         - text: "1a. What is R"
