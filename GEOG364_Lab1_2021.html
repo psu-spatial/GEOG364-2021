@@ -389,13 +389,13 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Lab 1: Introduction to R</h1>
-<h3 class="subtitle"><h4 style="font-style:normal">
+<h3 class="subtitle"><h5 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
-<h4 class="author"><h4 style="font-style:normal">
+<h4 class="author"><h5 style="font-style:normal">
 Dr Helen Greatrex
 </h4></h4>
-<h4 class="date"><h4 style="font-style:normal">
+<h4 class="date"><h5 style="font-style:normal">
 Aug 16, 2021
 </h4></h4>
 
@@ -449,8 +449,8 @@ h2.title {
 </div>
 <div id="step-a-tutorials" class="section level3">
 <h3>Step A: Tutorials</h3>
-<div id="setting-up-r-and-r-studio-on-your-computer" class="section level4">
-<h4>Setting up R and R-Studio on your computer</h4>
+<div id="set-up-r-and-r-studio" class="section level4">
+<h4>1. Set up R and R-Studio</h4>
 <ul>
 <li>Covered during homework 1: Read <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial1a_whatisR.html">Tutorial 1a</a>.</li>
 <li>Covered during homework 1: Install BOTH R and R-Studio, or create an R-Studio Cloud account. This is covered in <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial1b_Install.html">Tutorial 1b</a>.</li>
@@ -459,21 +459,21 @@ h2.title {
 <p><br></p>
 </div>
 <div id="getting-started" class="section level4">
-<h4>Getting started</h4>
+<h4>2. Getting started</h4>
 <ul>
 <li>Use <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial2a_Projects.html">Tutorial 2</a> to make your first R-project called GEOG364-Lab1-Project</li>
 <li>Now work through <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial3a_ConsoleBasics.html">Tutorial 3</a> to get used to the console</li>
 </ul>
 <p><br></p>
 </div>
-</div>
-<div id="packages-and-markdown-basics" class="section level3">
-<h3>Packages and Markdown basics</h3>
+<div id="packages-markdown-basics" class="section level4">
+<h4>3. Packages &amp; Markdown basics</h4>
 <ul>
 <li>Work through <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial4a_Packages.html">Tutorial 4</a> to understand what an R package is</li>
 <li>Work through <a href="https://psu-spatial.github.io/Geog364-2021/Tutorial5a_MarkdownBasics.html">Tutorial 5</a> to make your first Markdown document</li>
 </ul>
 <p><br></p>
+</div>
 </div>
 <div id="step-b-actual-lab" class="section level3">
 <h3>Step B: Actual lab</h3>
@@ -487,8 +487,8 @@ h2.title {
 </ul>
 <p><br></p>
 </div>
-<div id="b.-adding-text" class="section level4">
-<h4>B. Adding text</h4>
+<div id="adding-text" class="section level4">
+<h4>2. Adding text</h4>
 <ul>
 <li><p>In the white text area, create a level 1 heading called <em>“Introduction to GEOG-364”</em>. For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference (spaces and whitespace are important!). If you want to add sub-headings etc, go for it!</p></li>
 <li><p>Leave a blank line, then use the GEOG-364 syllabus to describe the course late policy in your own words (e.g. you’re writing about this in the white space).</p></li>
@@ -497,8 +497,8 @@ h2.title {
 </ul>
 <p><br></p>
 </div>
-<div id="c.-adding-maths-and-functions" class="section level4">
-<h4>C. Adding maths and functions</h4>
+<div id="adding-maths-and-functions" class="section level4">
+<h4>3. Adding maths and functions</h4>
 <ul>
 <li><p>Leave another blank line and add a new heading called <em>“Code Showcase”</em>. Add a blank line afterwards too.</p></li>
 <li><p>Create a code chunk. Inside use R code to calculate the following (Hint, you can put these all in one code chunk, or have separate code chunks with them in. Just remember to leave blank lines between them)</p>
@@ -512,8 +512,8 @@ h2.title {
 </ul>
 <p><br></p>
 </div>
-<div id="d.-downloading-packages" class="section level4">
-<h4>D. Downloading packages</h4>
+<div id="downloading-packages" class="section level4">
+<h4>4. Downloading packages</h4>
 <p>Now we are going to download/install (hopefully) all the packages you need for these labs. Copy this command into the R CONSOLE and press enter to run</p>
 <pre class="r"><code>install.packages(c(&quot;tidyverse&quot;,&quot;knitr&quot;,&quot;rgdal&quot;,&quot;sp&quot;,&quot;sf&quot;,
                    &quot;spatstat&quot;,&quot;raster&quot;,&quot;lattice&quot;,&quot;tmap&quot;,
@@ -528,7 +528,7 @@ h2.title {
                    &quot;rmdformats&quot;,&quot;rnaturalearth&quot;,&quot;rgeos&quot;,&quot;car&quot;))</code></pre>
 <p>If it doesn’t work, it’s because sometimes copy/pasting from the internet messes up the quote marks around each package name. In that case, you can easily manually download them by clicking the INSTALL button at the top of the packages tab, then choosing each name in turn.</p>
 <p>Now, create a new heading called Packages, leave some white lines, then create a code chunk.</p>
-<p>Inside the code chunk, copy and paste in the following code.</p>
+<p><strong>INSIDE THE CODE CHUNK</strong>, copy and paste in the following code. (e.g. don’t put this in the console)</p>
 <p>Then run the code chunk TWICE (e.g. press the green arrow, wait until its finished running, then press it again). The first time you run it, it will show a load of friendly text about the contents of each package, but the second time there should be no output at all other than errors. Normally we would only load a few packages, but I want to make sure it all works.</p>
 <pre class="r"><code>library(tidyverse)
 library(knitr) 
@@ -576,8 +576,8 @@ library(rgeos)
 library(car)</code></pre>
 <p><br></p>
 </div>
-<div id="e.-data-analysis" class="section level4">
-<h4>E. Data analysis</h4>
+<div id="data-analysis" class="section level4">
+<h4>5. Data analysis</h4>
 <p>Part E is taken from this tutorial (<a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a>).</p>
 <p>Leave a blank line, and create a new heading called <em>Car Analysis</em>. Leave a blank line afterwards too.</p>
 <p>We’re going to work with a table of data that’s already pre-loaded into R. First, type the <code>?mpg</code> command in the console. This will bring up the help file. Read the background of the dataset and briefly summarise it in your file (in the white space).</p>
@@ -607,8 +607,8 @@ ggplotly(p)  # Plot interactively</code></pre>
 <p>If you want to make it neat, you can use sub headings, or bold/italic text (see that R cheatsheet). Press knit a lot! Check you haven’t made a mistake, check it all works.</p>
 <p><br></p>
 </div>
-<div id="f.-submitting-your-lab" class="section level4">
-<h4>F. Submitting your Lab</h4>
+<div id="submitting-your-lab" class="section level4">
+<h4>6. Submitting your Lab</h4>
 <p>Remember to save your work throughout and to spell check your writing (next to the save button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 1 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.</p>
 <p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT</p>
 <p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 1.</p>
@@ -616,8 +616,8 @@ ggplotly(p)  # Plot interactively</code></pre>
 <p><br></p>
 </div>
 </div>
-<div id="lab-1-submission-check" class="section level3">
-<h3>Lab 1 submission check</h3>
+<div id="lab-1-submission-check-list" class="section level3">
+<h3>Lab 1 submission check-list</h3>
 <p><strong>HTML FILE SUBMISSION - 8 marks</strong></p>
 <p><strong>RMD CODE SUBMISSION - 8 marks</strong></p>
 <p><strong>MARKDOWN/CODE STYLE - 20 MARKS</strong></p>
@@ -690,7 +690,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {

@@ -1,12 +1,12 @@
 ---
 title: "Lab 1: Introduction to R"
-subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
-author: <h4 style="font-style:normal">Dr Helen Greatrex</h4>
-date: <h4 style="font-style:normal">Aug 16, 2021</h4>
+subtitle: <h5 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
+author: <h5 style="font-style:normal">Dr Helen Greatrex</h4>
+date: <h5 style="font-style:normal">Aug 16, 2021</h4>
 output: 
   html_document:
     toc: true
-    toc_depth: 3
+    toc_depth: 4
     toc_float: true
     theme: flatly
     code_folding: show
@@ -69,7 +69,7 @@ By the end of this week's lab, you will be able to:
 
 ### Step A: Tutorials
 
-#### Setting up R and R-Studio on your computer
+#### 1. Set up R and R-Studio
 
  - Covered during homework 1:  Read [Tutorial 1a](https://psu-spatial.github.io/Geog364-2021/Tutorial1a_whatisR.html).
  - Covered during homework 1:  Install BOTH R and R-Studio, or create an R-Studio Cloud account. This is covered in  [Tutorial 1b](https://psu-spatial.github.io/Geog364-2021/Tutorial1b_Install.html).
@@ -77,14 +77,14 @@ By the end of this week's lab, you will be able to:
  
 <br>  
 
-#### Getting started
+#### 2. Getting started
 
  - Use [Tutorial 2](https://psu-spatial.github.io/Geog364-2021/Tutorial2a_Projects.html) to make your first R-project called GEOG364-Lab1-Project
  - Now work through [Tutorial 3](https://psu-spatial.github.io/Geog364-2021/Tutorial3a_ConsoleBasics.html) to get used to the console
  
 <br>  
   
-### Packages and Markdown basics
+#### 3. Packages & Markdown basics
 
  - Work through [Tutorial 4](https://psu-spatial.github.io/Geog364-2021/Tutorial4a_Packages.html) to understand what an R package is
  - Work through [Tutorial 5](https://psu-spatial.github.io/Geog364-2021/Tutorial5a_MarkdownBasics.html) to make your first Markdown document
@@ -108,7 +108,7 @@ Everything above was for your own learning.  Now we will start the actual lab yo
 
 <br>  
 
-#### B. Adding text
+#### 2. Adding text
 
  - In the white text area, create a level 1 heading called *"Introduction to GEOG-364"*.  For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference (spaces and whitespace are important!).  If you want to add sub-headings etc, go for it!
 
@@ -121,7 +121,7 @@ Everything above was for your own learning.  Now we will start the actual lab yo
 <br>  
 
 
-#### C. Adding maths and functions
+#### 3. Adding maths and functions
 
  - Leave another blank line and add a new heading called *"Code Showcase"*.  Add a blank line afterwards too.
 
@@ -141,7 +141,7 @@ Everything above was for your own learning.  Now we will start the actual lab yo
 
 <br>
 
-#### D. Downloading packages
+#### 4. Downloading packages
 
 Now we are going to download/install (hopefully) all the packages you need for these labs.  Copy this command into the R CONSOLE and press enter to run
 
@@ -163,7 +163,7 @@ If it doesn't work, it's because sometimes copy/pasting from the internet messes
 
 Now, create a new heading called Packages, leave some white lines, then create a code chunk.  
 
-Inside the code chunk, copy and paste in the following code.
+**INSIDE THE CODE CHUNK**, copy and paste in the following code. (e.g. don't put this in the console)
 
 Then run the code chunk TWICE (e.g. press the green arrow, wait until its finished running, then press it again).  The first time you run it, it will show a load of friendly text about the contents of each package, but the second time there should be no output at all other than errors.  Normally we would only load a few packages, but I want to make sure it all works.
 
@@ -217,7 +217,7 @@ library(car)
 
 <br> 
 
-#### E. Data analysis
+#### 5. Data analysis
 
 Part E is taken from this tutorial (https://r4ds.had.co.nz/data-visualisation.html). 
 
@@ -266,7 +266,7 @@ If you want to make it neat, you can use sub headings, or bold/italic text (see 
 <br>
 
 
-#### F. Submitting your Lab
+#### 6. Submitting your Lab
 
 Remember to save your work throughout and to spell check your writing (next to the save button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 1 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.
 
@@ -281,7 +281,7 @@ knitr::include_graphics("GEOG364_Lab1_fig01_Submit.png")
 
 <br>
 
-### Lab 1 submission check
+### Lab 1 submission check-list
 
 **HTML FILE SUBMISSION - 8 marks**
 
