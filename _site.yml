@@ -7,6 +7,8 @@ navbar:
       href: index.html
     - text: "Tutorials"
       menu:
+        - text: "0a. Desktop to/from Cloud"
+          href: Tutorial0_desktopRstudiocloud.html  
         - text: "1a. What is R"
           href: Tutorial1a_whatisR.html    
         - text: "1b. Install and Update"

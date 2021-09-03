@@ -57,7 +57,16 @@ In this course we are going to focus on the R-Markdown format and you are going 
 </div>
 ### Creating a markdown document
 
-Time to make your own. Go to the File menu on the top left, then click New File - R-Markdown. It will ask you to name and save your file.  Call it `Lab1_Tutorial`.  A new file should appear on your screen, save it as `Lab1_Tutorial` INSIDE YOUR LAB 1 FOLDER.
+Time to make your own. Go to the File menu on the top left, then click New File - R-Markdown. If this is your first time ever, it might ask to download some packages to be able to do this. Say yes.
+
+Eventually a window will open up:
+
+```{r, openmarkdown, echo=FALSE, out.width="50%"}
+knitr::include_graphics('Tutorial5a_MarkdownBasics_fig1_open.png',)
+```
+
+
+It will ask you to name and save your file.  Give it a relevant name.  A new file should appear on your screen.  At the top of that window (by the knit button, there is a save button. Save it as `Lab1_Tutorial` (or something relevant to you) INSIDE YOUR LAB 1 FOLDER.
 
 ```{r, markdownfiles, echo=FALSE}
 knitr::include_graphics('Tutorial5a_MarkdownBasics_fig2_files.png')

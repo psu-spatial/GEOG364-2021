@@ -11,7 +11,7 @@
 
 
 
-<title>Tutorial 2: Create your R project</title>
+<title>Going from Desktop to R-Studio Cloud</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -391,8 +391,8 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Tutorial 2: Create your R project</h1>
-<h3 class="subtitle"><h4 style="font-style:normal">
+<h1 class="title toc-ignore">Going from Desktop to R-Studio Cloud</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
 
@@ -409,6 +409,14 @@ border-radius: 5px;
 font-style: normal;
 }
 
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
 
 </style>
 <style type="text/css">
@@ -419,62 +427,35 @@ font-style: normal;
 </style>
 <p><br />
 </p>
-<p>Our first job is to create an R-project for your lab. YOU WILL DO THIS EVERY LAB.</p>
-<div id="what-are-projects" class="section level3">
-<h3>What are projects?</h3>
-<p>An R project is a special folder that will store everything to do with each lab in one place on your computer. This is incredibly useful - it means that if you switch from R-Cloud, to the lab computers, to your laptop, all you have to do is to move the folder and everything will just work. Learn more here.</p>
-<p><a href="https://www.linkedin.com/learning/learning-the-r-tidyverse/why-should-you-use-projects-in-rstudio?u=76811570" title="Why use R Projects"><img src="Tutorial2_VIDEO1_Projects.png" alt="Rproject" /></a></p>
+<p>You can complete your labs either on your laptops, or on R-Studio Cloud. (There are also lab computers available, and the Penn State server, but both are out of date and can have bugs)</p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-<div id="creating-your-first-lab-project" class="section level3">
-<h3>Creating your first lab project</h3>
-<p><img src="Tutorial1c_fig1_RRstudiologos.png" width="2097" /></p>
-<p><br></p>
+<div id="to-go-from-r-studio-cloud-to-r-desktop" class="section level3">
+<h3>To go from R-Studio Cloud to R-Desktop</h3>
 <ol style="list-style-type: decimal">
-<li>If it’s not already open, open <strong>R-Studio</strong></li>
-<li>Go to the file menu at the very top and click <code>New Project</code></li>
-<li>Select <code>New Directory</code>, then <code>New Project</code></li>
-<li>Name your project <em>GEOG364-Lab1-Project</em></li>
-<li>Under “create project as a subdirectory of”, hit the browse button and go inside your GEOG-364 main folder (you just need to be in the folder, you don’t need to have selected anything). Press open</li>
-<li>Finally, press <code>Create Project</code></li>
+<li>On your computer, go to your GEOG364 folder (or make one!)</li>
+<li>Make a subfolder named for that lab e.g. <em>Lab 1</em></li>
+<li>On your browser, open your project in R-studio cloud</li>
+<li>In the files quadrant/tab, select the checkbox of all the files.</li>
+<li>Click Export. This will zip them into a folder. Save that into your lab folder</li>
+<li>Unzip. Double click the project.RProj file to reopen your lab on your computer</li>
 </ol>
-<p><img src="Tutorial2a_fig2_projectmethod.png" width="1320" /></p>
+<p><img src="Tutorial0a_fig1.png" width="2716" /></p>
 <p><br></p>
-<div style="margin-bottom:25px;">
-
 </div>
-<div id="how-do-i-know-its-worked" class="section level4">
-<h4>How do I know it’s worked?</h4>
-<p>R will change slightly. If you look at the top of the screen in the title bar, it should say <em>GEOG364-Lab1-Project R Studio</em>.</p>
-<p>The Files tab should have gone to your project folder.</p>
-<p><img src="Tutorial2a_fig3_projectcheck.png" width="1690" /></p>
-<p><br></p>
-<p>Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
-<p>If you want one, final check, try typing this into the console (INCLUDING THE EMPTY PARANTHESES/BRACKETS), press enter and see if it prints out the location of Lab 1 on your computer. If not, talk to an instructor.</p>
-<pre class="r"><code>getwd()</code></pre>
-<p><br></p>
-<div style="margin-bottom:25px;">
-
-</div>
-</div>
-</div>
-<div id="returning-to-your-lab-project" class="section level3">
-<h3>Returning to your lab project</h3>
-<p>OK, let’s imagine that you get halfway through your lab and your computer dies. How do you get back to your Lab work? Try this now. Close down R-Studio.</p>
-<p>To reopen a lab:</p>
+<div id="to-go-from-r-desktop-to-r-studio-cloud" class="section level3">
+<h3>To go from R-Desktop to R-Studio Cloud</h3>
 <ol style="list-style-type: decimal">
-<li><strong>DO NOT RE-OPEN R-STUDIO!</strong></li>
-<li>Instead navigate on your computer to your <em>GEOG-364/GEOG364-Lab1-Project</em> folder.<br />
-</li>
-<li>Double click on the GEOG364-Lab1-Project.RProj file.</li>
+<li>On your browser, in R studio cloud make a new project and name it something relevant</li>
+<li>Click the upload button</li>
+<li>Navigate to the lab folder on your computer. Choose ONLY the .Rmd file(s) and any input data as appropriate (RStudio-Cloud will make the rest)</li>
+<li>Click on the .Rmd file name in the files in RStudio and you’re good to go</li>
 </ol>
-<p>This will reopen R for that specific lab, so you can continue where you left off.</p>
-<p>It means you can also open several versions of R studio for multiple projects, which can be very useful in keeping labs separate and staying sane.</p>
-<p><img src="Tutorial2a_fig4_reopenproject.png" width="1922" /></p>
 <p><br></p>
+<p><img src="Tutorial0a_fig2.png" width="2906" /></p>
+<p><br></p>
+<p><img src="Tutorial0a_fig3.png" width="70%" /></p>
+<p><br></p>
+<p><img src="Tutorial0a_fig4.png" width="70%" /></p>
 <hr />
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
 </div>
@@ -533,7 +514,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
