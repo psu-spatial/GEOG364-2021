@@ -442,14 +442,25 @@ The QTM command allows us to make  quick interactive plots.
 
 ## Step C New York Data Analysis
 
-Now it's your turn!  The other file in your Lab 2 folder should be called NewYork.xlsx.  It contains real airbnb price data across New York City for 2021 from this source (http://insideairbnb.com/get-the-data.html - I did some quality control)
+Now it's your turn!  
 
-Use what you have learned to read the data into R, explore it and tell me what you find.  Hint, follow the same steps.  AKA
+
+The other file in your Lab 2 folder should be called NewYork.xlsx.  It contains real airbnb price data across New York City for 2021 from this source (http://insideairbnb.com/get-the-data.html - I did some quality control)
+
+Use what you have learned to read the data into R, explore it and tell me what you find.  
+
+**DO NOT SPEND ALL DAY ON THIS!<br>Set a timer for 30 minutes, turn off the internet and see how far you get.  That is enough (if you do more, that's fine, but about 30mins work is all I expext)** 
+
+Hint, follow the same steps.  AKA
+
+ - Create a heading then describe the dataset in words in a few sentences
  - Use headings/sub-headings etc to keep your analysis tidy.  Knit often!
+ - Create a new heading called Data input
  - Read in the data and assign it to a variable like `NewYork`
- - Describe the dataset itself e.g. what variables are there, what's the unit of observation, how much data is there
- - Do some summary statistics, tables, plots and maps
- - See what interesting stories you find
+ - Create a new heading called Exploratory Data Analysis and see what you find e.g.
+     + Describe the dataset itself e.g. what variables are there, what's the unit of observation, how much data is there
+     + Do some summary statistics, tables, plots and maps
+     + See what interesting stories you find.  For example, you could look at the rental type in each district, make maps, plot prices, summarise prices by district/location/type/bedrooms, see if one area is unusually high/low and google to find out why....  
 
 This is brand new data that I have not looked at myself. There will be many interesting stories in it, so try to find your own path through the data (e.g. try to take a different route to anyone you work with closely)
 
