@@ -433,15 +433,22 @@ Try installing the bardr package onto your computer
 
 ### How to load packages you want to use
 
-Installing a package doesn't make it available to you.  For that you need to load it (like clicking on an app).  This can be done with the library command.  In the console type
+Installing a package doesn't make it available to you.  For that you need to load it (like clicking on an app).  This can be done with the `library()` command.  
+
+In the console type this to install the full works of Shakespeare in the bardr package (https://www.rdocumentation.org/packages/bardr/versions/0.0.9)
 
 
+```r
+library(bardr)
+```
 
-If you have managed to install them successfully, often nothing happens - this is great!  It means it loaded the package without errors.
+#### What should happen?
 
-Otherwise, I suggest running this command TWICE! 
+If you have managed to install a package successfully, often nothing happens - this is great!  It means it loaded the package without errors.
 
-Sometimes, it will tell you "friendly messages" or "welcome text".  For example, this is what shows up when you install the tidyverse package.  The welcome text is indicating the sub-packages that tidyverse downloaded and also that some commands now have a different meaning.  
+Otherwise, I suggest running this command TWICE!  This is because loading packages will print "friendly messages" or "welcome text" the first time you load them. 
+
+For example, this is what shows up when you install the tidyverse package.  The welcome text is indicating the sub-packages that tidyverse downloaded and also that some commands now have a different meaning.  
 
 <div class="figure" style="text-align: center">
 <img src="pg_Tut3_basics_fig4.png" alt="Tidyverse install messages" width="80%" />

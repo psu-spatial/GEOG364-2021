@@ -121,7 +121,7 @@ For more, this tutorial is excellent: https://www.cyclismo.org/tutorial/R/tables
 
 <div style="margin-bottom:25px;">
 </div>   
-### Tutorial 7C: group_by command: statistics per group {#Tut7c_groupby}
+## Tutorial 7C: group_by command: statistics per group {#Tut7c_groupby}
 
 What if we want to do more than just count the number of rows?  
 

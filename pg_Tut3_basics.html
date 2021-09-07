@@ -667,10 +667,14 @@ x          # print the contents of &quot;x&quot; onto the screen</code></pre>
 </div>
 <div id="how-to-load-packages-you-want-to-use" class="section level3">
 <h3>How to load packages you want to use</h3>
-<p>Installing a package doesn’t make it available to you. For that you need to load it (like clicking on an app). This can be done with the library command. In the console type</p>
-<p>If you have managed to install them successfully, often nothing happens - this is great! It means it loaded the package without errors.</p>
-<p>Otherwise, I suggest running this command TWICE!</p>
-<p>Sometimes, it will tell you “friendly messages” or “welcome text”. For example, this is what shows up when you install the tidyverse package. The welcome text is indicating the sub-packages that tidyverse downloaded and also that some commands now have a different meaning.</p>
+<p>Installing a package doesn’t make it available to you. For that you need to load it (like clicking on an app). This can be done with the <code>library()</code> command.</p>
+<p>In the console type this to install the full works of Shakespeare in the bardr package (<a href="https://www.rdocumentation.org/packages/bardr/versions/0.0.9" class="uri">https://www.rdocumentation.org/packages/bardr/versions/0.0.9</a>)</p>
+<pre class="r"><code>library(bardr)</code></pre>
+<div id="what-should-happen" class="section level4">
+<h4>What should happen?</h4>
+<p>If you have managed to install a package successfully, often nothing happens - this is great! It means it loaded the package without errors.</p>
+<p>Otherwise, I suggest running this command TWICE! This is because loading packages will print “friendly messages” or “welcome text” the first time you load them.</p>
+<p>For example, this is what shows up when you install the tidyverse package. The welcome text is indicating the sub-packages that tidyverse downloaded and also that some commands now have a different meaning.</p>
 <div class="figure" style="text-align: center">
 <img src="pg_Tut3_basics_fig4.png" alt="Tidyverse install messages" width="80%" />
 <p class="caption">
@@ -680,6 +684,7 @@ Tidyverse install messages
 <p><br></p>
 <p><strong>To find out if what you are seeing is a friendly message or an error, run the command again. If you run it a second time and there is no error then nothing should happen.</strong></p>
 <p><br></p>
+</div>
 </div>
 <div id="how-to-force-the-computer-to-use-a-specific-commandpackages" class="section level3">
 <h3>How to force the computer to use a specific command/packages</h3>
