@@ -11,7 +11,7 @@
 
 
 
-<title>GEOG-364 - Spatial Analysis</title>
+<title>Data sources</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -29,6 +29,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -220,6 +223,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -227,6 +293,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -312,16 +388,10 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">GEOG-364 - Spatial Analysis</h1>
-<h3 class="subtitle"><h4 style="font-style:normal">
-Dr Helen Greatrex
+<h1 class="title toc-ignore">Data sources</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
 </h4></h3>
-<h4 class="author"><h4 style="font-style:normal">
-Penn State, Dept Geography
-</h4></h4>
-<h4 class="date"><h4 style="font-style:normal">
-Aug 16, 2021
-</h4></h4>
 
 </div>
 
@@ -331,14 +401,9 @@ p.comment {
 background-color: #DBDBDB;
 padding: 10px;
 border: 1px solid black;
-margin-left: 25px;
+margin-left: 0px;
 border-radius: 5px;
-font-style: italic;
-}
-
-.figure {
-   margin-top: 20px;
-   margin-bottom: 20px;
+font-style: normal;
 }
 
 h1.title {
@@ -353,36 +418,19 @@ h2.title {
 </style>
 <style type="text/css">
 #TOC {
-  font-size: 13px;
+  font-size: 12px;
   font-family: Arial;
 }
 </style>
-</style>
 <p><br />
 </p>
-<p>Welcome to the GEOG 364 Lab Book! This website complements the class <a href="https://canvas.psu.edu/">Canvas</a> site. The website will update each week.</p>
-<p>On this website you will find:</p>
-<ul>
-<li>Lab tutorials</li>
-<li>The labs themselves</li>
-<li>There will be future Links to datasets</li>
-</ul>
+<p>To be added!</p>
 <p><br></p>
-<div id="giving-credit" class="section level2">
-<h2>Giving Credit</h2>
-<p>The following websites were used in the construction of this course website. My gratitude to the people who invested their time and effort in developing and offering these valuable resources to the public.</p>
-<ul>
-<li>Noli Brazil’s wonderful lab website design for his course on <a href="https://crd150.github.io/index.html">Quantitative Methods in Community Research</a></li>
-<li>Manuel Gimond’s <a href="https://mgimond.github.io/Spatial/index.html">Intro to GIS and Spatial Analysis</a></li>
-<li>Claudia Engel’s <a href="https://cengel.github.io/R-spatial/">Using Spatial Data in R</a></li>
-<li>Corey Sparks’ <a href="https://rpubs.com/corey_sparks">RPubs labs</a></li>
-</ul>
-<hr />
-<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+
+
+
 </div>
-
-
-
+</div>
 
 </div>
 
@@ -415,6 +463,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 
 </body>

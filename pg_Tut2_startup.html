@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tutorial 2: Getting started</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tutorial 2: Getting started</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="tutorial-2-contents" class="section level2">
+<h2>Tutorial 2 Contents</h2>
+<p>This tutorial is all about the basics you need to run your labs. We covered most of this in Lab 1.</p>
+<ul>
+<li><a href="#Tut2A_Settings"><strong>Tutorial 2A: Change settings</strong></a></li>
+</ul>
+<p><br></p>
+<ul>
+<li><a href="#Tut2B_Packages"><strong>Tutorial 2B: Install packages/libraries</strong></a>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut2Ba_whatarethey">What are packages?</a></li>
+<li><a href="#Tut2Bb_howtodownload">How to download</a></li>
+<li><a href="#Tut2Bc_fulllist">Bulk download for our course</a></li>
+<li><a href="#Tut2Bd_loading">Checking it has worked</a></li>
+</ol></li>
+</ul>
+<p><br></p>
+<ul>
+<li><a href="#Tut2C_Project"><strong>Tutorial 2C. Create an R-Project</strong></a>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut2Ca_RProject">What are R-projects?</a></li>
+<li><a href="#Tut2Cb_CreateRproj">Creating a R-project</a></li>
+<li><a href="#Tut2Cc_signsRproj">How do I know it has worked?</a></li>
+<li><a href="#Tut2Cd_return">Returning to your work</a></li>
+</ol></li>
+</ul>
+<p><br> <br></p>
+</div>
+<div id="Tut2A_Settings" class="section level2">
+<h2>Tutorial 2A: Change settings</h2>
+<p>Everything in this tutorial is a one-off to get R and R-studio set up.</p>
+<p><strong>First, in an easy to access place on your computer, make a folder called GEOG-364. This is where all your labs and projects are going to live.</strong></p>
+<div id="opening-r-studio" class="section level3">
+<h3>Opening R-Studio</h3>
+<p><strong>Now everything is installed, open R-studio</strong> (NOT R!). If you are using R-Studio cloud, you should in your workspace. Make a new R-Project and call it GEOG364_Lab1_PROJECT (or whatever lab you are working on)</p>
+<p><img src="pg_Tut2_startup_fig1.png" width="80%" style="display: block; margin: auto;" /> <br></p>
+<p>You will be greeted by three panels:</p>
+<ul>
+<li>The interactive R console (entire left)</li>
+<li>Environment/History (tabbed in upper right)</li>
+<li>Files/Plots/Packages/Help/Viewer (tabbed in lower right)</li>
+</ul>
+<p><img src="pg_Tut2_startup_fig2.png" width="1778" /></p>
+<p><br></p>
+If you wish to learn more about what these windows do, have a look at this resource, from the Pirates Guide to R: <a href="https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html" class="uri">https://bookdown.org/ndphillips/YaRrr/the-four-rstudio-windows.html</a>.<br />
+
+<p class="comment">
+If you have used R before, you might see that there are variables and plots etc already loaded**. It is always good to clear these before you start a new analysis. To do this, click the little broom symbol in your environment tab
+</p>
+<p><br></p>
+<div id="menus-at-the-top-of-the-screen" class="section level5">
+<h5>Menus at the top of the screen</h5>
+<p>Look at the VERY TOP OF THE SCREEN.</p>
+<ul>
+<li><p>In the<code>View</code> menu, there is a <code>/Panes/Pane Layout</code> menu item, where you can move the on-screen quadrants around. I tend to like the console to be top left and scripts to be top right, with the plots and environment on the bottom - but this is personal choice.</p></li>
+<li><p>There should also be a menu called <code>Help</code><br>Useful for R-studio version and Markdown cheatsheets.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="change-a-few-settings" class="section level5">
+<h5>Change a few settings</h5>
+<p>R-studio wants to be helpful and will try to re-load exactly where you were in a project when you log back in. This can get confusing, so we are going to turn this off.</p>
+<ul>
+<li><p><strong>ON A MAC:</strong> Click on the R-studio menu button on the top left of the screen, then click Preferences.</p></li>
+<li><p><strong>ON A PC/R-Studio Cloud:</strong> Click on Tools-&gt; Global Options -&gt; Preferences</p></li>
+</ul>
+<p>Now:</p>
+<ul>
+<li>UNCLICK “Restore most recently opened project at startup”</li>
+<li>Set “Save workspace to .RData on” exit to Never</li>
+<li>You can also click the appearances tab to change how the screen looks.</li>
+</ul>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="Tut2B_Packages" class="section level2">
+<h2>Tutorial 2B: Install packages</h2>
+<div id="Tut2Ba_whatarethey" class="section level3">
+<h3>What are packages?</h3>
+<p>As described in Tutorial 3, we programme in R by asking a series of commands. R is open source meaning anyone can create a command. Over the last 20 years, millions of commands have been written.</p>
+<p>These tend to be grouped together into collections called <code>Packages</code> or <code>Libraries</code> (two names for the same thing). They are similar to apps on your phone. For example, one package contains the complete works of Shakespeare; allows interactive website design; another allows advanced Bayesian statistics.</p>
+<p>There is a package for literally everything and there are now about 20,000 packages available. You can see the full list here: <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html" class="uri">https://cran.r-project.org/web/packages/available_packages_by_name.html</a></p>
+<p>This is far too many to store on your computer, so most live on the internet in an online (free) “Package Store”. You can download the ones you want, ready to load later.</p>
+<p>So to access the commands in a package we need these two steps:</p>
+<ol style="list-style-type: decimal">
+<li>ONCE ONLY: Download the package from the internet</li>
+<li>EVERY TIME: Load the packages you want</li>
+</ol>
+<p class="comment">
+<strong>A close analogy is your phone:</strong> There are millions of apps available from banking, to 50 different calendar apps. You don’t have every app in the world installed on your phone - and you don’t have every app you <em>do</em> download running at the same time. Instead you download the apps that you think you will need (occasionally downloading a new one on the fly) - and when you need to use an app, you click on it to open.
+</p>
+<p><br></p>
+</div>
+<div id="Tut2Bb_howtodownload" class="section level3">
+<h3>How to download/install packages</h3>
+<p>Look at the Packages tab next to the plot one, you can see which packages/libraries are already pre-installed onto your computer.</p>
+<p>If the package you want isn’t listed:</p>
+<ul>
+<li>Click the INSTALL button in the Packages tab, then start typing the package name and it will show up (check the include dependencies box).</li>
+</ul>
+<p>OR</p>
+<ul>
+<li><p>In the console, run the <code>install.packages()</code> command on the package you want to download <strong>with quotes around the package name</strong> e.g. </p>
+<pre class="r"><code>install.packages(&quot;bardr&quot;)</code></pre></li>
+</ul>
+<p>OR</p>
+<ul>
+<li>R will sometime tell you that you are missing a package (sometimes a little yellow ribbon - say yes to install!)</li>
+</ul>
+<p><em>Note, if you run this command mulitple times, or the packages is already loaded, R-Studio might want to restart and sometimes gets confused. If it keeps asking, close R-studio, reopen and try again. If it really doesn’t want to work, open R itself and run in the console there.</em></p>
+<p><strong>Try installing the <code>bardr</code> package onto your computer</strong></p>
+<p><br></p>
+</div>
+<div id="Tut2Bc_fulllist" class="section level3">
+<h3>Bulk download for our course</h3>
+<p>Now we are going to download/install (hopefully) all the packages you need for these labs.</p>
+<p><strong>Copy this command into the R CONSOLE and press enter to run</strong>.</p>
+<pre class="r"><code>install.packages(c(&quot;tidyverse&quot;,&quot;abind&quot;,&quot;car&quot;,&quot;corrplot&quot;,&quot;dismo&quot;,
+                  &quot;elevatr&quot;,&quot;fields&quot;,&quot;ggpubr&quot;,&quot;ggstatsplot&quot;,
+                  &quot;hrbrthemes&quot;, &quot;ISLR&quot;,&quot;knitr&quot;, &quot;lattice&quot;,&quot;matlab&quot;,
+                  &quot;maps&quot;,&quot;mapdata&quot;,&quot;maptools&quot;,&quot;mapview&quot;,&quot;matlab&quot;,
+                  &quot;ncdf4&quot;,&quot;olsrr&quot;, &quot;plotly&quot;,&quot;raster&quot;,
+                  &quot;rasterVis&quot;,&quot;RColorBrewer&quot;,&quot;readxl&quot;,&quot;remotes&quot;,
+                  &quot;rgdal&quot;,&quot;rgeos&quot;,&quot;rmapshaper&quot;,&quot;rmdformats&quot;,
+                  &quot;rnaturalearth&quot;,&quot;sf&quot;,  &quot;skimr&quot;, &quot;sp&quot;, 
+                  &quot;spdep&quot;,&quot;spatialEco&quot;,&quot;spatialreg&quot;,&quot;spatstat&quot;,
+                  &quot;Stat2Data&quot;,&quot;tidycensus&quot;,&quot;tigris&quot;,&quot;tmap&quot;,
+                  &quot;units&quot;,&quot;USAboundaries&quot;, &quot;usmap&quot;,&quot;viridis&quot;,
+                  &quot;yarrr&quot;))</code></pre>
+<p>When you press enter, a load of text should stream down your console. Just let it run until the console is back to the &gt; symbol and you can type.</p>
+<p>Sometimes this will give you an error and not run, This can be because copy/pasting from the internet messes up the quote marks around each package name. In that case, you can easily manually download them by clicking the INSTALL button at the top of the packages tab, then choosing each name in turn.</p>
+<p>We also want to download some larger spatial datasets stored separately to the main packages.</p>
+<p><strong>Copy and run these lines in the console</strong>.</p>
+<pre class="r"><code>remotes::install_github(&quot;ropensci/USAboundariesData&quot;)
+remotes::install_github(&quot;ropenscilabs/rnaturalearthhires&quot;)</code></pre>
+<p><br></p>
+</div>
+<div id="Tut2Bd_loading" class="section level3">
+<h3>Checking it has worked</h3>
+<p>When all the download text is streaming down your screen, it’s hard to know what is an error and what is just “informative”. The easiest way to check is to load all the libraries at once and see whether there are errors.</p>
+<p>(e.g this is the same as clicking every app on your phone to see if they all installed OK.)</p>
+<p>Copy the code below into the console TWICE. E.g. copy it once, wait until it stops running (it will show a load of “welcome” text again that makes it hard to see errors). The SECOND time you copy it into the console, it should just run without error or messages.</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)
+library(&quot;abind&quot;)
+library(&quot;car&quot;)
+library(&quot;corrplot&quot;)
+library(&quot;dismo&quot;)
+library(&quot;elevatr&quot;)
+library(&quot;fields&quot;)
+library(&quot;ggpubr&quot;)
+library(&quot;ggstatsplot&quot;)
+library(&quot;hrbrthemes&quot;)
+library(&quot;ISLR&quot;)
+library(&quot;knitr&quot;)
+library(&quot;lattice&quot;)
+library(&quot;matlab&quot;)
+library(&quot;maps&quot;)
+library(&quot;mapdata&quot;)
+library(&quot;maptools&quot;)
+library(&quot;mapview&quot;)
+library(&quot;matlab&quot;)
+library(&quot;ncdf4&quot;)
+library(&quot;olsrr&quot;)
+library(&quot;plotly&quot;)
+library(&quot;raster&quot;)
+library(&quot;rasterVis&quot;)
+library(&quot;RColorBrewer&quot;)
+library(&quot;readxl&quot;)
+library(&quot;remotes&quot;)
+library(&quot;rgdal&quot;) 
+library(&quot;rgeos&quot;) 
+library(&quot;rmapshaper&quot;) 
+library(&quot;rmdformats&quot;) 
+library(&quot;rnaturalearth&quot;)
+library(&quot;sf&quot;) 
+library(&quot;skimr&quot;) 
+library(&quot;sp&quot;) 
+library(&quot;spdep&quot;)
+library(&quot;spatialEco&quot;)
+library(&quot;spatialreg&quot;)
+library(&quot;spatstat&quot;) 
+library(&quot;Stat2Data&quot;) 
+library(&quot;tidycensus&quot;) 
+library(&quot;tigris&quot;) 
+library(&quot;tmap&quot;) 
+library(&quot;units&quot;) 
+library(&quot;USAboundaries&quot;) 
+library(&quot;usmap&quot;) 
+library(&quot;viridis&quot;) 
+library(&quot;yarrr&quot;)</code></pre>
+<p>** IF YOU HAVE ERRORS TALK TO A TEACHER **</p>
+<p><br></p>
+</div>
+</div>
+<div id="Tut2C_Project" class="section level2">
+<h2>Tutorial 2C: Create an R-Project</h2>
+<p class="comment">
+<strong>You need to make a new project before you start EVERY lab!</strong>
+</p>
+<div id="Tut2Ba_RProject" class="section level3">
+<h3>What are R-projects?</h3>
+<p>An R-project is a special folder that will store everything to do with each lab in one place on your computer. This is incredibly useful - it means that if you switch from R-Cloud, to the lab computers, to your laptop, all you have to do is to move the folder and everything will just work. Learn more here.</p>
+<p><a href="https://www.linkedin.com/learning/learning-the-r-tidyverse/why-should-you-use-projects-in-rstudio?u=76811570" title="Why use R Projects"><img src="pg_Tut2_basics_fig3.png" alt="Rproject" /></a></p>
+<p><br></p>
+</div>
+<div id="Tut2Bb_CreateRproj" class="section level3">
+<h3>Creating a R-project</h3>
+<p>This step is needed for EVERY lab.</p>
+<div id="on-r-studio-cloud" class="section level5">
+<h5><strong>On R-Studio Cloud:</strong></h5>
+<p>Note, if you are running R-Studio Cloud, you just need to click “Create Project” and name it.</p>
+<p><br></p>
+</div>
+<div id="on-your-desktop" class="section level5">
+<h5><strong>On your desktop</strong></h5>
+<p><img src="pg_Tut2_startup_fig1.png" width="60%" style="display: block; margin: auto;" /></p>
+<ol style="list-style-type: decimal">
+<li>If it’s not already open, open <strong>R-Studio</strong></li>
+<li>Go to the file menu at the very top and click <code>New Project</code></li>
+<li>Select <code>New Directory</code>, then <code>New Project</code></li>
+<li>Name your project <em>GEOG364-Lab1-PROJECT</em></li>
+<li>Under “create project as a subdirectory of”, hit the browse button and go inside your GEOG-364 main folder (you just need to be in the folder, you don’t need to have selected anything). Press open</li>
+<li>Finally, press <code>Create Project</code></li>
+</ol>
+<p><img src="pg_Tut2_startup_fig4.png" width="1320" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="Tut2Bc_signsRproj" class="section level3">
+<h3>How do I know it has worked?</h3>
+<p>R will change slightly. If you look at the top of the screen in the title bar, it should say <em>GEOG364-Lab1-Project R Studio</em>.</p>
+<p>The Files tab should have gone to your project folder. Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
+<p><img src="pg_Tut2_startup_fig5.png" width="1690" /></p>
+<p><br></p>
+<p>Essentially, R-Studio is now “looking” inside your Lab 1 folder, making it easier to find your data and output your results.</p>
+<p>If you want one, final check, try typing this into the console (INCLUDING THE EMPTY PARANTHESES/BRACKETS), press enter and see if it prints out the location of Lab 1 on your computer. If not, talk to an instructor.</p>
+<pre class="r"><code>getwd()</code></pre>
+<p><br></p>
+</div>
+<div id="returning-to-your-lab-project" class="section level3">
+<h3>Returning to your lab project</h3>
+<p>OK, let’s imagine that you get halfway through your lab and your computer dies. How do you get back to your Lab work? Try this now. Close down R-Studio.</p>
+<p>To reopen a lab:</p>
+<ol style="list-style-type: decimal">
+<li><strong>DO NOT RE-OPEN R-STUDIO!</strong></li>
+<li>Instead navigate on your computer to your <em>GEOG-364/GEOG364-Lab1-Project</em> folder.<br />
+</li>
+<li>Double click on the GEOG364-Lab1-Project.RProj file.</li>
+</ol>
+<p>This will reopen R for that specific lab, so you can continue where you left off.</p>
+<p>It means you can also open several versions of R studio for multiple projects, which can be very useful in keeping labs separate and staying sane.</p>
+<p><img src="pg_Tut2_startup_fig6.png" width="1922" /></p>
+<p><br> <br></p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>

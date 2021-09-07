@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tutorial 4: Markdown</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tutorial 4: Markdown</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="tutorial-4-markdown" class="section level2">
+<h2>Tutorial 4: Markdown</h2>
+<p>This tutorial is all about getting used to the basic commands you can run in R.</p>
+<ul>
+<li><a href="#Tut4a_WhatIsIt"><strong>Tutorial 4A: What is markdown</strong></a></li>
+<li><a href="#Tut4B_MarkCreate"><strong>Tutorial 4B: Creating a markdown document</strong></a></li>
+<li><a href="#Tut4C_Basics"><strong>Tutorial 4C: Markdown Basics</strong></a></li>
+<li><a href="#Tut4Da_knit"><strong>Tutorial 4D: Knitting</strong></a></li>
+<li><a href="#Tut4E_YAML"><strong>Tutorial 4E: YAML code</strong></a></li>
+<li><a href="#Tut4F_chunk"><strong>Tutorial 4F: Formatting code chunks</strong></a>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut4Fa_basics">Code chunk basics</a></li>
+<li><a href="#Tut4Fb_options">Editing code chunk options</a></li>
+</ol></li>
+<li><a href="#Tut4G_format"><strong>Tutorial 4G: Formatting text</strong></a></li>
+<li><a href="#Tut4H_photo"><strong>Tutorial 4H: Adding photos</strong></a></li>
+<li><a href="#Tut4I_Eqn"><strong>Tutorial 4I: Adding equations</strong></a></li>
+<li><a href="#Tut4J_ref"><strong>Tutorial 4J: Adding references</strong></a></li>
+<li><a href="#Tut4K_Table"><strong>Tutorial 4K: Adding tables</strong></a></li>
+<li><a href="#Tut4L_Make"><strong>Tutorial 4L: Different make formats</strong></a></li>
+</ul>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4a_WhatIsIt" class="section level2">
+<h2>Tutorial 4A: What is markdown</h2>
+<p>Read more here: <a href="https://rmarkdown.rstudio.com" class="uri">https://rmarkdown.rstudio.com</a></p>
+<p>As I said at the start, the console is like a phone call to the computer, you’re talking but you’re not keeping records of what you say (you can always press the up key to see previous commands but that’s about it). When you close R, everything you have done will be lost.</p>
+<p>What we need instead is a way to save the commands for future use - we can do this using scripts. There are several types of document, or script that you can create and save in R-Studio.</p>
+<ul>
+<li><p>A basic script (the filetype is .r). This is simply just a blank notepad where you can save code commands. When you “run” the commands in the script, R simply copy/pastes the commands over to the console.</p></li>
+<li><p>An R-Notebook or R-Markdown document (the filetype is .Rmd). These are much more interesting - and are how I wrote this lab book. This is what we will be using in our labs.</p></li>
+</ul>
+<p>In a markdown document: imagine a normal Microsoft Word document, but halfway through you can press a button and a mini R console appears. You type your code inside the mini console, it runs and puts the plots/output just below - then you leave the console and continue writing about the results. Essentially you never have to take another screenshot of results and move it to your output…</p>
+<p>Rmd files are also flexible. You can turn them into reports, websites, blogs, presentations or applications with a few short commands.</p>
+<p>In this course we are going to focus on the R-Markdown format and you are going to submit your labs as websites/html files along with your code.</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4B_MarkCreate" class="section level2">
+<h2>Tutorial 4B: Creating a markdown document</h2>
+<p>Time to make your own. Go to the File menu on the top left, then click New File - R-Markdown. If this is your first time ever, it might ask to download some packages to be able to do this. Say yes.</p>
+<p>Eventually a window will open up:</p>
+<p><img src="pg_Tut4_markdown_fig1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p>It will ask you to name and save your file. Give it a relevant name. A new file should appear on your screen. At the top of that window (by the knit button, there is a save button. Save it as something relevant INSIDE YOUR PROJECT FOLDER!</p>
+<p><img src="pg_Tut4_markdown_fig2.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>The new file on your screen is your first markdown script. Essentially, we have some space for text, some space for code, and a space at the top of the file where we can add information about themes/styles etc.</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4C_Basics" class="section level2">
+<h2>Tutorial 4C: Markdown Basics</h2>
+<p>Your file contains some friendly text to explain what is going on, which I have annotated here. Read the file and see what it says.</p>
+<p><img src="pg_Tut4_markdown_fig3.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4Da_knit" class="section level2">
+<h2>Tutorial 4D: Knitting</h2>
+<p>The file on your screen isn’t the finished article. To see how it will look as a final version, we need to “knit” it.</p>
+<p>Go to the top of the .Rmd file, find the <code>knit</code> button. Press it (you might have to first save your script if you haven’t already, then press it again)</p>
+<p>You should see that the Markdown tab “builds” your document and you get an output as a website. The html should also be saved into your project folder.</p>
+<p>For example, from my other class, here is a file with markdown and knitted output.</p>
+<p><img src="pg_Tut4_markdown_fig4.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4E_YAML" class="section level2">
+<h2>Tutorial 4E: YAML Code</h2>
+<p>Your YAML code is the code at the top of your file in between the — lines. (see @ref(fig:tut4fig4))). Let’s zoom in</p>
+<p><img src="pg_Tut4_markdown_fig5.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<p>Your YAML code controls how your final output looks and which type of output it becomes. For example, this could be a website (as for ours), a pdf, a presentation or app.. The basic version is very simple with a title, an author, a self entered date and that we just want a website.</p>
+<p>Let’s add in more options.</p>
+<p>YAML code is annnoying to edit, because here, <em>spaces really do matter</em>. Everything has to be perfect or it won’t knit.</p>
+<p><strong>Select everything in my code chunk here and replace your YAML with this (remember the — on line 1 and at the end).</strong></p>
+<pre class="r"><code>---
+title: &quot;GEOG-364 - Lab 2&quot;
+author: &quot;hlg5155&quot;
+date: &quot;`r Sys.Date()`&quot;
+output:
+  html_document:
+    toc: true
+    toc_float: yes
+    number_sections: yes
+    theme: lumen
+    df_print: paged
+---</code></pre>
+<p>Replace the author ID with your user name, change the tite if appropriate, then click knit and see if it works.</p>
+<p>The elements we just added are:</p>
+<ul>
+<li>The title</li>
+<li>The author (note,use your ID not your name)</li>
+<li>Automatically created today’s date</li>
+<li>A floating table of contents</li>
+<li>Numbered sections (this won’t appear until you start typing section headings)</li>
+<li>The document is now in the lumen theme.</li>
+</ul>
+<p><br></p>
+<div id="troubleshooting" class="section level3">
+<h3>Troubleshooting</h3>
+<ul>
+<li><p>Note, if you copy/paste this and it doesn’t work, sometimes the quote marks copy weirdly from the internet - try deleting and retyping the quotes.</p></li>
+<li><p>If it still doesn’t work.. this might be because a space is missing (especially if you typed it out).</p>
+<ul>
+<li>Editing YAML code can be a pain. It is very case and space sensitive.<br>For example, the spaces at the start of some lines are important and are created using the TAB KEY, not the space bar. There is one TAB key before html_notebook (which is now on a new line). There are two TAB KEYS before toc, toc_float, number_sections and theme.</li>
+</ul></li>
+</ul>
+<p><em>Don’t continue until you can make and view your html when you press knit. If it doesn’t work, ask for help before moving on</em></p>
+<p><br></p>
+</div>
+<div id="changing-the-theme" class="section level3">
+<h3>Changing the theme</h3>
+<p>You don’t need to choose the lumen theme. There are many other ways you can edit your markdown documents here: <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/" class="uri">https://www.datadreaming.org/post/r-markdown-theme-gallery/</a></p>
+<p>To edit, replace the word lumen with the name of your chosen theme (THIS IS CASE SENSITIVE). Now click knit and see if it works.Some themes are buggy. Try a different one if it doesn’t work.</p>
+<p>The themes in “Even More Themes” on the website, requre you to install/load some new packages, so they need some extra work. You’re welcome to try if you have one you fell in love with!</p>
+<p><nr></p>
+</div>
+<div id="adding-other-yaml-options" class="section level3">
+<h3>Adding other YAML options</h3>
+<p>There are many more details about different options on these websites:</p>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown/html-document.html" class="uri">https://bookdown.org/yihui/rmarkdown/html-document.html</a></li>
+<li><a href="https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf" class="uri">https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf</a></li>
+</ul>
+<p>If you want to get really fancy, there is an interesting package to help you design YAML code here: <a href="https://education.rstudio.com/blog/2019/10/tools-for-teaching-yaml-with-ymlthis/" class="uri">https://education.rstudio.com/blog/2019/10/tools-for-teaching-yaml-with-ymlthis/</a></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut4F_chunk" class="section level2">
+<h2>Tutorial 4F: Formatting code chunks</h2>
+<div id="Tut4Fa_basics" class="section level3">
+<h3>Code chunk basics</h3>
+<p>The grey areas on your screen are called “code chunks” (see @ref(fig:tut4fig6)). Think of them as mini consoles. You put code inside, run them, then the result ends up directly below the chunk in</p>
+<p><strong>To run the code in a code chunk, Click on the little green triangle arrow at the top-right of the code chunk itself</strong> this will run all of the commands in that code chunk and put the results underneath**.</p>
+<p>If you have the sample fileTry running the 3 code chunks in your document (the top one will do nothing).</p>
+<p>Code chunks can be altered. For example, on line 19, delete <code>summary(cars)</code> and type <code>1+1</code>. Now press the green arrow and the new answer should appear directly under your code chunk.</p>
+<p>Click in the white space at the end of the script, press enter a few times (around line 33) and press the green insert button (top right near the Run button). Insert a new R code chunk. Inside, type <code>1+2</code> and run it.</p>
+</div>
+<div id="Tut4Eb_options" class="section level3">
+<h3>Editing code chunk options</h3>
+<p>At the top of every code chunk, you should see the line “```{r}”.</p>
+<p>Inside the curly brackets, you can add options to the code chunk for when you press knit. For example you can justify figures, change background colors, or decide if the code even displays/runs at all.</p>
+<p>You can also add options in that first code chunk we have been ignoring. These will apply the options throughout the entire script. The <code>echo</code> option means "show the code as well as the output. The <code>include</code> option means show any sign of this code chunk at all in the final option (e.g. it runs it in the background).</p>
+<p><img src="pg_Tut4_markdown_fig6.png" width="1390" /> <br></p>
+<div id="remove-all-the-welcome-text-below-the-code-chunk-that-loads-the-libraries-when-you-press-knit." class="section level4">
+<h4>Remove all the “welcome” text below the code chunk that loads the libraries when you press knit.</h4>
+<p>One useful option is to remove all the “friendly text” when you load libraries and press knit. The two options we need to turn to FALSE are <code>message</code> and <code>warning</code>.</p>
+<p>We could edit the specific code chunk like this</p>
+<p><img src="pg_Tut4_markdown_fig7.png" width="1356" /> <br></p>
+<p>But.. let’s edit the global option itself. Edit the code chunk ~line 8 to look like this:</p>
+<p><img src="pg_Tut4_markdown_fig8.png" width="1370" /></p>
+<p><br></p>
+<p>Now the loading library text will still appear in your code the first time you run that code chunk, but it should disappear when you press knit.</p>
+<p>Press knit and check it works!</p>
+<p><em>Don’t continue until this works. If it doesn’t work, ask for help before moving on</em></p>
+<p><br></p>
+</div>
+<div id="other-code-chunk-options" class="section level4">
+<h4>Other code chunk options</h4>
+<p>There are loads here along with a nice tutorial: <a href="https://rmarkdown.rstudio.com/lesson-3.html" class="uri">https://rmarkdown.rstudio.com/lesson-3.html</a></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+</div>
+<div id="Tut4G_format" class="section level2">
+<h2>Tutorial 4G: Formatting text</h2>
+<p>The text part of your document is anywhere outside your YAML code or a code chunk (see @ref(fig:tut4fig6)).</p>
+<p>You can treat this like a slightly weird Word document, allowing you to write a report around your findings. Anywhere in the “text area” (AKA in the white space), click and press enter a few times. Write some text, press knit and your changes should have been incorporated.</p>
+<div id="paragraphs-and-white-space---read-this" class="section level3">
+<h3><strong>Paragraphs and white space - READ THIS:</strong></h3>
+<p>R is very sensitive to blank white lines. Put them everywhere. Put a blank line between paragraphs, before/after headings, before lists, before/after code chunks…. If your formatting isn’t working well, chances are there isn’t a blank line before or after it.</p>
+<p><br></p>
+</div>
+<div id="getting-formatting-help" class="section level3">
+<h3><strong>Getting formatting help:</strong></h3>
+<p>There are many ways you can format the text in your markdown document, from adding headings, to bold/itallic to complex html text formats.</p>
+<p>I will add in a few ideas here, but there are better guides out there!</p>
+<ul>
+<li>I really like this reference: <a href="https://www.markdownguide.org/basic-syntax/" class="uri">https://www.markdownguide.org/basic-syntax/</a></li>
+<li>Alternatively, go to the help menu AT THE TOP OF YOUR ENTIRE SCREEN. Scroll down and you will see “Markdown Quick reference”. That will open a quick reference guide on your screen.</li>
+</ul>
+<p><img src="pg_Tut4_markdown_fig9.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+</div>
+<div id="basic-text-formats" class="section level3">
+<h3><strong>Basic text formats</strong></h3>
+<p>There are many ways you can format the text in your markdown document, from adding headings, to bold/italic to complex html text formats.</p>
+<p>Rather than click a button to turn something bold like in Word, you have to add special characters to your text to change the formatting. For example try putting * on each side of some text you want to make italic.</p>
+<p>The text formatting won’t show in the text itself, you will only see the formats when you press knit.</p>
+<p>br&gt;</p>
+<div id="bold-and-italic" class="section level4">
+<h4><strong>Bold and italic:</strong></h4>
+<p>Putting stars or _ around your text will make it bold or italic (or both). To understand how, take a look at the cheatsheets. Interestingly (and annoyingly), there is no simple way to underline text. ]</p>
+<p><br></p>
+</div>
+<div id="headings" class="section level4">
+<h4><strong>Headings</strong></h4>
+<p>You can use the # symbol to make a heading</p>
+<p><em>Outside</em> a code chunk, the # symbol makes a heading, AS LONG AS YOU HAVE A WHITE LINE ABOVE AND BELOW AND A SPACE AFTER THE #. Have a look at Figure @ref(fig:tut4fig4) for an example.</p>
+<p>You can have nested headings e.g. <code># HeadingName</code> makes a main heading, <code>## SubHeadingName</code> makes a subheading, <code>### SubSubHeadingName</code> makes a sub-sub-heading</p>
+<p>Including headings this way allows automatic section numbering and will allow the table of contents to automatically be created. In the script itself the headings won’t show up - you will only see them when you press knit.</p>
+<p>Now let’s make your first heading.</p>
+<ul>
+<li>Press enter a few times so you have a blank line above and below.</li>
+<li>Now make a new heading by typing <code># my new heading</code> THE SPACE AFTER THE # IS IMPORTANT.</li>
+</ul>
+<p>Below that leave some white space and write some more text.</p>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="Tut4H_photo" class="section level2">
+<h2>Tutorial 4H: Adding photos</h2>
+<p>To be added</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4I_Eqn" class="section level2">
+<h2>Tutorial 4I: Adding equations</h2>
+<p>To be added</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4J_ref" class="section level2">
+<h2>Tutorial 4J: Adding references</h2>
+<p>To be added</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4K_Table" class="section level2">
+<h2>Tutorial 4K: Adding tables</h2>
+<p>To be added</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut4L_Make" class="section level2">
+<h2>Tutorial 4L: Different make formats</h2>
+<p>To be added</p>
+<p><br> <br></p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>

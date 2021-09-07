@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Tutorial 1: R, R-Studio &amp; R-Studio Cloud</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Tutorial 1: R, R-Studio &amp; R-Studio Cloud</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="tutorial-1-contents" class="section level2">
+<h2>Tutorial 1 Contents</h2>
+<p>This tutorial is all about the R and R-Studio programmes, along with the things you will need to complete your lab</p>
+<ul>
+<li><p><a href="#Tut1A_WhatisR"><strong>Tutorial 1A: What are R and R studio?</strong></a></p></li>
+<li><p><a href="#Tut1B_Install"><strong>Tutorial 1B. Accessing R and R-studio</strong></a></p>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut1Ba_Desktop">Installing R/R-studio on your computer</a></li>
+<li><a href="#Tut1Bb_Cloud">Using R-studio cloud as an alternative</a></li>
+<li><a href="#Tut1Bc_Campus">Lab computers and the TLT server</a> <br><br></li>
+</ol></li>
+<li><p><a href="#Tut1C_Transfer"><strong>Tutorial 1C. Going between RStudio-Cloud and desktop</strong></a></p></li>
+</ul>
+<p><br> <br></p>
+</div>
+<div id="Tut1A_WhatisR" class="section level2">
+<h2>Tutorial 1A: What are R and R studio?</h2>
+<p>There are two programmes needed to run R on your computer, “R” and “R-Studio”. R teaches the computer to “speak” in the language R. R-studio is just a nicer place to edit code.</p>
+<p><br></p>
+<div id="what-is-r" class="section level3">
+<h3>What is R</h3>
+<p><strong>R</strong> is a programming language commonly used by statisticians and scientists across the world. By a “programming language”, I mean it is a collection of commands that you can type into the computer in order to analyse and visualise data.</p>
+<p>As described by Noli Brazil:“R is a free, open source statistical programming language. It is useful for data cleaning, analysis, and visualization. R is an interpreted language, not a compiled one. This means that you type something into R and it does it.”</p>
+<p>The easiest way I find to think about R is that it is literally a language, like Spanish or Hindi, that is spoken by your computer. Learning R means learning vocabulary and grammar in order to communicate. It also means it will get easier with experience and practice..</p>
+<p><br></p>
+<div id="what-happens-when-you-install-r" class="section level5">
+<h5><strong>What happens when you install R?</strong></h5>
+<p>When you install R on your computer, you are essentially instantly teaching your computer to “speak in R” with some very basic Notepad-like software where you can enter commands."*</p>
+<div class="figure">
+<img src="pg_Tut1_about_fig1.png" alt="*The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command*" width="1686" />
+<p class="caption">
+<em>The basic R console. You write in blue, the computer replies in black. The &gt; means it is waiting for a command</em>
+</p>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="what-is-r-studio" class="section level3">
+<h3>What is R-Studio?</h3>
+<p>More recently, <strong>R-studio</strong> has been designed as a piece of software to make it easier to programme in R.</p>
+<p>It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations. R-Studio also allows us to make interactive documents called R-Markdown files.</p>
+<div class="figure">
+<img src="pg_Tut1_about_fig1.png" alt="*R-studio is much more sophisticated*" width="1686" />
+<p class="caption">
+<em>R-studio is much more sophisticated</em>
+</p>
+</div>
+<p><br> <br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut1B_Install" class="section level2">
+<h2>Tutorial 1B. Accessing R and R-studio</h2>
+<p>For this course you will need BOTH R and R studio. There are three ways we can access these</p>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut1Ba_Desktop">Installing R/R-studio on your computer</a> (Recommended)</li>
+<li><a href="#Tut1Bb_Cloud">Using R-studio cloud as an alternative</a> (Recommended)</li>
+<li><a href="#Tut1Bc_Campus">Lab computers and the TLT server</a> (NOT recommended)</li>
+</ol>
+<p><br></p>
+<div id="Tut1Ba_Desktop" class="section level3">
+<h3>1B.a. Installing R/R-studio</h3>
+<p>R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.</p>
+<p><strong>If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.</strong> The easiest way to do this is to first uninstall both programmes, then reinstall fresh. If you are worried this will affect another class, chat with Dr Greatrex before starting out..</p>
+<p><br></p>
+<div id="to-install-r" class="section level5">
+<h5><strong>To install R:</strong></h5>
+<ol style="list-style-type: decimal">
+<li><p>On a windows machine, go to: <a href="https://cloud.r-project.org/bin/windows/base/" class="uri">https://cloud.r-project.org/bin/windows/base/</a> , download R v 4.1.1 and double click to install (click next through all the options)</p></li>
+<li><p>On a Mac, go to: <a href="https://cloud.r-project.org/bin/macosx/" class="uri">https://cloud.r-project.org/bin/macosx/</a> , download the R v 4.1.1 package and double click to install (click next through all the options)</p></li>
+<li><p>On anything else: <a href="https://cloud.r-project.org/bin" class="uri">https://cloud.r-project.org/bin</a></p></li>
+</ol>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="to-install-r-studio" class="section level5">
+<h5><strong>To install R-Studio:</strong></h5>
+<ol style="list-style-type: decimal">
+<li><p>Go to the website here: <a href="https://www.rstudio.com/products/rstudio/download/#download" class="uri">https://www.rstudio.com/products/rstudio/download/#download</a> and download the version for your operating system.</p>
+<p><em><strong>For Windows Users</strong>: Sometimes R asks you to download something called RTools. You can ignore this request as it is not relevant to our course. If you really want the warning to go away, you can download Rtools here <a href="https://cran.r-project.org/bin/windows/Rtools/" class="uri">https://cran.r-project.org/bin/windows/Rtools/</a> Follow the instructions closely and ask if you need support.</em></p></li>
+</ol>
+<p><br></p>
+<p class="comment">
+<strong>Your R AND R-Studio MUST be up to date, or things wont’ work</strong>. R should be a minimum of 4.1.0 (2021-05-18) – “Camp Pontanezen” and R-studio a minimum of Version 1.4.1717
+</p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut1Bb_Cloud" class="section level3">
+<h3>1B.b. Using R-studio cloud</h3>
+<p>You can access both R and R-studio online without installing anything.</p>
+<p>You can access R-studio Cloud anywhere and I believe is free for the first 25hrs each month, then $5 a month. You also get a total of 50 projects which should be fine given we only have 8 labs and 1 project.</p>
+<ol style="list-style-type: decimal">
+<li>To do this, make an account at <a href="https://rstudio.cloud/plans/free" class="uri">https://rstudio.cloud/plans/free</a>.</li>
+</ol>
+<p>You can also easily move files from the Cloud to your Desktop, so for example, you can work on the cloud during lab hours and on your desktop at home. You can find instructions in <a href="#TutA3_Transfer">Tutorial A3. Transfer betweeen Cloud &amp; Desktop</a></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut1Bc_Campus" class="section level3">
+<h3>1B.c. Lab computers and the TLT server</h3>
+<p>The geography lab computers should have the most up to date version of R, but sometimes the “packages” you will later install fill up your U-drive. Equally, the version of R <em>outside</em> the geography lab room is going to be out of date and will likely cause issues. Saying that, R and R-Studio are R installed on them &amp; we have made it work in the past.</p>
+<p>There is also a free Penn State server called the TLT server (also a second called the science server). In both cases R studio is out of date, which will likely cause issues.</p>
+<p><em>If you go down these routes, proceed with care!</em></p>
+<p><br> <br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut1C_Transfer" class="section level2">
+<h2>Tutorial 1C. Cloud - Desktop Transfers</h2>
+<p>R-Projects mean you can complete your labs either on your laptops, or on R-Studio Cloud, then easily transfer between the two.</p>
+<p><br></p>
+<div id="to-go-from-r-studio-cloud-to-r-desktop" class="section level3">
+<h3>To go from R-Studio Cloud to R-Desktop</h3>
+<ol style="list-style-type: decimal">
+<li>On your computer, go to your GEOG364 folder (or make one!)</li>
+<li>Make a subfolder named for that lab e.g. <em>Lab 1</em></li>
+<li>On your browser, open your project in R-studio cloud</li>
+<li>In the files quadrant/tab, select the checkbox of all the files.</li>
+<li>Click Export. This will zip them into a folder. Save that into your lab folder</li>
+<li>Unzip. Double click the project.RProj file to reopen your lab on your computer</li>
+</ol>
+<p><img src="pg_Tut1_about_fig3.png" width="2716" /></p>
+<p><br></p>
+</div>
+<div id="to-go-from-r-desktop-to-r-studio-cloud" class="section level3">
+<h3>To go from R-Desktop to R-Studio Cloud</h3>
+<ol style="list-style-type: decimal">
+<li>On your browser, in R studio cloud make a new project and name it something relevant</li>
+<li>Click the upload button</li>
+<li>Navigate to the lab folder on your computer. Choose ONLY the .Rmd file(s) and any input data as appropriate (RStudio-Cloud will make the rest)</li>
+<li>Click on the .Rmd file name in the files in RStudio and you’re good to go</li>
+</ol>
+<p><br></p>
+<p><img src="pg_Tut1_about_fig4.png" width="2906" /></p>
+<p><br></p>
+<p><img src="pg_Tut1_about_fig5.png" width="70%" /></p>
+<p><br></p>
+<p><img src="pg_Tut1_about_fig6.png" width="70%" /></p>
+<p><br> <br></p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>

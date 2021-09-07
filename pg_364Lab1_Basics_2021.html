@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 1: Introduction to R</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 1: Introduction to R</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+<h4 class="author"><h5 style="font-style:normal">
+Dr Helen Greatrex
+</h4></h4>
+<h4 class="date"><h5 style="font-style:normal">
+Aug 16, 2021
+</h4></h4>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="welcome-to-lab-1" class="section level2">
+<h2>Welcome to Lab 1!</h2>
+<p>There are 8 labs in this course. Each one will build on the last one, with support provided in a series of tutorials (see the tutorials tab). You should NOT submit the tutorial work. We will work through the tutorials together and then your job is to submit the requirements on this page.</p>
+<p>By the end of this week’s lab, you will be able to:</p>
+<ol style="list-style-type: decimal">
+<li>Get comfortable with the lab format &amp; how to work through them</li>
+<li>Know how to get help</li>
+<li>Get familiar with the RStudio interface</li>
+<li>Run your first programming commands</li>
+<li>Put everything together into an interactive markdown website (like this guide)</li>
+<li>Understand the process for submitting assignments</li>
+</ol>
+<p class="comment">
+<strong>Assignment 1 is due by midnight the night before your next lab on Canvas.</strong> See <a href="https://psu.instructure.com/courses/2120046/assignments/13274833">here</a> for assignment guidelines &amp; we will cover them in detail here.
+</p>
+<p><br></p>
+</div>
+<div id="step-a-tutorials" class="section level2">
+<h2>Step A: Tutorials</h2>
+<div id="set-up-r-and-r-studio" class="section level3">
+<h3>1. Set up R and R-Studio</h3>
+<ul>
+<li>Covered during homework 1: Read <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut1_about.html">Tutorial 1A</a>.</li>
+<li>Covered during homework 1: Install BOTH R and R-Studio, or create an R-Studio Cloud account. This is covered in <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut1_about.html">Tutorial 1B</a>.</li>
+<li>Set up your R and R studio. Work through <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html">Tutorial 2A</a> and change your settings.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="getting-started" class="section level3">
+<h3>2. Getting started</h3>
+<ul>
+<li>Use <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html">Tutorial 2B</a> to understand what an R-Package is and to install all the code packages/libraries we will need for this course.</li>
+<li>Use <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html">Tutorial 2C</a> to make your first R-project called GEOG364-Lab1-Project</li>
+<li>Now work through <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut3_basics.html">Tutorial 3</a> to get used to the console</li>
+</ul>
+<p><br></p>
+</div>
+<div id="packages-markdown-basics" class="section level3">
+<h3>3. Packages &amp; Markdown basics</h3>
+<ul>
+<li>Work through <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html">Tutorial 4A,4B and 4C</a> to make your first Markdown document</li>
+</ul>
+<p><br> <br></p>
+</div>
+</div>
+<div id="step-b-actual-lab" class="section level2">
+<h2>Step B: Actual lab</h2>
+<p>Everything above was for your own learning. Now we will start the actual lab you will submit:</p>
+<p><br></p>
+<div id="set-up" class="section level3">
+<h3>1. Set up</h3>
+<ul>
+<li><p>Inside your R project, create a new RMarkdown document called <code>GEOG-364-Lab1.Rmd</code>.</p></li>
+<li><p>Delete all the text below line 11 (e.g. everything from R Markdown onwards)</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="adding-text" class="section level3">
+<h3>2. Adding text</h3>
+<ul>
+<li><p>In the white text area, create a level 1 heading called <em>“Introduction to GEOG-364”</em>. For a cheat sheet to help with this, move your mouse to the top of the page, click the help menu, then click Markdown Quick reference (spaces and whitespace are important!). If you want to add sub-headings etc, go for it!</p></li>
+<li><p>Leave a blank line, then use the GEOG-364 syllabus to describe the course late policy in your own words (e.g. you’re writing about this in the white space).</p></li>
+<li><p>Leave a blank line, then write how to contact Dr Greatrex and Susan (e.g. e-mails vs canvas message? office hours?)</p></li>
+<li><p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="adding-maths-and-functions" class="section level3">
+<h3>3. Adding maths and functions</h3>
+<ul>
+<li><p>Leave another blank line and add a new heading called <em>“Code Showcase”</em>. Add a blank line afterwards too.</p></li>
+<li><p>Create a code chunk. Inside use R code to calculate the following (Hint, you can put these all in one code chunk, or have separate code chunks with them in. Just remember to leave blank lines between them)</p>
+<ul>
+<li><p>103<sup>3</sup> (e.g <code>103*103*103</code>, or <code>103^3</code>)</p></li>
+<li><p>The co-sine of your age (google is your friend, google R function for cosine)</p></li>
+<li><p>Use R code to work out how many characters are in <a href="https://www.bbcamerica.com/anglophenia/2015/09/how-to-pronounce-the-longest-place-name-in-the-u-k">the longest town name in Wales</a> <em>Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</em>.(Hint, remember you can copy paste this into your code. Hint 2.. your tutorials and quote marks!)</p></li>
+<li><p>Create a sequence from 1000 to 2000, incrementing by 100 (e.g. 1000,1100,1200…). Hint, see what google says for R and sequences, or see <a href="http://www.simonqueenborough.info/R/basic/lessons/Sequences_of_Numbers.html">here</a>.</p></li>
+</ul></li>
+<li><p>Press “knit” at the top of the screen. If you haven’t made a mistake a pop up should appear with a html file and your edits.</p></li>
+</ul>
+<p><br></p>
+</div>
+<div id="packages" class="section level3">
+<h3>4. Packages</h3>
+<p>If you have run through the tutorials, you should have installed all the packages you need for this course.</p>
+<p><strong>IF NOT GO AND DO <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html">Tutorial 2B</a>]</strong></p>
+<p>You only need to <em>download</em> the packages once, but we still need to load them every time we need a command in that package (in the same way you only download your banking app once from the app store but need to press the icon every time you want to use it).</p>
+<p>WE ALSO NEED TO LOAD THE PACKAGES IN A CODE CHUNK RATHER THAN IN THE CONSOLE.</p>
+<p>When you press knit, in the background, your computer makes a new version of R where nothing is loaded, then processes your code.</p>
+<p>Today we will be using commands from the skimr package, the ggplot2 package and the plotly package.</p>
+<p>Somewhere near the topc of your script, make a new code chunk and add this code. Remember to run the code chunk! (pressing the green arrow, or go to the run button on the top right and press Run All)</p>
+<pre class="r"><code>library(skimr)
+library(ggplot2)
+library(plotly)</code></pre>
+</div>
+<div id="data-analysis" class="section level3">
+<h3>5. Data analysis</h3>
+<p>Part 5 is taken from this tutorial (<a href="https://r4ds.had.co.nz/data-visualisation.html" class="uri">https://r4ds.had.co.nz/data-visualisation.html</a>).</p>
+<p>Leave a blank line, and create a new heading called <em>Car Analysis</em>. Leave a blank line afterwards too.</p>
+<p>We’re going to work with a table of data that’s already pre-loaded into R inside the ggplot2 package. Make sure you have run the library code chunk. Now, type the <code>?mpg</code> command in the console. This will bring up the help file. If it can’t find the dataset, you need to load the ggplot2 package using the library command or install ggplot2.</p>
+<p>Read the background of the dataset and briefly summarise it in your file (in the white space).</p>
+<p>Now look at the data itself. In the console, type <code>View(mpg)</code>. This will open a new tab with the spreadsheet itself.</p>
+<p>Let’s look at the summary statistics. Leave a blank line and create a new code chunk containing the following code</p>
+<pre class="r"><code># mpg comes from the ggplot2 package
+# skim comes from the skimr package
+skim(mpg)</code></pre>
+<p>and finally, let’s make your first plot.</p>
+<p>Among the variables in the mpg dataset are:</p>
+<ul>
+<li><p><code>displ</code>, a car’s engine size, in litres.</p></li>
+<li><p><code>hwy</code>, a car’s fuel efficiency on the highway, in miles per gallon (mpg). A car with a low fuel efficiency consumes more fuel than a car with a high fuel efficiency when they travel the same distance.</p></li>
+<li><p><code>class</code>, the class of car e.g. mini, SUV, pick up..</p></li>
+</ul>
+<p>To make a nice looking plot, let’s use the ggplot package rather than the basic r commands. Create a code chunk</p>
+<pre class="r"><code># ggplotly comes from the plotly package
+# Choose the dataset and tell R the columns to plot
+p &lt;- ggplot(data = mpg) +                  
+     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
+
+ggplotly(p)  # Plot interactively</code></pre>
+<p>Now below your code, answer the following questions.</p>
+<ol style="list-style-type: decimal">
+<li>What’s the unit of observation? (e.g. what does one row correspond to)</li>
+<li>What is the mean/average age of the cars in the dataset?</li>
+<li>As fully as possible, describe the relationship between car’s engine size and its fuel efficiency on the highway</li>
+</ol>
+<p>If you want to make it neat, you can use sub headings, or bold/italic text (see that R cheatsheet). Press knit a lot! Check you haven’t made a mistake, check it all works.</p>
+<p><br></p>
+</div>
+<div id="above-and-beyond" class="section level3">
+<h3>6. Above and beyond</h3>
+<p>Remember that an A is 93%, so you can ignore this section and still easily get an A.</p>
+<p>But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.</p>
+<p><strong>To get the final 4 marks in the lab, you need to show me someting new, e.g. you need to go above and beyond the lab questions in some way.</strong></p>
+<ul>
+<li>You get 2/4 for doing something new in any way</li>
+<li>You get 4/4 for something really impressive or multiple small things.</li>
+</ul>
+<p>Please tell us in your R script what you did!</p>
+<p>Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p>You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.</p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="c.-submitting-your-lab" class="section level2">
+<h2>C. Submitting your Lab</h2>
+<p>Remember to save your work throughout and to spell check your writing (next to the save button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 1 folder which includes your answers. If you look at your lab 1 folder, you should see this there - complete with a very recent time-stamp.</p>
+<p>In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT</p>
+<p>Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 1.</p>
+<p><img src="pg_364Lab1_Basics_2021_fig1.png" width="3346" /></p>
+<p><br></p>
+</div>
+<div id="lab-1-submission-check-list" class="section level2">
+<h2>Lab 1 submission check-list</h2>
+<p><strong>HTML FILE SUBMISSION - 8 marks</strong></p>
+<p><strong>RMD CODE SUBMISSION - 8 marks</strong></p>
+<p><strong>MARKDOWN/CODE STYLE - 20 MARKS</strong></p>
+<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT. There is also a spell check next to the save button. You have written your answers below the relevant code chunk in full sentences in a way that is easy to find and grade. For example, you have written in full sentences, it is clear what your answers are referring to.</p>
+<p><strong>Introduction to GEOG-364: 10 MARKS</strong></p>
+<p>You have described the lab late policy clearly in a way I could share with a new student.</p>
+<p><strong>Code Showcase: 20 MARKS</strong></p>
+<p>You have managed to successfully complete all the code challenges</p>
+<p><strong>Car analysis: 30 MARKS</strong></p>
+<p>You included all the code and successfully answered the questions, providing reasoning where appropriate</p>
+<p><strong>Above and beyond: 4 MARKS</strong></p>
+<p>Here you need to go above and beyond the lab questions in some way. Here in lab 1, maybe you added in different text formats to make your lab script more clear (bold/italic etc). Maybe you worked out how to add axis labels to ggplot (note, it’s a pain), maybe you used nested headings or sub-headings, or worked out how to add a table of contents.</p>
+<p>You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.</p>
+<p>[100 marks total]</p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>

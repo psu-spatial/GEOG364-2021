@@ -7,32 +7,38 @@ navbar:
       href: index.html
     - text: "Tutorials"
       menu:
-        - text: "0a. Desktop to/from Cloud"
-          href: Tutorial0_desktopRstudiocloud.html  
-        - text: "1a. What is R"
-          href: Tutorial1a_whatisR.html    
-        - text: "1b. Install and Update"
-          href: Tutorial1b_Install.html   
-        - text: "1c. Initial Setup"
-          href: Tutorial1c_InitialSetup.html                             
-        - text: "2. R-Projects"
-          href: Tutorial2a_Projects.html                             
-        - text: "3. The Console"
-          href: Tutorial3a_ConsoleBasics.html 
-        - text: "4. Packages"
-          href: Tutorial4a_Packages.html 
-        - text: "5. R-Markdown"
-          href: Tutorial5a_MarkdownBasics.html 
+        - text: "1. About R, R-Studio & R-Studio Cloud"
+          href: pg_Tut1_about.html  
+        - text: "2. Getting started"
+          href: pg_Tut2_startup.html  
+        - text: "3. Console Basics"
+          href: pg_Tut3_basics.html           
+        - text: "4. Markdown"
+          href: pg_Tut4_markdown.html  
+        - text: "5. Lab Template"
+          href: pg_Tut5_checklist.html  
+        - text: "6. Reading in/saving data"
+          href: pg_Tut6_input_output.html  
+        - text: "7. Data wrangling"
+          href: pg_Tut7_wrangle.html            
+        - text: "8. Exploratory Data Analysis"
+          href: pg_Tut8_summarystat.html            
+        - text: "9. Distributions & Inferential Stats"
+          href: pg_Tut9_dist_stats.html 
+        - text: "10. Plotting non-spatial data"
+          href: pg_Tut10_plot.html         
     - text: "Labs"
       menu:
         - text: "Lab 1: R-Basics"
-          href: GEOG364_Lab1_2021.html    
+          href: pg_364Lab1_Basics_2021.html  
+        - text: "Lab 2: Playing with data"
+          href: pg_364Lab2_Summary_2021.html   
 output:
   html_document:
     theme: flatly
     highlight: textmate
     mathjax: ~
-    toc_depth: 3
+    toc_depth: 4
     toc_float:
       collapsed: yes
       smooth_scroll: yes
