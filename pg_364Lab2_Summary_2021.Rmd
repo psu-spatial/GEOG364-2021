@@ -226,13 +226,19 @@ To to this, we are going to follow these steps:
 
 ### B1: Exploratory Investigations
 
-Before we touch any data, it's important to start with words e.g. summarising what we already know about the data, the population under study and any context.
+**Before we touch any data, it's important to start with words.  We need to summarise what we already know about the dataset, the population under study and any important context.**
+
+The aim of this lab is to analyse the "average last frost dates" obtained from weather stations across the South Eastern USA.  E.g. what day of year, _on average_, is the final day to get frost. See chapter 6 of the textbook for a brief summary.
+
+The textbook (and us) are using data obtained from this dissertation to assess the spatial distribution of average spring frost dates:  *Parnell, 2005, "A Climatology of Frost Extremes Across the Southeast United States, 1950–2009":*<br> **https://www.proquest.com/openview/d5a7301f0cbe941ead48c96888f791b8/1?pq-origsite=gscholar&cbl=18750&diss=y**
+
+<br>
 
 12. [ ] Choose any state out of Alabama, Florida, Georgia, North Carolina, South Carolina or Virginia.<br>*Choose a different state to your friends*
 
-<br> 
+<br>
 
-13. [ ] We will be using data obtained from this dissertation to assess the spatial distribution of average spring frost dates:  *Parnell, 2005, "A Climatology of Frost Extremes Across the Southeast United States, 1950–2009":*<br> **https://www.proquest.com/openview/d5a7301f0cbe941ead48c96888f791b8/1?pq-origsite=gscholar&cbl=18750&diss=y**<br><br>Read the abstract of the study to understand the dataset *(pages iv and v, e.g. the bit before the table of contents)*. 
+13. [ ] Read the abstract of the study above to understand the dataset *(click the link and skim read pages iv and v, e.g. the bit before the table of contents)*. 
 
 <br> 
 
@@ -240,29 +246,22 @@ Before we touch any data, it's important to start with words e.g. summarising wh
 
 <br>
 
-15. [ ] In the text below, briefly summarise the dataset. (imagine you are asked to summarise the abstract in class)<br>*Note,there is a spell check next to the knit button at the top of the script and press knit regularly to check it all looks good*.<br>For example you could summarise:
-     + What is the topic under study?
-     + What are the constraints of the data (e.g. it's an average, but over what time-period?)
+15. [ ] In the text below, briefly summarise the topic and data (imagine you are asked to summarise in class)<br>For example you could summarise:
+     + What topic/question are we studying?
+     + What is the context?  Why was the original study conducted?
+     + Specifically, what data are we using?  What is the unit of observation?
+     + What are the constraints/boundaries of the data (e.g. it's an average across which years? Over what time-period?)
      + Anything else that might be relevant to someone analysing the data
-     + Given the topic, any confounding variables, or things we should be thinking about.
-     
+     + Given the topic, are there any confounding variables, or things we should be thinking about. E.g. why might I be concerned about climate change looking at a single average last frost?
+    
+
+**Note,there is a spell check next to the knit button at the top of the script and press knit regularly to check it all looks good**     
 
 <br> 
 
 ### B2: Read in the frostdata excel file
 
 Go to your lab 2 folder. Double click `frostdata.xslx` to open it in excel and take a look at the data.<br>We now want to load this into R.
-
-
-16. [ ] Use [Tutorial 6A](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html) to read the data into R and save as a variable called `frost`.
-
-<br>
-
-17. [ ] Take a look at the data.  To view the data as a spreadsheet like you did in excel:
-    a. Either, go to the environment quadrant and click on its NAME (e.g. click the *word* frost not the blue arrow)
-    b. Or.. use the command `View(frost)`.
-
-<br> 
 
 You should see a spreadsheet/table/data.frame with these columns:
   
@@ -274,7 +273,17 @@ You should see a spreadsheet/table/data.frame with these columns:
   - *Elevation*: The elevation of the station (feet)      
   - *Dist_to_Coast*: The distance from the station to the coast (miles)    
   - *Avg_DOY_SpringFrost*: The Day-Of-Year of the average final spring frost date for that station
+  
+When I say Day-Of-Year, I mean a number from 1-365 representing the month/day of the year e.g. Jan-1:1, Jan-2:2... Jan-31:31, Feb-1:32... Dec-31:365.  We use this number instead of the month/day because its easier to analyse.
 
+16. [ ] Use [Tutorial 6A](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html) to read the data into R and save as a variable called `frost`.
+
+<br>
+
+17. [ ] Take a look at the data.  To view the data as a spreadsheet like you did in excel:
+    a. Either, go to the environment quadrant and click on its NAME (e.g. click the *word* frost not the blue arrow)
+    b. Or.. use the command `View(frost)`.
+    
 <br>
 
 ### B3. Summary Statistics
@@ -293,10 +302,10 @@ Make a new level-2 heading called `Summary Statistics` e.g *## Summary Statisics
 
 20. [ ]  In the text below the code chunk, use your knowledge from your reading, this lab script and the skim command output, to summarise the dataset for someone who has never seen it before (e.g. FULL SENTENCES), including:
 
-    - A specification of the population being studied (as specific as possible)
-    - A specification of the unit of observation
-    - The number of units in our sample (e.g. the number of rows)
+    - A specification of the unit-of-observation under study (as specific as possible). E.g. what does each row represent
+    - What attributes/information we know about each unit?  E.g. what columns do we have
     - A description of each column & units as a bullet point/numbered list<br>*Help here: https://www.markdownguide.org/basic-syntax/*
+    - The number of units in our sample (e.g. the number of rows)
     - The mean longitude
     - The standard deviation of the distance to the coast
     - Your chosen State.
@@ -305,7 +314,7 @@ Make a new level-2 heading called `Summary Statistics` e.g *## Summary Statisics
 
 #### B3.2 Specific columns
 
-Sometimes we want to deal with only one specific column in our spreadsheet/dataframe, for example applying the mean/standard deviation/inter-quartile range command to say just the distance_to_the_coast.
+Sometimes we want to deal with only one specific column in our spreadsheet/dataframe, for example applying the mean, standard deviation, inter-quartile range command to say just the distance_to_the_coast. 
 
 To do this, we use the $ symbol. For example, here I'm simply selecting the data in the elevation column only and saving it to a new variable called elevationdata.
 
