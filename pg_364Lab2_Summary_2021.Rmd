@@ -458,7 +458,7 @@ The other file in your Lab 2 folder should be called NewYork.xlsx.  It contains 
 
 Use what you have learned to read the data into R, explore it and tell me what you find.  
 
-**DO NOT SPEND ALL DAY ON THIS!<br>Set a timer for 30 minutes, turn off the internet and see how far you get.  That is enough (if you do more, that's fine, but about 30mins work is all I expext)** 
+**DO NOT SPEND ALL DAY ON THIS!<br>Set a timer for 45mins, turn off the internet and see how far you get.  That is enough (if you do more, that's fine, but about 45mins work (MAX) is all I expect here)** 
 
 Hint, follow the same steps.  AKA
 
