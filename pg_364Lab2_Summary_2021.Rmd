@@ -390,6 +390,8 @@ Sometimes it's just nice to visualise a distribution, using a histogram.  You ca
 
 For many applications, we also want to assess whether our data has a specific distribution or not (for example, normal, exponential..).  We can do this using a plot called a QQ-plot (quantile-quantile plot) and statistical tests such as the Wilks-Shapiro test for normality. 
 
+This is covered in [Tutorial 9A](https://psu-spatial.github.io/Geog364-2021/pg_Tut9_dist_stats.html#Tutorial_9A:_Testing_normality)
+
 26. [ ] Using a QQ-Norm plot and referring back to your histogram, describe the distribution and assess the normality of the the Elevation column of the frost data.
 
 <br>
