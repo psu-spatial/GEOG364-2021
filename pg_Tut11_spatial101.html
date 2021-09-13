@@ -359,6 +359,12 @@ div.tocify {
     <li>
       <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
     </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -373,6 +379,9 @@ div.tocify {
     </li>
     <li>
       <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
     </li>
   </ul>
 </li>
@@ -424,9 +433,357 @@ h2.title {
 </style>
 <p><br />
 </p>
+<div id="tutorial-11-spatial-101" class="section level2">
+<h2>Tutorial 11: Spatial 101</h2>
+<p>This tutorial is all about creating and manipulating spatial data</p>
+<ul>
+<li><p><a href="#Tut11a_basics"><strong>Tutorial 11A: Spatial basics</strong></a> <br></p>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut11aa_whatisit">Why treat spatial differently</a> <br></li>
+<li><a href="#Tut11ab_proj">Map projections</a></li>
+</ol>
+<p><br></p></li>
+<li><p><a href="#Tut11b_vector"><strong>Tutorial 11B: Vector Data</strong></a> <br></p>
+<ol style="list-style-type: lower-alpha">
+<li><p><a href="#Tut11ba_mark">Marked data</a> <br></p></li>
+<li><p><a href="#Tut11bb_convert">Converting existing data to “spatial”</a> <br></p></li>
+<li><p><a href="#Tut11bc_read">Reading in spatial vector data from file</a> <br></p></li>
+<li><p><a href="#Tut11bd_manip">Manipulating vector data</a> <br></p></li>
+<li><p><a href="#Tut11be_plot">Plotting vector data</a></p></li>
+</ol>
+<p><br></p></li>
+<li><p><a href="#Tut11c_raster"><strong>Tutorial 11C: Raster data</strong></a></p>
+<ol style="list-style-type: lower-alpha">
+<li><a href="#Tut11ca_basic">To come!</a></li>
+</ol></li>
+</ul>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut11a_basics" class="section level2">
+<h2>Tutorial 11A: Spatial basics</h2>
+<p><br></p>
+<div id="Tut11aa_whatisit" class="section level3">
+<h3>Why treat spatial differently</h3>
+<p>Geographical data needs special treatment. As well as standard data analysis, we need to tell R that our data has a spatial location on the Earth’s surface. R needs to understand what units our spatial location is in (e.g. metres, degrees..) and how we want the data to appear on plots and maps. R also needs to understand the different types of vector data (e.g. what we mean by a “polygon” or “point”).</p>
+<p>To achieve this there are some specialist “spatial” types of data we need to use and several spatial data packages.</p>
+<p>We’re going to split this tutorial by vector and raster (field) data</p>
+<p><br></p>
+</div>
+<div id="Tut11ab_proj" class="section level3">
+<h3>Map Projections</h3>
+<p>See here for a great overview: <a href="https://source.opennews.org/articles/choosing-right-map-projection/" class="uri">https://source.opennews.org/articles/choosing-right-map-projection/</a></p>
+<p>At its simplest, think of our map projections as the “units” of the x-y-z coordinates of geographic data. For example, here is the same map, but in two different projections.</p>
+<ul>
+<li><p>On the left, the figure is in latitiude/longitude in units of degrees.</p></li>
+<li><p>On the right the same map is in UTM. In the UTM system, the Earth is divided into 60 zones. Northing values are given by the metres north, or south (in the southern hemisphere) of the equator. Easting values are established as the number of metres from the central meridian of a zone.</p></li>
+</ul>
+<div class="figure" style="text-align: center">
+<img src="pg_Tut11_markdown_fig1.png" alt="*Examples of geographic coordinate systems for raster data (WGS 84; left, in Lon/Lat degrees) and projected (NAD83 / UTM zone 12N; right, in metres), figure from https://geocompr.robinlovelace.net/spatial-class.html*" width="80%" />
+<p class="caption">
+<em>Examples of geographic coordinate systems for raster data (WGS 84; left, in Lon/Lat degrees) and projected (NAD83 / UTM zone 12N; right, in metres), figure from <a href="https://geocompr.robinlovelace.net/spatial-class.html" class="uri">https://geocompr.robinlovelace.net/spatial-class.html</a></em>
+</p>
+</div>
+<p>You can see the UTM zone here</p>
+<div class="figure" style="text-align: center">
+<img src="pg_Tut11_markdown_fig2.png" alt="Zone 12N: https://epsg.io/32612" width="45%" />
+<p class="caption">
+Zone 12N: <a href="https://epsg.io/32612" class="uri">https://epsg.io/32612</a>
+</p>
+</div>
+<p>Each map projection has a unique numeric code called an EPSG code. To find them, I tend to use these resources, but in this course I will try to provide the codes</p>
+<ul>
+<li>google &amp; reading the dataset documentation</li>
+<li><a href="https://epsg.io" class="uri">https://epsg.io</a></li>
+<li><a href="https://mangomap.com/robertyoung/maps/69585/what-utm-zone-am-i-in-" class="uri">https://mangomap.com/robertyoung/maps/69585/what-utm-zone-am-i-in-</a></li>
+</ul>
+<p class="comment">
+<strong>R is stupid. It has no idea what units or projection your coordinates are in</strong>
+</p>
+<p><strong>We need to tell R what units/projection/EPSG code your data is orginally in</strong></p>
+<p><strong>THEN we need to convert it to the units/projection/EPSG we need for analysis</strong></p>
+<p>We will go into how to do this in each tutorial.</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut11b_vector" class="section level2">
+<h2>Tutorial 11B: Vector Data</h2>
+<p>As you know, vector data are “objects” you can “pick up and move around” on a map. So points, lines, polygons, volumes etc.</p>
+<p>There are several families of commands available to manipulate vector spatial data.</p>
+<ul>
+<li><strong>sp</strong> : The original spatial package.
+<ul>
+<li>Find a detailed tutorial here: <a href="https://rspatial.org/raster/spatial/3-vectordata.html" class="uri">https://rspatial.org/raster/spatial/3-vectordata.html</a> <br></li>
+</ul></li>
+<li><strong>terra</strong> : Another new spatial package that we shall ignore.
+<ul>
+<li>Detailed tutorial here: <a href="https://rspatial.org/terra/spatial/3-vectordata.html" class="uri">https://rspatial.org/terra/spatial/3-vectordata.html</a> <br></li>
+</ul></li>
+<li><strong>sf</strong> : A newer spatial package that fits into the tidyverse family.
+<ul>
+<li>Detailed tutorial here: <a href="https://r-spatial.github.io/sf/articles/sf1.html" class="uri">https://r-spatial.github.io/sf/articles/sf1.html</a> <br></li>
+</ul></li>
+<li><strong>spatstat</strong>: A specific package for point pattern analysis</li>
+</ul>
+<p>Spatial data packages are like competing mafia families. Some commands will only work with one spatial data type, so normally I will store my spatial data as each type. e.g. I will name my variables:</p>
+<ul>
+<li>mydata : My raw data (R doesn’t understand this is spatial)</li>
+<li>mydata.sp : The sp version of my data</li>
+<li>mydata.sf : The sf version of my data</li>
+</ul>
+<p><br></p>
+<div id="Tut11ba_mark" class="section level3">
+<h3>a. Marked data</h3>
+<p>It is very important to understand whether your spatial data is “marked”.</p>
+<p><strong>Un-marked</strong> vector data means that we just know about the <em>location</em> of the spatial objects (points, polygons..). For example, the location of crimes, the location of city boundaries etc. We can assess if these objects are clustered together, spread out etc..</p>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-1-1.svg" /><!-- --></p>
+<p><strong>Marked</strong> vector data has some attribute e.g. we know some <em>information</em> about each point/polygon. For example, with our weather station data, we know marks such as the Elevation at each location, the distance to the ocean and the average last frost date:</p>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-2-1.svg" /><!-- --></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut11bb_convert" class="section level3">
+<h3>b. Converting a data.frame in R to spatial sf</h3>
+<p>This is only one route, but it’s the one I use</p>
+<div id="step-1-check-what-columns-your-x-and-y-coordinates-are-stored-in." class="section level4">
+<h4><strong>Step 1: Check what columns your x and y coordinates are stored in.</strong></h4>
+<p>Look at your data! View your data table and note what the column names your x and y data is stored in. Note, these don’t have to be fancy spatial names, they can be “elephanT” and “popcorn”.</p>
+<pre class="r"><code>head(frost)</code></pre>
+<pre><code>## # A tibble: 6 × 8
+##   Station    State Type_Fake Avg_DOY_SpringFrost Latitude Longitude Elevation
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Valley     AL    City                    110.      34.6     -85.6      1020
+## 2 Union      AL    City                     82.3     32.0     -85.8       440
+## 3 Saint      AL    Airport                  99.8     34.2     -86.8       800
+## 4 Fernandina FL    City                     46.9     30.7     -81.5        13
+## 5 Lake       FL    City                     60.6     30.2     -82.6       195
+## 6 West       GA    City                     85.6     32.9     -85.2       575
+## # … with 1 more variable: Dist_to_Coast &lt;dbl&gt;</code></pre>
+<p>Here, we can see that the data coordinates are in columns called “Longitude” and “Latitude”.</p>
+<p><br></p>
+</div>
+<div id="step-2-check-what-map-projections-your-x-and-y-coordinates-are-stored-in." class="section level4">
+<h4><strong>Step 2: Check what map projections your x and y coordinates are stored in.</strong></h4>
+<p>Look at the data inside your x and y columns. Is it longitude/latitude in degrees? A large number (likely metres in UTM), something else? Look at the documentation of your data for clues. If you can find the map projection your data is in then you can google the CRS code.</p>
+<p>If your data is in long/lat degrees, then the CRS code 4326 should work. (I got that from this pdf: <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf" class="uri">https://www.nceas.ucsb.edu/sites/default/files/2020-04/OverviewCoordinateReferenceSystems.pdf</a>)</p>
+<p><br></p>
+</div>
+<div id="step-3-convert-to-sf-using-the-st_as_sf-command" class="section level4">
+<h4><strong>Step 3 Convert to sf using the st_as_sf command</strong></h4>
+<p><code>st_as_sf (tablename, coords=c(XColumnName,YColumnName),crs=MapProjection)</code></p>
+<p>For example for our frost data, here is how I turned it into a sf spatial data format. From step 2, I know this is in long/lat coordinates and the crs is 4326.</p>
+<pre class="r"><code>frost.sf &lt;- st_as_sf(frost,coords=c(&quot;Longitude&quot;,&quot;Latitude&quot;),crs=4326)</code></pre>
+<p>Now I can check I did it correctly. Here is my attempt at plotting the long/lat data directly. It doesn’t look much like the USA!</p>
+<pre class="r"><code>plot(frost$Longitude,frost$Latitude)</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-5-1.svg" /><!-- --></p>
+<p>But here you can see the shapes of the USA. R has also tried to plot the marks. All the spatial commands will now work.</p>
+<pre class="r"><code>plot(frost.sf)</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-6-1.svg" /><!-- --></p>
+<p><br></p>
+</div>
+<div id="step-4.-check-your-map-projection" class="section level4">
+<h4><strong>Step 4. Check your map projection </strong></h4>
+<p>There are a LOAD of ways to check the map projection of your data. Perhaps the easiest are the <code>st_crs</code> and <code>crs</code> commands:</p>
+<pre class="r"><code>st_crs(frost.sf)</code></pre>
+<pre><code>## Coordinate Reference System:
+##   User input: EPSG:4326 
+##   wkt:
+## GEOGCRS[&quot;WGS 84&quot;,
+##     DATUM[&quot;World Geodetic System 1984&quot;,
+##         ELLIPSOID[&quot;WGS 84&quot;,6378137,298.257223563,
+##             LENGTHUNIT[&quot;metre&quot;,1]]],
+##     PRIMEM[&quot;Greenwich&quot;,0,
+##         ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
+##     CS[ellipsoidal,2],
+##         AXIS[&quot;geodetic latitude (Lat)&quot;,north,
+##             ORDER[1],
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
+##         AXIS[&quot;geodetic longitude (Lon)&quot;,east,
+##             ORDER[2],
+##             ANGLEUNIT[&quot;degree&quot;,0.0174532925199433]],
+##     USAGE[
+##         SCOPE[&quot;Horizontal component of 3D system.&quot;],
+##         AREA[&quot;World.&quot;],
+##         BBOX[-90,-180,90,180]],
+##     ID[&quot;EPSG&quot;,4326]]</code></pre>
+<pre class="r"><code>crs(frost.sf)</code></pre>
+<pre><code>## CRS arguments: +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<p>Here we can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.</p>
+<p>You can use this command on any sf data to check.</p>
+<p><br></p>
+</div>
+<div id="step-5.-assign-a-new-map-projection" class="section level4">
+<h4><strong>Step 5. Assign a new map projection </strong></h4>
+<p>When we do our plots and analyses, we will often need many layers of data - for example, our points, state borders, city locations, a raster map of temperatures..</p>
+<p>Chances are each of these layers is stored using different map projections and units. This means that they won’t plot correctly!</p>
+<p>So it’s good practice to make sure all your layers have the same map projection. We do this using the st_transform command:</p>
+<p><code>yoursfvariable &lt;- st_transform (yoursfvariable, crs=NEWNUMBER)</code></p>
+<p>E.g apply the st_transform command to your sf data with the new crs, then assign the output to a variable of the same name to overwrite, or a new name to create a new version with our new projection.</p>
+<p><br></p>
+<p>For example, to transform our data to the UTM (the map projection in meters):</p>
+<ol style="list-style-type: decimal">
+<li>Go here: <a href="https://mangomap.com/robertyoung/maps/69585/what-utm-zone-am-i-in-" class="uri">https://mangomap.com/robertyoung/maps/69585/what-utm-zone-am-i-in-</a> and choose the zone you want.
+<ul>
+<li><em>I chose a generic US East Coast zone: UTM Zone: 18N.</em></li>
+</ul></li>
+<li>You can also choose a “datum” (the shape of the earth’s spheroid).
+<ul>
+<li><em>For us, let’s always choose <strong>WGS 84</strong></em></li>
+</ul></li>
+<li>Search for the CRS code of that zone here: <a href="https://epsg.io" class="uri">https://epsg.io</a> . E.g search <code>UTM Zone XX WGS 84</code>
+<ul>
+<li><em>For example for me: <a href="https://epsg.io/?q=UTM+zone+18N+WGS+84" class="uri">https://epsg.io/?q=UTM+zone+18N+WGS+84</a></em></li>
+<li><em>This brought up code 32618: <a href="https://epsg.io/32618" class="uri">https://epsg.io/32618</a></em></li>
+</ul></li>
+<li>Apply the command. Here I made three versions, one with lat/long, one with UTM and one with a polar stereographic projection. I often add the projection to the end of the variable name to keep things neat.</li>
+</ol>
+<pre class="r"><code>frost.sf.lonlat &lt;- st_transform(frost.sf, 4326)
+frost.sf.utm &lt;- st_transform(frost.sf, 32618)
+frost.sf.polar &lt;- st_transform(frost.sf, 3995)</code></pre>
+<p><br></p>
+<p>Let’s see what we did</p>
+<pre class="r"><code>crs(frost.sf.lonlat)</code></pre>
+<pre><code>## CRS arguments: +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<pre class="r"><code># YOU CAN SEE THE MAP UNITS ARE IN METRES!
+crs(frost.sf.utm)</code></pre>
+<pre><code>## CRS arguments:
+##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs</code></pre>
+<pre class="r"><code>crs(frost.sf.polar)</code></pre>
+<pre><code>## CRS arguments:
+##  +proj=stere +lat_0=90 +lat_ts=71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84
+## +units=m +no_defs</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-1.svg" /><!-- --><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-2.svg" /><!-- --><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-3.svg" /><!-- --></p>
+<p><br></p>
+</div>
+<div id="step-6.-make-a-sp-version" class="section level4">
+<h4><strong>Step 6. Make a sp version </strong></h4>
+<p>Now we have the data in the projection we want, let’s store an sp version just in case we need it.</p>
+<p>To do this we use the “as” command. change the sf format to “Spatial” (sp) format.</p>
+<pre class="r"><code># NOTE, I have changed the variable name from sf to sp!
+frost.sp.lonlat &lt;- as(frost.sf.lonlat, &quot;Spatial&quot;)
+frost.sp.utm &lt;- as(frost.sf.utm, &quot;Spatial&quot;)
+frost.sp.polar &lt;- as(frost.sf.polar, &quot;Spatial&quot;)</code></pre>
+<p>For some commands, you might get an error using the sf version, so now you also have a convenient sp version</p>
+</div>
+<div id="step-7.-all-commands" class="section level4">
+<h4><strong>Step 7. ALL COMMANDS </strong></h4>
+<p>Here are all the commands in one place for future labs. See how i’m using code comments to keep things neat.</p>
+<pre><code>## [1] &quot;Station&quot;             &quot;State&quot;               &quot;Type_Fake&quot;          
+## [4] &quot;Avg_DOY_SpringFrost&quot; &quot;Latitude&quot;            &quot;Longitude&quot;          
+## [7] &quot;Elevation&quot;           &quot;Dist_to_Coast&quot;</code></pre>
+<p>The advantage of naming them this way is that it’s now really easy to find stuff in your environment tab. For example I can immediately see that if I want the latlon sf version of the frost dataset, I would go to frost.sf.lonlat</p>
+<p><img src="pg_Tut11_markdown_fig3.png" width="80%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut11bc_read" class="section level3">
+<h3>c. Using RNaturalEarth built-in vector datasets</h3>
+<p>Let’s now also include some vector-line data on top of our points, but adding in some regional administrative boundaries. In later labs, we will learn how to read in vector data from a file, but this time we are going to use data that is already built into R.</p>
+<p>This is part of the <code>rnaturalearth</code> package, which links automatically with the “Natural Earth” dataset, found here: <a href="https://www.naturalearthdata.com/features/" class="uri">https://www.naturalearthdata.com/features/</a></p>
+<p>First, if you haven’t already, download the high-resolution data in rnaturalearth by running this command in the console:</p>
+<pre class="r"><code>remotes::install_github(&quot;ropenscilabs/rnaturalearthhires&quot;)</code></pre>
+<p>For administrative border data, we can use the <code>ne_countries</code> or the <code>ne_states</code>commands.</p>
+<p>For example, ne_countries will load the entire world borders and assign it to a variable called worldborder.</p>
+<pre class="r"><code># You can choose if you want the output to be sf or sp data
+worldborder.sf &lt;- ne_countries(scale = &quot;medium&quot;, returnclass = &quot;sf&quot;)
+
+# st_geometry just means plot the borders
+plot(st_geometry(worldborder.sf))</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-17-1.svg" /><!-- --></p>
+<pre class="r"><code># You can choose if you want the output to be sf or sp data
+UK.country.sf &lt;- ne_countries(country=&quot;united kingdom&quot;,returnclass = &quot;sf&quot;,scale = &quot;medium&quot;)
+
+plot(st_geometry(UK.country.sf))</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-18-1.svg" /><!-- --></p>
+<p>If you want states/regions for your country, you can use the command <code>ne_states()</code>.</p>
+<pre class="r"><code># You can choose if you want the output to be sf or sp data
+UK.regions.sf &lt;- ne_states(country=&quot;united kingdom&quot;,returnclass = &quot;sf&quot;)
+
+plot(st_geometry(UK.regions.sf))</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-19-1.svg" /><!-- --></p>
+<p>Let’s improve our frost plot</p>
+<pre class="r"><code>US.states.sf &lt;-  ne_states(country=&quot;united states of america&quot;,returnclass = &quot;sf&quot;)
+# Transform to UTM
+US.states.sf.utm &lt;- st_transform(US.states.sf,crs=32618)
+
+plot(st_geometry(frost.sf.utm),col=&quot;red&quot;,pch=16)
+plot(st_geometry(US.states.sf.utm),add=TRUE)</code></pre>
+<p><img src="pg_Tut11_spatial101_files/figure-html/unnamed-chunk-20-1.svg" /><!-- --></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut11bd_manip" class="section level3">
+<h3>d. Manipulating sf data</h3>
+<p>Manipulating your spatial data is actually exactly the same as manipulating your dataframes. You can access columns, filter, select etc in exactly the same way. You might simply see some additional messages saying that the data comes from a “spatial” data frame.</p>
+<p>For example, to print the first 10 rows:</p>
+<pre class="r"><code>head(frost.sf.lonlat)</code></pre>
+<pre><code>## Simple feature collection with 6 features and 6 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: -86.82 ymin: 30.18 xmax: -81.47 ymax: 34.57
+## Geodetic CRS:  WGS 84
+## # A tibble: 6 × 7
+##   Station    State Type_Fake Avg_DOY_SpringFrost Elevation Dist_to_Coast
+##   &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+## 1 Valley     AL    City                    110.       1020        295.  
+## 2 Union      AL    City                     82.3       440        122.  
+## 3 Saint      AL    Airport                  99.8       800        252.  
+## 4 Fernandina FL    City                     46.9        13          1.15
+## 5 Lake       FL    City                     60.6       195         63.0 
+## 6 West       GA    City                     85.6       575        187.  
+## # … with 1 more variable: geometry &lt;POINT [°]&gt;</code></pre>
+<p>To filter for just Florida and Alabama stations below 500feet and save to a new variable</p>
+<pre class="r"><code>frost.FL.sf.lonlat &lt;- dplyr::filter(frost.sf.lonlat, State %in% c(&quot;FL&quot;,&quot;AL&quot;))
+frost.FL.sf.lonlat &lt;- dplyr::filter(frost.sf.lonlat, Elevation &lt; 500)</code></pre>
+<p>To make a table of stations in each state in our new dataset</p>
+<pre class="r"><code>table(frost.FL.sf.lonlat$State,frost.FL.sf.lonlat$Type_Fake)</code></pre>
+<pre><code>##     
+##      Agricultural_Research_Station Airport City
+##   AL                             1       0    1
+##   FL                             1       0    5
+##   GA                             3       3    5
+##   NC                             0       1    7
+##   SC                             4       2    3
+##   VA                             0       3    0</code></pre>
+<p>Or check the maximum elevation in our new dataset</p>
+<pre class="r"><code>max(frost.FL.sf.lonlat$Elevation)</code></pre>
+<pre><code>## [1] 490</code></pre>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut11be_plot" class="section level3">
+<h3>e. Plotting vector data</h3>
+<p>See tutorial 12.</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+</div>
+<div id="Tut11c_raster" class="section level2">
+<h2>Tutorial 11C: Raster Data</h2>
+<div id="Tut11ca_whatisit" class="section level3">
+<h3>Raster basics</h3>
+<p>To come!</p>
 <p><br> <br></p>
 <hr />
-<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a> <br></p>
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+</div>
 
 
 

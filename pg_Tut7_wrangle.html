@@ -359,6 +359,12 @@ div.tocify {
     <li>
       <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
     </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -373,6 +379,9 @@ div.tocify {
     </li>
     <li>
       <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
     </li>
   </ul>
 </li>
@@ -490,9 +499,174 @@ frost.summary.type</code></pre>
 <li>Saving the result to a new variable called frost.summary.type.</li>
 <li>Printing the results on the screen e.g. the furthest North/maximum latitude of rows tagged Agricultural_Research_Station is 36.32 degrees.</li>
 </ul>
+</div>
+<div id="Tut7Dfilter" class="section level2">
+<h2>Tutorial 7D: filtering rows and columns</h2>
+<p>Sometimes, we do not want to analyse at the entire data.frame. Instead, we would like to only look at one (or more) columns or rows.</p>
+<p>There are several ways we can select data.</p>
+<ul>
+<li><p>To choose a specific column, we can use the <code>$</code> symbol to select its name (as described in Tutorial 7A)</p></li>
+<li><p>If you know which number rows or columns you want, you can use <strong>square brackets</strong> to numerically select data.</p></li>
+</ul>
+<p>Essentially our data follows the format: TABLENAME[ROWS,COLUMNS]</p>
+<pre class="r"><code># This will select the 5th row and 7th column
+frost[5,7]</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##   Elevation
+##       &lt;dbl&gt;
+## 1       195</code></pre>
+<pre class="r"><code># This will select the 2nd row and ALL the columns 
+frost[2,]</code></pre>
+<pre><code>## # A tibble: 1 × 8
+##   Station State Type_Fake Avg_DOY_SpringFrost Latitude Longitude Elevation
+##   &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;                   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Union   AL    City                     82.3     32.0     -85.8       440
+## # … with 1 more variable: Dist_to_Coast &lt;dbl&gt;</code></pre>
+<pre class="r"><code># This will select the 3rd column and ALL the rows
+frost[,3]</code></pre>
+<pre><code>## # A tibble: 76 × 1
+##    Type_Fake                    
+##    &lt;chr&gt;                        
+##  1 City                         
+##  2 City                         
+##  3 Airport                      
+##  4 City                         
+##  5 City                         
+##  6 City                         
+##  7 City                         
+##  8 City                         
+##  9 Agricultural_Research_Station
+## 10 Agricultural_Research_Station
+## # … with 66 more rows</code></pre>
+<pre class="r"><code># similar to using its name
+frost$Type_Fake</code></pre>
+<pre><code>##  [1] &quot;City&quot;                          &quot;City&quot;                         
+##  [3] &quot;Airport&quot;                       &quot;City&quot;                         
+##  [5] &quot;City&quot;                          &quot;City&quot;                         
+##  [7] &quot;City&quot;                          &quot;City&quot;                         
+##  [9] &quot;Agricultural_Research_Station&quot; &quot;Agricultural_Research_Station&quot;
+## [11] &quot;Agricultural_Research_Station&quot; &quot;Airport&quot;                      
+## [13] &quot;Airport&quot;                       &quot;City&quot;                         
+## [15] &quot;City&quot;                          &quot;Airport&quot;                      
+## [17] &quot;City&quot;                          &quot;Airport&quot;                      
+## [19] &quot;City&quot;                          &quot;Airport&quot;                      
+## [21] &quot;City&quot;                          &quot;City&quot;                         
+## [23] &quot;City&quot;                          &quot;Airport&quot;                      
+## [25] &quot;Agricultural_Research_Station&quot; &quot;City&quot;                         
+## [27] &quot;City&quot;                          &quot;City&quot;                         
+## [29] &quot;Airport&quot;                       &quot;Agricultural_Research_Station&quot;
+## [31] &quot;Airport&quot;                       &quot;City&quot;                         
+## [33] &quot;City&quot;                          &quot;City&quot;                         
+## [35] &quot;Airport&quot;                       &quot;Agricultural_Research_Station&quot;
+## [37] &quot;City&quot;                          &quot;City&quot;                         
+## [39] &quot;City&quot;                          &quot;Agricultural_Research_Station&quot;
+## [41] &quot;Agricultural_Research_Station&quot; &quot;City&quot;                         
+## [43] &quot;City&quot;                          &quot;Airport&quot;                      
+## [45] &quot;Airport&quot;                       &quot;Airport&quot;                      
+## [47] &quot;Agricultural_Research_Station&quot; &quot;City&quot;                         
+## [49] &quot;City&quot;                          &quot;City&quot;                         
+## [51] &quot;City&quot;                          &quot;Agricultural_Research_Station&quot;
+## [53] &quot;Agricultural_Research_Station&quot; &quot;Agricultural_Research_Station&quot;
+## [55] &quot;Airport&quot;                       &quot;City&quot;                         
+## [57] &quot;Airport&quot;                       &quot;City&quot;                         
+## [59] &quot;Airport&quot;                       &quot;City&quot;                         
+## [61] &quot;Agricultural_Research_Station&quot; &quot;Airport&quot;                      
+## [63] &quot;Agricultural_Research_Station&quot; &quot;City&quot;                         
+## [65] &quot;City&quot;                          &quot;City&quot;                         
+## [67] &quot;City&quot;                          &quot;Airport&quot;                      
+## [69] &quot;Airport&quot;                       &quot;Agricultural_Research_Station&quot;
+## [71] &quot;Airport&quot;                       &quot;City&quot;                         
+## [73] &quot;Airport&quot;                       &quot;Airport&quot;                      
+## [75] &quot;City&quot;                          &quot;Agricultural_Research_Station&quot;</code></pre>
+<pre class="r"><code># We can combine our commands, this will print the 13th row of the Longitude column 
+# (no comma as we&#39;re only looking at one column)
+frost$Longitude[13]</code></pre>
+<pre><code>## [1] -82.58</code></pre>
+<pre class="r"><code># The : symbol lets you choose a sequence of numbers e.g. 1:5 is 1 2 3 4 5
+# So this prints out rows 11 to 15 and all the columns
+frost[11:15,]</code></pre>
+<pre><code>## # A tibble: 5 × 8
+##   Station  State Type_Fake        Avg_DOY_SpringFr… Latitude Longitude Elevation
+##   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;                        &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Winthrop SC    Agricultural_Re…              87.2     34.9     -81.0       690
+## 2 Little   SC    Airport                       87.7     34.2     -81.4       711
+## 3 Calhoun  SC    Airport                       91.5     34.1     -82.6       530
+## 4 Clemson  SC    City                          93.6     34.7     -82.8       824
+## 5 De       FL    City                          71.3     30.7     -86.1       245
+## # … with 1 more variable: Dist_to_Coast &lt;dbl&gt;</code></pre>
+<pre class="r"><code># The &quot;c&quot; command allows you to enter whatever numbers you like.  
+# So this will print out rows 4,3,7 and the &quot;Elevation&quot; and &quot;Dist_to_Coast&quot; columns
+frost[c(4,3,7), c(&quot;Elevation&quot;,&quot;Dist_to_Coast&quot;)]</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   Elevation Dist_to_Coast
+##       &lt;dbl&gt;         &lt;dbl&gt;
+## 1        13          1.15
+## 2       800        252.  
+## 3       500        132.</code></pre>
+<div id="the-dplyr-filter-command-tidyverse" class="section level3">
+<h3>The dplyr filter command (tidyverse)</h3>
+<p>Filtering means selecting rows/observations based on their values. To filter in R, use the command <code>filter()</code> from the dplyr package. I tend to write it as <code>dplyr:filter()</code> to force it to be correct.</p>
+<p>Visually, filtering rows looks like this.</p>
+<p><img src="pg_Tut7_wrangle_fig2.png" width="80%" style="display: block; margin: auto;" /></p>
+<p>Here we can apply the filter command to choose specific rows that meet certain criteria</p>
+<pre class="r"><code>filter(frost, State == &quot;FL&quot;)</code></pre>
+<p>The double equal operator <code>==</code> means equal to. The command is telling R to keep the rows in <em>frost</em> where the <em>State</em> column equals “FL”.</p>
+<p>If you want a few categories, choose the %in% operator, using the <code>c()</code> command to stick together the categories you want. For example, here are states in Florida and Virginia.</p>
+<pre class="r"><code>filter(frost, State %in% c(&quot;FL&quot;,&quot;VA&quot;))</code></pre>
+<p>We can also explicitly exclude cases and keep everything else by using the not equal operator <code>!=</code>. The following code <em>excludes</em> airport stations.</p>
+<pre class="r"><code>filter(frost, Type_Fake != &quot;Airport&quot;)</code></pre>
+<p>What about filtering if a row has a value greater than a specified value? For example, Stations with an elevation greater than 500 feet?</p>
+<pre class="r"><code>filter(frost, Elevation &gt; 500)</code></pre>
+<p>Or less-than-or-equal-to 200 feet.</p>
+<pre class="r"><code>filter(frost, Elevation &lt; 200)
+
+# or save the result to a new variable
+lowland_stations &lt;- filter(frost, Elevation &lt; 200)</code></pre>
+<p>In addition to comparison operators, filtering may also utilize logical operators that make multiple selections. There are three basic logical operators: <code>&amp;</code> (and), <code>|</code> (or), and <code>!</code> (not). We can keep Stations with an <em>Elevation</em> greater than 300 <strong>and</strong> <em>State</em> in Alabama <code>&amp;</code>.</p>
+<pre class="r"><code>filter(frost, Elevation &gt; 300 &amp; State == &quot;AL&quot;)</code></pre>
+<p>Use <code>|</code> to keep Stations with a <em>Type_Fake</em> of “Airport” <strong>or</strong> a last spring frost date after april (~ day 90 of the year).</p>
+<pre class="r"><code>filter(frost, Type_Fake == &quot;Airport&quot; | Avg_DOY_SpringFrost &gt; 90 )</code></pre>
+</div>
+<div id="the-dplyr-arrange-command-tidyverse" class="section level3">
+<h3>The dplyr arrange command (tidyverse)</h3>
+<p><br />
+</p>
+<p>We use the <code>arrange()</code> function to sort a data frame by one or more variables. You might want to do this to get a sense of which cases have the highest or lowest values in your data set or sort counties by their name. For example, let’s sort in ascending order by elevation.</p>
+<pre class="r"><code>arrange(frost, Latitude)</code></pre>
+<pre><code>## # A tibble: 76 × 8
+##    Station     State Type_Fake     Avg_DOY_SpringF… Latitude Longitude Elevation
+##    &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;                    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Inverness   FL    City                      50.6     28.8     -82.3        40
+##  2 Ocala       FL    City                      52.7     29.2     -82.1        75
+##  3 Lake        FL    City                      60.6     30.2     -82.6       195
+##  4 Tallahassee FL    Agricultural…             75.8     30.4     -84.4        55
+##  5 Fernandina  FL    City                      46.9     30.7     -81.5        13
+##  6 De          FL    City                      71.3     30.7     -86.1       245
+##  7 Quitman     GA    City                      65.5     30.8     -83.6       185
+##  8 Brunswick   GA    Agricultural…             48.4     31.2     -81.5        13
+##  9 Waycross    GA    Agricultural…             75.9     31.2     -82.3       145
+## 10 Tifton      GA    City                      87.3     31.4     -83.5       380
+## # … with 66 more rows, and 1 more variable: Dist_to_Coast &lt;dbl&gt;</code></pre>
+<p>By default, <code>arrange()</code> sorts in ascending order. We can sort by a variable in descending order by using the <code>desc()</code> function on the variable we want to sort by. For example, to sort the dataframe by <em>Avg_DOY_SpringFrost</em> in descending order we use</p>
+<pre class="r"><code>arrange(frost, desc(Avg_DOY_SpringFrost))</code></pre>
+<pre><code>## # A tibble: 76 × 8
+##    Station        State Type_Fake  Avg_DOY_SpringF… Latitude Longitude Elevation
+##    &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Marshall       NC    Airport                118.     35.8     -82.7      2000
+##  2 Highlands      NC    Agricultu…             118.     35.0     -83.2      3333
+##  3 Mt             NC    City                   113.     36.5     -80.6      1041
+##  4 Louisburg      NC    City                   113.     36.1     -78.3       260
+##  5 Rocky          VA    Airport                111.     37.0     -79.9      1315
+##  6 Henderson      NC    Agricultu…             111.     36.3     -78.4       512
+##  7 Farmville      VA    Airport                111.     37.3     -78.4       450
+##  8 Statesville    NC    City                   110.     35.8     -80.9       951
+##  9 Valley         AL    City                   110.     34.6     -85.6      1020
+## 10 Hendersonville NC    Agricultu…             110.     35.3     -82.4      2160
+## # … with 66 more rows, and 1 more variable: Dist_to_Coast &lt;dbl&gt;</code></pre>
 <p><br> <br></p>
 <hr />
 <p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
 </div>
 
 

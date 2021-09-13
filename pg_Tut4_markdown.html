@@ -359,6 +359,12 @@ div.tocify {
     <li>
       <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
     </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -373,6 +379,9 @@ div.tocify {
     </li>
     <li>
       <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
     </li>
   </ul>
 </li>
@@ -654,7 +663,43 @@ output:
 </div>
 <div id="Tut4H_photo" class="section level2">
 <h2>Tutorial 4H: Adding photos</h2>
-<p>To be added</p>
+<p>There are many ways to do this, with a FANTASTIC tutorial here if you get stuck:</p>
+<p><a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a></p>
+<p><br></p>
+<p><strong>Step 1:</strong></p>
+<p>Go find your picture. If it’s on the internet the easiest way is to right click on it and press “save as”, then save the jpeg or png directly into your project folder with an easy filename.</p>
+<p><br></p>
+<p><strong>Step 2:</strong></p>
+<p>Place your picture/photo into your project folder (e.g. your Lab 3 project folder).</p>
+<p><br></p>
+<p><strong>Step 3:</strong></p>
+<p>Make a new code chunk.<br> REMEMER TO ADD BLANK LINES ABOVE AND BELOW THE CODE CHUNK.</p>
+<p><br></p>
+<p><strong>Step 4</strong></p>
+<p>Inside the code chunk, use the <code>knitr::include_graphics()</code> command from the knitr package.</p>
+<p><img src="pg_Tut4_markdown_fig10.png" width="1672" /></p>
+<p>You’ll see I also added some code chunk options:</p>
+<ul>
+<li>echo=FALSE : don’t show the code</li>
+<li>fig.align - ‘center’ : Centre align the photo when you press knit</li>
+<li>out.width - ‘60%’ : Make your photo smaller or larger on the page</li>
+<li>fig.cap - “your caption” : Add a caption (IN QUOTES). I used * to make mine italic.</li>
+</ul>
+<p>If you run the code chunk by pressing the green arrow, you will see the picture, but not things like the caption.</p>
+<p>Now press knit and you should see the picture, caption and options, but not the code (if echo=FALSE is included)</p>
+<p><br></p>
+<p><strong>Example</strong></p>
+<p>For example, here’s an example on chipmunks. The <code>chipmunk.webp</code> file is inside my project folder. (note, the file type doesn’t matter but you have to type it)</p>
+<p>Here’s how it looks in my .Rmd file.</p>
+<p><img src="pg_Tut4_markdown_fig11.png" width="1662" /></p>
+<p>and in the actual report:</p>
+<div class="figure" style="text-align: center">
+<img src="chipmunk.webp" alt="*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*" width="70%" />
+<p class="caption">
+<em>Chipmunks are cool, image from: <a href="https://mymodernmet.com/chris-mcveigh-chipmunk-adventures" class="uri">https://mymodernmet.com/chris-mcveigh-chipmunk-adventures</a></em>
+</p>
+</div>
+<p>For more options see the tutorial: <a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a></p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 

@@ -44,7 +44,101 @@ h2.title {
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
 ```
 
-This will be updated post-Lab-2.
+## Tutorial 8: Summary Statistics
+
+This tutorial is all about exploratory data analysis
+
+ - [**Tutorial 8A: What is a data.frame?**](#Tut8_whatisit)
+  <br>
+      a. [Understanding the data itself](#Tut8a1_basics)
+      b. [Summary Statistics](#Tut8a2_summary)
+<br>
+
+<div style="margin-bottom:25px;">
+</div>  
+### Data.frame introduction {#Tut8a_whatisit}
+
+Most of the data we will look at is in "data.frame" format.  This is a table, just like an excel spreadsheet, with one row for each observation and one column for each variable. Each column has a column name.
+
+In this tutorial, I will focus on in-built R datasets. 
+
+Let's choose one now. I'm going to work with the pirates dataset from the `yarrr` package. We can choose the data here.
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE, include=FALSE}
+library(yarrr)
+library(tidyverse)
+piratedataset <- pirates
+```
+
+```{r, eval=FALSE, echo=TRUE}
+library(yarrr)
+library(tidyverse)
+?pirates
+piratedataset <- pirates
+```
+
+
+### Looking at the data itself {#Tut8a1_basics}
+
+
+To have a look at the data there are many options. You can:
+
+ - click on its name in the environment tab
+ - Type its name into the console or into a code chunk (e.g. for our table, type `piratedataset` into the console or a code chunk)
+ - Run the command `View(variable_name)` (View is a command from the tidyverse package).<br> This will open the data in a new tab.
+ - Run the command `head(variable_name)` to see the first 6 lines or so (good for quick checks)
+ - Run the command `glimpse(variable_name)` to get a nice summary.
+ - Run the command `names(variable_name)` to get the column names.
+ - 
+ 
+<br>
+ 
+For example
+ 
+```{r}
+# Note, there are more columns to the right, use the arrow to see
+head(piratedataset)
+```
+To see what the column names are, you can use the `names(dataset)` command
+
+```{r}
+names(piratedataset)
+```
+
+Or the glimpse command:
+
+```{r}
+glimpse(piratedataset)
+```
+To see how many columns and rows there are, you can use the `nrow()` and `ncol()` commands
+
+```{r}
+nrow(piratedataset)
+ncol(piratedataset)
+```
+
+### Summary statistics {#Tut8a2_summary}
+
+To look at the summaries there are a load of options. Choose your favourites:
+
+ - `summary(dataset)`
+ - `skim(dataset)` in the skimr package
+ - `summarize(dataset)` in the papeR package. This looks pretty powerful, I'm just learning it
+
+Or look at the summary
+
+```{r}
+summary(piratedataset) 
+```
+
+In the skimr library there is the skim command
+
+```{r}
+library(skimr)
+skim(piratedataset) 
+```
+
+
 
 
 

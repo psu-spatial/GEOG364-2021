@@ -11,7 +11,7 @@
 
 
 
-<title>TEMPLATE</title>
+<title>Tutorial 15: Coding concepts</title>
 
 <script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -359,6 +359,12 @@ div.tocify {
     <li>
       <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
     </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -374,6 +380,9 @@ div.tocify {
     <li>
       <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
     </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -388,7 +397,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">TEMPLATE</h1>
+<h1 class="title toc-ignore">Tutorial 15: Coding concepts</h1>
 <h3 class="subtitle"><h5 style="font-style:normal">
 GEOG-364 - Spatial Analysis
 </h4></h3>
@@ -424,28 +433,61 @@ h2.title {
 </style>
 <p><br />
 </p>
-<p>Welcome to</p>
+<div id="tutorial-15-coding-concepts" class="section level2">
+<h2>Tutorial 15: Coding concepts</h2>
+<p>This tutorial is all about manipulating spreadsheets/data.frames/tables.</p>
 <ul>
-<li><strong>STEP A. Make a lab script template</strong>
-<ul>
-<li>A1 Set up the lab</li>
-<li>A2 Understand and edit YAML code</li>
-<li>A3 Load libraries</li>
-<li>A4 Remove library output from your html files</li>
-<li>A5 Save your lab script template</li>
-</ul></li>
-<li><strong>STEP B. Last Frost Dates Lab set-up</strong>
-<ul>
-<li>B1 Understand the context of the dataset</li>
-<li>B2 Read in the frostdata excel file</li>
-</ul></li>
-<li><strong>C. Conduct descriptive analysis &amp; data wrangling</strong>
-<ul>
-<li>C1 General summary commands</li>
-<li>C2 Summarising specific columns</li>
-</ul></li>
+<li><a href="#Tut15a_comments"><strong>Tutorial 15A: Code comments</strong></a></li>
 </ul>
 <p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="Tut15a_comments" class="section level2">
+<h2>Tutorial 15A: Comments</h2>
+<div id="what-are-they" class="section level3">
+<h3>What are they?</h3>
+<p>Comments are little notes that you can put <em>inside</em> your code chunks to remind yourself what you are doing.</p>
+<p><br></p>
+</div>
+<div id="how-to-make-one" class="section level3">
+<h3>How to make one</h3>
+<p>The confusing part about comments is that they also use the # (hash) symbol:</p>
+<p><br></p>
+<div id="the-symbol-in-your-text-area-means-heading" class="section level5 unnumbered">
+<h5 class="unnumbered"><strong>The # symbol in your TEXT AREA means “heading”</strong></h5>
+<p>Look at your script. You should now know that in the TEXT AREA, the # symbol means “new heading”. <em>(See <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4D:_Knitting">Tutorial 4</a> for a reminder)</em></p>
+<p><img src="pg_Tut15_coding_fig1.png" width="50%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="the-symbol-inside-a-code-chunk-means-commentignore-this-line" class="section level5 unnumbered">
+<h5 class="unnumbered"><strong>The # symbol inside a CODE CHUNK means “comment/ignore this line”</strong></h5>
+<p>However, INSIDE A CODE CHUNK, the # symbol tells R to “ignore” anything after it. This means you can add in notes to yourself about the commands you are running. You need a new # for every line you want to be a commenrt</p>
+<p>For example, without the #, R would give an error. But as soon as it’s there, R will ignore the text:</p>
+<p><img src="pg_Tut15_coding_fig2.png" width="40%" style="display: block; margin: auto;" /> <br></p>
+<p>I like to put my comments in little boxes to make things easier to read:</p>
+<pre class="r"><code>#--------------------------------------
+# Calculate the sum 1+1 &amp; assign to x
+#--------------------------------------
+x &lt;- 1+1</code></pre>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="why-comment" class="section level4">
+<h4>Why comment?</h4>
+<p>Comments are GREAT. You can put notes to yourself in there, explain the programming bit (allowing your text to focus more on analysis), or leave “how-to” guides.</p>
+<p><br> <br></p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+</div>
+</div>
 
 
 

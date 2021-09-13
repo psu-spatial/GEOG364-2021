@@ -336,7 +336,67 @@ Below that leave some white space and write some more text.
 
 ## Tutorial 4H: Adding photos {#Tut4H_photo}
 
-To be added 
+There are many ways to do this, with a FANTASTIC tutorial here if you get stuck:
+
+http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/
+
+<br>
+
+**Step 1:** 
+
+Go find your picture. If it's on the internet the easiest way is to right click on it and press "save as", then save the jpeg or png directly into your project folder with an easy filename.
+
+<br>
+
+**Step 2:** 
+
+Place your picture/photo into your project folder (e.g. your Lab 3 project folder). 
+
+<br>
+
+**Step 3:** 
+
+Make a new code chunk.<br> REMEMER TO ADD BLANK LINES ABOVE AND BELOW THE CODE CHUNK.
+
+
+<br>
+
+**Step 4** 
+
+Inside the code chunk, use the `knitr::include_graphics()` command from the knitr package. 
+
+
+<img src="pg_Tut4_markdown_fig10.png" width="1672" />
+
+You'll see I also added some code chunk options:
+
+ - echo=FALSE : don't show the code
+ - fig.align - 'center' : Centre align the photo when you press knit
+ - out.width - '60%' : Make your photo smaller or larger on the page
+ - fig.cap - "your caption" : Add a caption (IN QUOTES). I used * to make mine italic.
+
+If you run the code chunk by pressing the green arrow, you will see the picture, but not things like the caption. 
+
+Now press knit and you should see the picture, caption and options, but not the code (if echo=FALSE is included)
+
+<br>
+
+**Example**
+
+For example, here's an example on chipmunks. The `chipmunk.webp` file is inside my project folder. (note, the file type doesn't matter but you have to type it)
+
+Here's how it looks in my .Rmd file.
+
+<img src="pg_Tut4_markdown_fig11.png" width="1662" />
+
+and in the actual report:
+
+<div class="figure" style="text-align: center">
+<img src="chipmunk.webp" alt="*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*" width="70%" />
+<p class="caption">*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*</p>
+</div>
+For more options see the tutorial: http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/
+
 
 <br>
 

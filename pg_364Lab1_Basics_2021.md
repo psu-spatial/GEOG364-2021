@@ -210,8 +210,8 @@ ggplotly(p)  # Plot interactively
 
 Now below your code, answer the following questions.
 
-1. What's the unit of observation? (e.g. what does one row correspond to)
-2. What is the mean/average age of the cars in the dataset?
+1. What's the unit of observation? (e.g. what does one row in the MPG SPREADSHEET/TABLE correspond to)
+2. What is the mean/average manufacturing year of the car models in the dataset?
 3. As fully as possible, describe the relationship between car’s engine size and its fuel efficiency on the highway 
 
 If you want to make it neat, you can use sub headings, or bold/italic text (see that R cheatsheet).  Press knit a lot!  Check you haven't made a mistake, check it all works.

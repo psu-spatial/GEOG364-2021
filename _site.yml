@@ -26,13 +26,19 @@ navbar:
         - text: "9. Distributions & Inferential Stats"
           href: pg_Tut9_dist_stats.html 
         - text: "10. Plotting non-spatial data"
-          href: pg_Tut10_plot.html         
+          href: pg_Tut10_plot.html   
+        - text: "11. Spatial data analysis"
+          href: pg_Tut11_spatial101.html 
+        - text: "15. Coding"
+          href: pg_Tut15_coding.html 
     - text: "Labs"
       menu:
         - text: "Lab 1: R-Basics"
           href: pg_364Lab1_Basics_2021.html  
         - text: "Lab 2: Playing with data"
           href: pg_364Lab2_Summary_2021.html   
+        - text: "Lab 3: Spatial"
+          href: pg_364Lab3_Spatial_2021.html   
 output:
   html_document:
     theme: flatly
