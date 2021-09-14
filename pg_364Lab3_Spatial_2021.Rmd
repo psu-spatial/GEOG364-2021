@@ -137,13 +137,14 @@ knitr::include_graphics('pg_364Lab3_Spatial_2021_fig2.png')
      + Change the theme if you like :) If you want a big change, check out darkly.<br>     
      + Edit the library code chunk so it looks like this:
        ```{r,eval=FALSE}
-       library(knitr)
+       library(knitr) 
        library(tidyverse)
        library(sf)
        library(sp)
        library(tmap)
-       library(skim)
+       library(skimr)
        library(rnaturalearth)
+       library(readxl)
        ```
 <br>   
    + In the **CONSOLE**, run this command to download the RNaturalEarth highres data (this is a one off).<br> *If running this comes up with an error like "skipping install because it's not changed, it means you have already downloaded this and can move on.*
@@ -385,7 +386,7 @@ myplot
 
 <br>
 
-29. A friend of mine is convinced that the firefly sightings are linked to temperatures and elevation.  Another friend is convinced that they are linked to light pollution and cities.<br>Change the base-maps in the interactive maps (there's a layer button) to explore and comment on this topic.
+29. A friend of mine is convinced that the firefly sightings are linked to temperatures and elevation.  Another friend is convinced that they are linked to light pollution and cities.<br>Change the base-maps in the INTERACTIVE MAP (there's a layer button under the zoom) to explore and comment on this topic.  For example the terrain layer gives a sense of elevation and the open maps layer will let you see where the cities are..
 
 <br> 
 

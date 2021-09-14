@@ -1,0 +1,170 @@
+---
+title: "GEOG 364 Lab1: R basics"
+author: "TA WORKED ANSWERS"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: yes
+    number_sections: yes
+    theme: sandstone
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Here are brief worked answers to lab 1.  Scroll to the end for a screenshot of the code.
+
+The formatting is less consistent in order to show you new cool R stuff. Note, in the code, <br> means leave a blank space and {-} means don't add a section number.
+
+<br>
+
+# Introduction to GEOG-364
+
+<br>
+
+## Late Policy
+
+##### Homeworks {-}
+
+Late homework submissions are not acceptable, unless it is only a few minutes late. Instead, I are allowed to drop 3 of your lowest performed homeworks. 
+
+##### Labs  {-}
+
+For labs, the situation is different:
+
+ - I can drop my lowest lab grade. 
+ - If my lab is a few hours late, this is OK. **However it is at my own risk.**  Solutions to the lab can (and will!) be posted anytime past the submission deadline (even minutes late), after which I cannot submit the lab and will therefore receive a zero for the lab.   
+  - If I am habitually late, I will recieve a written warning. I f late submission continues after the warning, I will lose 5% of the grade for the specific lab for every 24 hours the submission is late, beginning from the date and time the report was due.
+
+<br>
+
+# Code Showcase 
+
+```{r}
+# 103 cubed
+103^3
+```
+
+```{r}
+# cosine of 31
+cos(31)
+```
+
+```{r}
+# number of characters
+nchar("Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch")
+```
+
+```{r}
+# sequence
+seq(1000, 2000, by = 100)
+```
+
+<br>
+
+# Packages
+
+We are loading them all only for lab 1.  I'm using the ; symbol to put multiple lines of code onthe same line. I used message and warning = false in the code chunk option to stop the text printing out.  
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)  ; library(knitr)        ;  library(rgdal) 
+library(sp)         ; library(sf)           ; library(spatstat) 
+library(raster)     ;  library(lattice)     ; library(tmap) 
+library(dismo)      ;  library(maptools)    ; library(RColorBrewer) 
+library(ISLR)       ;  library(yarrr)       ;  library(skimr) 
+library(Stat2Data)  ;  library(olsrr)       ;  library(USAboundaries) 
+library(elevatr)    ;  library(corrplot)    ; library(ggpubr) 
+library(car)        ;  library(hrbrthemes)  ; library(plotly) 
+library(rmapshaper) ;  library(spatialreg)  ;  library(spatialEco) 
+library(tidycensus) ;  library(tigris)      ;  library(units) 
+library(spdep)      ;  library(abind)       ;  library(fields) 
+library(matlab)     ;  library(rasterVis)   ;  library(maps)
+library(mapdata)    ;  library(mapview)     ;  library(ncdf4) 
+library(remotes)    ;  library(rmdformats)  ;  library(rnaturalearth) 
+library(rgeos)      ; library(car)
+```
+
+# Car Analysis
+
+`mpg` is a dataset from the ggplot package that shows the fuel economy or miles traveled per galon for car models that had new annual releases between 1999 and 2008. 
+
+The dataset contains 234 rows and 11 variables representing various form of information relevant for determining the distance a car travels per gallon of fuel. 
+
+Each row represents a specific car model that you could buy (e.g row 1 is the "1999 Audi A4 automatic 4 cylinder" model)
+
+```{r}
+mpg[1,]
+```
+
+
+
+```{r}
+skim(mpg)
+```
+
+```{r}
+# Choose the dataset and tell R the columns to plot
+p <- ggplot(data = mpg) +                  
+     geom_point(mapping = aes(x = displ, y = hwy, color = class)) 
+
+ggplotly(p)  # Plot interactively
+```
+
+**What’s the unit of observation? (e.g. what does one row correspond to)**
+
+Each row in the dataset corresponds to a car model as uniquely identified by its characteristics. 
+
+**What is the mean/average age of the cars in the dataset?**
+
+From skim, I can see that on average, the avergae model manufacture year was June 2004 (2003.5). This means the average model age is 17.5 (2021-`r mean(mpg$year)` = `r 2021- mean(mpg$year)`)
+
+**How many cars are in the dataset? (hint, how many rows)**
+
+There are `r nrow(mpg)` unique car models in the dataset.
+
+**As fully as possible, describe the relationship between car’s engine size and its fuel efficiency on the highway**
+
+In general, cars with large engine sizes have a low fuel efficiency. The scatterplot has a negative gradient, so as engine size increases, fuel efficiency goes down... 
+
+BUT!  This depends on car class. We can observe from the figure that even cars of the same class have variable engine sizes.
+
+*In general*, their fuel efficiency drops with increasing engine size.  However there are exceptions to this relationship where some of the car models e.g., the 2seater do not decrease fuel efficiency with increasing engine size.  
+
+This is another (non-spatial) example of the ecological fallacy.  e.g. our relationship only holds for specific car type, so looking at the plot without the car-class dot colors would lead to an inappropriate conclusion.
+
+
+<br>
+
+# CODE EXAMPLE
+
+```{r, Ans1Fig1, echo=FALSE, fig.align='center'}
+knitr::include_graphics('pg_364Lab1_Basics_2021_WORKEDANS_fig1.png')
+```
+
+```{r, Ans1Fig2, echo=FALSE, fig.align='center'}
+knitr::include_graphics('pg_364Lab1_Basics_2021_WORKEDANS_fig2.png')
+```
+
+```{r, Ans1Fig3, echo=FALSE, fig.align='center'}
+knitr::include_graphics('pg_364Lab1_Basics_2021_WORKEDANS_fig3.png')
+```
+
+```{r, Ans1Fig4, echo=FALSE, fig.align='center'}
+knitr::include_graphics('pg_364Lab1_Basics_2021_WORKEDANS_fig4.png')
+```
+
+```{r, Ans1Fig5, echo=FALSE, fig.align='center'}
+knitr::include_graphics('pg_364Lab1_Basics_2021_WORKEDANS_fig5.png')
+```
+
+
+
+
+
+
+
+
+
