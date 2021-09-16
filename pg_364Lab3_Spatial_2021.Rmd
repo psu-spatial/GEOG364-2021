@@ -153,7 +153,9 @@ knitr::include_graphics('pg_364Lab3_Spatial_2021_fig2.png')
        ```
 <br>
 
-5. Press knit. You screen should look like this.  If so,congrats! If not, ASK FOR HELP
+5. Press knit. You screen should look like this.  If so,congrats! If not, ASK FOR HELP.  Note, your message=FALSE and warning = FALSE can go in the general options like my screenshot, or as "code chunk options" for the library chunk
+
+Also, if R-studio isn't "in" your lab 3 project, close R studio, go to your lab 3 folder and double click the .Rproj to open your lab 3 project
 
 ```{r, Lab3Fig3, echo=FALSE, fig.align='center',out.width="90%"}
 knitr::include_graphics('pg_364Lab3_Spatial_2021_fig3.png')
@@ -191,7 +193,7 @@ Reports look better with pictures & photos.
 
 <br>
 
-11. Explain also why you added echo=FALSE into the code chunk options (hint: https://rmarkdown.rstudio.com/lesson-3.html)
+11. Below in the text (or somewhere obvious), explain also why you added echo=FALSE into the code chunk options (hint: https://rmarkdown.rstudio.com/lesson-3.html)
 
 <br>
 
