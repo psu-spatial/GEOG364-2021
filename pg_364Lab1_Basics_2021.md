@@ -283,6 +283,76 @@ You get 2/4 for doing something new in any way and 4/4 for something really impr
 [100 marks total]
 
 
+Overall, here is what your lab should correspond to:
+
+<table class=" lightable-classic-2 table table-striped table-hover table-responsive" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; margin-left: auto; margin-right: auto; margin-left: auto; margin-right: auto;'>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Grade </th>
+   <th style="text-align:left;"> % Mark </th>
+   <th style="text-align:left;"> Rubric </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> A* </td>
+   <td style="text-align:left;"> 98-100 </td>
+   <td style="text-align:left;"> Exceptional.  Not only was it near perfect, but the graders learned something.  THIS IS HARD TO GET. </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NA </td>
+   <td style="text-align:left;"> 96+ </td>
+   <td style="text-align:left;"> You went above and beyond </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> A </td>
+   <td style="text-align:left;"> 93+: </td>
+   <td style="text-align:left;"> Everything asked for with high quality.   Class example </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> A- </td>
+   <td style="text-align:left;"> 90+ </td>
+   <td style="text-align:left;"> The odd minor mistake, All code done but not written up in full sentences etc. A little less care </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B+ </td>
+   <td style="text-align:left;"> 87+ </td>
+   <td style="text-align:left;"> More minor mistakes.  Things like missing units, getting the odd question wrong, no workings shown </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B </td>
+   <td style="text-align:left;"> 83+ </td>
+   <td style="text-align:left;"> Solid work but the odd larger mistake or missing answer.  Completely misinterpreted something, that type of thing </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> B- </td>
+   <td style="text-align:left;"> 80+ </td>
+   <td style="text-align:left;"> Starting to miss entire/questions sections, or multiple larger mistakes. Still a solid attempt.  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> C+ </td>
+   <td style="text-align:left;"> 77+ </td>
+   <td style="text-align:left;"> You made a good effort and did some things well, but there were a lot of problems. (e.g. you wrote up the text well, but messed up the code) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> C </td>
+   <td style="text-align:left;"> 70+ </td>
+   <td style="text-align:left;"> It’s clear you tried and learned something.  Just attending labs will get you this much as we can help you get to this stage </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> D </td>
+   <td style="text-align:left;"> 60+ </td>
+   <td style="text-align:left;"> You attempt the lab and submit something. Not clear you put in much effort or you had real issues </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> F </td>
+   <td style="text-align:left;"> 0+ </td>
+   <td style="text-align:left;"> Didn’t submit, or incredibly limited attempt.  </td>
+  </tr>
+</tbody>
+</table>
+
+
 ***
 
 

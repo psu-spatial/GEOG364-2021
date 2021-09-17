@@ -243,48 +243,300 @@ skim(piratedataset)
 ```
 
 
-Table: Data summary
-
-|                         |              |
-|:------------------------|:-------------|
-|Name                     |piratedataset |
-|Number of rows           |1000          |
-|Number of columns        |17            |
-|_______________________  |              |
-|Column type frequency:   |              |
-|character                |6             |
-|numeric                  |11            |
-|________________________ |              |
-|Group variables          |None          |
+<table style='width: auto;'
+        class='table table-condensed'>
+<caption>Data summary</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;">   </th>
+   <th style="text-align:left;">   </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Name </td>
+   <td style="text-align:left;"> piratedataset </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of rows </td>
+   <td style="text-align:left;"> 1000 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Number of columns </td>
+   <td style="text-align:left;"> 17 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> _______________________ </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Column type frequency: </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> character </td>
+   <td style="text-align:left;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> numeric </td>
+   <td style="text-align:left;"> 11 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ________________________ </td>
+   <td style="text-align:left;">  </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Group variables </td>
+   <td style="text-align:left;"> None </td>
+  </tr>
+</tbody>
+</table>
 
 
 **Variable type: character**
 
-|skim_variable   | n_missing| complete_rate| min| max| empty| n_unique| whitespace|
-|:---------------|---------:|-------------:|---:|---:|-----:|--------:|----------:|
-|sex             |         0|             1|   4|   6|     0|        3|          0|
-|headband        |         0|             1|   2|   3|     0|        2|          0|
-|college         |         0|             1|   4|   5|     0|        2|          0|
-|favorite.pirate |         0|             1|   4|  12|     0|        6|          0|
-|sword.type      |         0|             1|   5|   8|     0|        4|          0|
-|fav.pixar       |         0|             1|   2|  19|     0|       15|          0|
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> skim_variable </th>
+   <th style="text-align:right;"> n_missing </th>
+   <th style="text-align:right;"> complete_rate </th>
+   <th style="text-align:right;"> min </th>
+   <th style="text-align:right;"> max </th>
+   <th style="text-align:right;"> empty </th>
+   <th style="text-align:right;"> n_unique </th>
+   <th style="text-align:right;"> whitespace </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> sex </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> headband </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> college </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> favorite.pirate </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sword.type </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> fav.pixar </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 0 </td>
+  </tr>
+</tbody>
+</table>
 
 
 **Variable type: numeric**
 
-|skim_variable | n_missing| complete_rate|   mean|     sd|     p0|    p25|    p50|    p75|    p100|hist  |
-|:-------------|---------:|-------------:|------:|------:|------:|------:|------:|------:|-------:|:-----|
-|id            |         0|             1| 500.50| 288.82|   1.00| 250.75| 500.50| 750.25| 1000.00|▇▇▇▇▇ |
-|age           |         0|             1|  27.36|   5.79|  11.00|  24.00|  27.00|  31.00|   46.00|▁▅▇▃▁ |
-|height        |         0|             1| 170.23|  12.39| 129.83| 161.36| 169.86| 178.54|  209.25|▁▅▇▅▁ |
-|weight        |         0|             1|  69.74|  10.82|  33.00|  62.08|  69.55|  76.90|  105.60|▁▃▇▅▁ |
-|tattoos       |         0|             1|   9.43|   3.37|   0.00|   7.00|  10.00|  12.00|   19.00|▁▃▇▃▁ |
-|tchests       |         0|             1|  22.69|  24.46|   0.00|   6.00|  15.00|  30.00|  147.00|▇▂▁▁▁ |
-|parrots       |         0|             1|   2.82|   3.21|   0.00|   1.00|   2.00|   4.00|   27.00|▇▁▁▁▁ |
-|eyepatch      |         0|             1|   0.66|   0.47|   0.00|   0.00|   1.00|   1.00|    1.00|▅▁▁▁▇ |
-|sword.time    |         0|             1|   2.54|   9.33|   0.00|   0.22|   0.58|   1.33|  169.88|▇▁▁▁▁ |
-|beard.length  |         0|             1|  10.38|  10.31|   0.00|   0.00|   9.00|  20.00|   40.00|▇▂▅▂▁ |
-|grogg         |         0|             1|  10.14|   3.07|   0.00|   8.00|  10.00|  12.00|   21.00|▁▅▇▃▁ |
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> skim_variable </th>
+   <th style="text-align:right;"> n_missing </th>
+   <th style="text-align:right;"> complete_rate </th>
+   <th style="text-align:right;"> mean </th>
+   <th style="text-align:right;"> sd </th>
+   <th style="text-align:right;"> p0 </th>
+   <th style="text-align:right;"> p25 </th>
+   <th style="text-align:right;"> p50 </th>
+   <th style="text-align:right;"> p75 </th>
+   <th style="text-align:right;"> p100 </th>
+   <th style="text-align:left;"> hist </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> id </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 500.50 </td>
+   <td style="text-align:right;"> 288.82 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:right;"> 250.75 </td>
+   <td style="text-align:right;"> 500.50 </td>
+   <td style="text-align:right;"> 750.25 </td>
+   <td style="text-align:right;"> 1000.00 </td>
+   <td style="text-align:left;"> ▇▇▇▇▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 27.36 </td>
+   <td style="text-align:right;"> 5.79 </td>
+   <td style="text-align:right;"> 11.00 </td>
+   <td style="text-align:right;"> 24.00 </td>
+   <td style="text-align:right;"> 27.00 </td>
+   <td style="text-align:right;"> 31.00 </td>
+   <td style="text-align:right;"> 46.00 </td>
+   <td style="text-align:left;"> ▁▅▇▃▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> height </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 170.23 </td>
+   <td style="text-align:right;"> 12.39 </td>
+   <td style="text-align:right;"> 129.83 </td>
+   <td style="text-align:right;"> 161.36 </td>
+   <td style="text-align:right;"> 169.86 </td>
+   <td style="text-align:right;"> 178.54 </td>
+   <td style="text-align:right;"> 209.25 </td>
+   <td style="text-align:left;"> ▁▅▇▅▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> weight </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 69.74 </td>
+   <td style="text-align:right;"> 10.82 </td>
+   <td style="text-align:right;"> 33.00 </td>
+   <td style="text-align:right;"> 62.08 </td>
+   <td style="text-align:right;"> 69.55 </td>
+   <td style="text-align:right;"> 76.90 </td>
+   <td style="text-align:right;"> 105.60 </td>
+   <td style="text-align:left;"> ▁▃▇▅▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tattoos </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 9.43 </td>
+   <td style="text-align:right;"> 3.37 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 7.00 </td>
+   <td style="text-align:right;"> 10.00 </td>
+   <td style="text-align:right;"> 12.00 </td>
+   <td style="text-align:right;"> 19.00 </td>
+   <td style="text-align:left;"> ▁▃▇▃▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> tchests </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 22.69 </td>
+   <td style="text-align:right;"> 24.46 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 6.00 </td>
+   <td style="text-align:right;"> 15.00 </td>
+   <td style="text-align:right;"> 30.00 </td>
+   <td style="text-align:right;"> 147.00 </td>
+   <td style="text-align:left;"> ▇▂▁▁▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> parrots </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2.82 </td>
+   <td style="text-align:right;"> 3.21 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:right;"> 2.00 </td>
+   <td style="text-align:right;"> 4.00 </td>
+   <td style="text-align:right;"> 27.00 </td>
+   <td style="text-align:left;"> ▇▁▁▁▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> eyepatch </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0.66 </td>
+   <td style="text-align:right;"> 0.47 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:right;"> 1.00 </td>
+   <td style="text-align:left;"> ▅▁▁▁▇ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> sword.time </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2.54 </td>
+   <td style="text-align:right;"> 9.33 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 0.22 </td>
+   <td style="text-align:right;"> 0.58 </td>
+   <td style="text-align:right;"> 1.33 </td>
+   <td style="text-align:right;"> 169.88 </td>
+   <td style="text-align:left;"> ▇▁▁▁▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> beard.length </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 10.38 </td>
+   <td style="text-align:right;"> 10.31 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 9.00 </td>
+   <td style="text-align:right;"> 20.00 </td>
+   <td style="text-align:right;"> 40.00 </td>
+   <td style="text-align:left;"> ▇▂▅▂▁ </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> grogg </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 10.14 </td>
+   <td style="text-align:right;"> 3.07 </td>
+   <td style="text-align:right;"> 0.00 </td>
+   <td style="text-align:right;"> 8.00 </td>
+   <td style="text-align:right;"> 10.00 </td>
+   <td style="text-align:right;"> 12.00 </td>
+   <td style="text-align:right;"> 21.00 </td>
+   <td style="text-align:left;"> ▁▅▇▃▁ </td>
+  </tr>
+</tbody>
+</table>
 
 
 
