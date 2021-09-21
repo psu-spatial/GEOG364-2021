@@ -383,10 +383,13 @@ div.tocify {
     <li>
       <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
     </li>
+    <li>
+      <a href="pg_364Lab4_Manip_2021.html">Lab 4: Spatial Intermediate</a>
+    </li>
   </ul>
 </li>
 <li>
-  <a href="pg_364Lab1_Basics_2021_WORKEDANS.html">LAB 1 WORKED ANSWER</a>
+  <a href="pg_364Lab2_Summary_2021_WORKEDANS.html">LAB 2 WORKED ANSWER</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -611,9 +614,18 @@ output:
 <h4>Other code chunk options</h4>
 <p>There are loads here along with a nice tutorial: <a href="https://rmarkdown.rstudio.com/lesson-3.html" class="uri">https://rmarkdown.rstudio.com/lesson-3.html</a></p>
 <p><br></p>
+</div>
+</div>
+<div id="Tut4Ec_inline" class="section level3">
+<h3>Inline code</h3>
+<p>Follow these tutorial to see how to add inline code. e.g. answers to commands INSIDE your text</p>
+<ul>
+<li><a href="https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html</a></li>
+<li><a href="https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/" class="uri">https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/</a></li>
+<li><a href="https://rmarkdown.rstudio.com/lesson-4.html" class="uri">https://rmarkdown.rstudio.com/lesson-4.html</a></li>
+</ul>
 <div style="margin-bottom:25px;">
 
-</div>
 </div>
 </div>
 </div>
@@ -625,6 +637,11 @@ output:
 <h3><strong>Paragraphs and white space - READ THIS:</strong></h3>
 <p>R is very sensitive to blank white lines. Put them everywhere. Put a blank line between paragraphs, before/after headings, before lists, before/after code chunks…. If your formatting isn’t working well, chances are there isn’t a blank line before or after it.</p>
 <p><br></p>
+</div>
+<div id="markdown-visual-editor" class="section level3">
+<h3><strong>Markdown visual editor</strong></h3>
+<p>Write Markdown in the RStudio visual editor</p>
+<p>If you are not familiar with Markdown yet, or do not prefer writing Markdown code, RStudio v1.4 has included an experimental visual editor for Markdown documents, which feels similar to traditional WYSIWYG editors like Word, as shown in Figure 3.1. You can find the full documentation at <a href="https://rstudio.github.io/visual-markdown-editing/" class="uri">https://rstudio.github.io/visual-markdown-editing/</a></p>
 </div>
 <div id="getting-formatting-help" class="section level3">
 <h3><strong>Getting formatting help:</strong></h3>
@@ -702,7 +719,7 @@ output:
 <em>Chipmunks are cool, image from: <a href="https://mymodernmet.com/chris-mcveigh-chipmunk-adventures" class="uri">https://mymodernmet.com/chris-mcveigh-chipmunk-adventures</a></em>
 </p>
 </div>
-<p>For more options see the tutorial: <a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a></p>
+<p><strong>For more options see the tutorial: <a href="http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/" class="uri">http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/</a> </strong></p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
@@ -710,10 +727,67 @@ output:
 </div>
 <div id="Tut4I_Eqn" class="section level2">
 <h2>Tutorial 4I: Adding equations</h2>
-<p>To be added</p>
+<p><strong>Great tutorial here: <a href="https://rmd4sci.njtierney.com/math" class="uri">https://rmd4sci.njtierney.com/math</a> Highly recomemended for details</strong> <br></p>
+<div id="stand-alone-equations" class="section level3">
+<h3>Stand alone equations</h3>
+<p>We can add professional equations into your reports. We do this by making an “equation chunk”. Instead of the code-symbols , we use <code>$$</code> where each contains a single equation. For example</p>
+<p><img src="pg_Tut4_markdown_fig12.png" width="1458" /></p>
+<p>will make</p>
+<p><span class="math display"><em>y</em> = 2 + 2</span></p>
+<p>Note the fancy version of the equation will definitely appear when you press knit and normally preview in your editing window. Yours might look fancier than mine when you press knit, my fonts aren’t working right.</p>
+<p>Note, this isn’t real code! It’s fancy text. So you can lie and it doesn’t auto complete. e.g.</p>
+<p><img src="pg_Tut4_markdown_fig13.png" width="1504" /></p>
+<p><span class="math display"><em>y</em> = 2 + 2</span> <span class="math display"><em>y</em> = 5</span> <span class="math display">2 + 2 = 5 * <em>h</em><em>e</em><em>l</em><em>l</em><em>o</em></span></p>
+<p><br> <br></p>
+</div>
+<div id="inline-equations" class="section level3">
+<h3>Inline equations</h3>
+<p>You can also add equations into your text using inline-equations. These are referenced by surrounding your equation with dollar signs: $.</p>
+<p>This text (NORMAL TEXT NOT IN A CODE CHUNK)</p>
+<p><img src="pg_Tut4_markdown_fig14.png" width="986" /></p>
+<p>Generates:</p>
+<p>So this text would have an equation here <span class="math inline"><em>E</em> = <em>m</em><em>c</em><sup>2</sup></span></p>
+<p><br> <br></p>
+</div>
+<div id="making-complex-equations" class="section level3">
+<h3>Making complex equations</h3>
+<p>There are special symbols for all the greek/latin words, for making fractions, etc etc. The easiest way by far to create them, is to use an online equation generator where you can create the equation you want, then it will tell you the code</p>
+<p>There are loads out there. One favourite:</p>
+<ul>
+<li><a href="http://atomurl.net/math/" class="uri">http://atomurl.net/math/</a></li>
+</ul>
+<p>For example</p>
+<p><img src="pg_Tut4_markdown_fig15.png" width="2058" /></p>
+<p>Then I copy the code into my text</p>
+<p>This will show as:</p>
+<p><img src="pg_Tut4_markdown_fig16.png" width="1584" /></p>
+<p>NOTE FOR ME ON THIS WEBSITE THIS IS BROKEN AND SHOWS THE COMMAND, FOR YOU IT SHOULD WORK.</p>
+<p><span class="math display">$$
+\frac{\sum_{_i}^nx}{n}
+$$</span></p>
+<p>or into my sentence e.g. I’m very happy that <span class="math inline">$\frac{\sum_{_i}^nx}{n}$</span> and I hope you are too.</p>
+</div>
+<div id="its-broken" class="section level3">
+<h3>Its broken</h3>
+<p>Sometimes R doesn’t understand the code when it presses knit. I’m working on it. Let me know. As you can see my special website knit hates equations.</p>
+</div>
+<div id="adding-in-r-online-code-output" class="section level3">
+<h3>Adding in R online code output</h3>
+<p>What if we want our equations to autocomplete? Well, we can combine this with our inline code. So instead of typing numbers we type code for it to calculate</p>
+<p>e.g. Imagine this code chunk with echo =FALSE so you can’t see it.</p>
+<pre class="r"><code>mydata &lt;- c(1,4,2,252,2,5)</code></pre>
+<p>Then in your text, the sum of my data is.</p>
+<p><span class="math display">$$
+\overline{x} = 266
+$$</span></p>
+<p>Or more complex.. This will look weird in the code, but should work when you press knit. As you can see, for me it does not.</p>
+<p><span class="math display">$$
+\frac{\sum_{_i}^nx}{n} = `{r mean(mydata)}`
+$$</span></p>
 <p><br></p>
 <div style="margin-bottom:25px;">
 
+</div>
 </div>
 </div>
 <div id="Tut4J_ref" class="section level2">

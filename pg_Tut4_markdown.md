@@ -271,6 +271,16 @@ There are loads here along with a nice tutorial: https://rmarkdown.rstudio.com/l
 
 <br>
 
+### Inline code {#Tut4Ec_inline}
+
+Follow these tutorial to see how to add inline code. e.g. answers to commands INSIDE your text
+
+ - https://bookdown.org/yihui/rmarkdown-cookbook/r-code.html
+ - https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/
+ - https://rmarkdown.rstudio.com/lesson-4.html
+
+ 
+
 <div style="margin-bottom:25px;">
 </div>  
 ## Tutorial 4G: Formatting text {#Tut4G_format}
@@ -284,6 +294,13 @@ You can treat this like a slightly weird Word document, allowing you to write a 
 R is very sensitive to blank white lines. Put them everywhere. Put a blank line between paragraphs, before/after headings, before lists, before/after code chunks…. If your formatting isn’t working well, chances are there isn’t a blank line before or after it.
 
 <br> 
+
+### **Markdown visual editor**
+
+Write Markdown in the RStudio visual editor
+
+If you are not familiar with Markdown yet, or do not prefer writing Markdown code, RStudio v1.4 has included an experimental visual editor for Markdown documents, which feels similar to traditional WYSIWYG editors like Word, as shown in Figure 3.1. You can find the full documentation at https://rstudio.github.io/visual-markdown-editing/
+
 
 ### **Getting formatting help:**
 
@@ -395,7 +412,8 @@ and in the actual report:
 <img src="chipmunk.webp" alt="*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*" width="70%" />
 <p class="caption">*Chipmunks are cool, image from: https://mymodernmet.com/chris-mcveigh-chipmunk-adventures*</p>
 </div>
-For more options see the tutorial: http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/
+
+**For more options see the tutorial: http://zevross.com/blog/2017/06/19/tips-and-tricks-for-working-with-images-and-figures-in-r-markdown-documents/ **
 
 
 <br>
@@ -404,7 +422,121 @@ For more options see the tutorial: http://zevross.com/blog/2017/06/19/tips-and-t
 </div> 
 ## Tutorial 4I: Adding equations {#Tut4I_Eqn}
 
-To be added
+**Great tutorial here: https://rmd4sci.njtierney.com/math Highly recomemended for details** 
+<br>
+
+### Stand alone equations
+
+We can add professional equations into your reports.  We do this by making an "equation chunk".  Instead of the code-symbols , we use `$$` where each contains a single equation. For example
+
+<img src="pg_Tut4_markdown_fig12.png" width="1458" />
+
+will make
+
+$$
+ y = 2+2
+$$
+
+Note the fancy version of the equation will definitely appear when you press knit and normally preview in your editing window.   Yours might look fancier than mine when you press knit, my fonts aren't working right.
+
+
+Note, this isn't real code!  It's fancy text. So you can lie and it doesn't auto complete.  e.g.
+
+<img src="pg_Tut4_markdown_fig13.png" width="1504" />
+
+
+$$
+ y = 2+2
+$$
+$$
+ y = 5
+$$
+$$
+ 2+2 = 5*hello
+$$
+
+<br>
+<br>
+
+### Inline equations
+
+
+You can also add equations into your text using inline-equations. These are referenced by surrounding your equation with dollar signs: $.  
+
+This text (NORMAL TEXT NOT IN A CODE CHUNK)
+
+<img src="pg_Tut4_markdown_fig14.png" width="986" />
+
+Generates:
+
+So this text would have an equation here $E = mc^2$
+
+<br>
+<br>
+
+### Making complex equations
+
+There are special symbols for all the greek/latin words, for making fractions, etc etc.  The easiest way by far to create them, is to use an online equation generator where you can create the equation you want, then it will tell you the code
+
+
+There are loads out there.  One favourite:
+
+ - http://atomurl.net/math/
+
+
+For example
+
+<img src="pg_Tut4_markdown_fig15.png" width="2058" />
+
+Then I copy the code into my text
+
+
+This will show as:
+
+<img src="pg_Tut4_markdown_fig16.png" width="1584" />
+
+NOTE FOR ME ON THIS WEBSITE THIS IS BROKEN AND SHOWS THE COMMAND, FOR YOU IT SHOULD WORK.
+
+$$
+\frac{\sum_{_i}^nx}{n}
+$$
+
+or into my sentence e.g. I'm very happy that $\frac{\sum_{_i}^nx}{n}$ and I hope you are too.
+
+### Its broken
+
+Sometimes R doesn't understand the code when it presses knit. I'm working on it. Let me know. As you can see my special website knit hates equations.
+
+
+
+### Adding in R online code output
+
+What if we want our equations to autocomplete?  Well, we can combine this with our inline code. So instead of typing numbers we type code for it to calculate 
+
+e.g.  Imagine this code chunk with echo =FALSE so you can't see it.
+
+
+```r
+mydata <- c(1,4,2,252,2,5)
+```
+
+
+Then in your text, the sum of my data is.  
+
+$$
+\overline{x} = 266
+$$
+
+
+Or more complex.. This will look weird in the code, but should work when you press knit.  As you can see, for me it does not.
+
+
+$$
+\frac{\sum_{_i}^nx}{n} = `{r mean(mydata)}`
+$$
+
+
+
 
 <br>
 

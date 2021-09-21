@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Lab 4: Manipulating Spatial Data</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
+    </li>
+    <li>
+      <a href="pg_364Lab4_Manip_2021.html">Lab 4: Spatial Intermediate</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="pg_364Lab2_Summary_2021_WORKEDANS.html">LAB 2 WORKED ANSWER</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab 4: Manipulating Spatial Data</h1>
+<h3 class="subtitle"><h4 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<div id="welcome-to-lab-4" class="section level2">
+<h2>Welcome to Lab 4!</h2>
+<p><br></p>
+<p>The aim of this lab is start getting more comfortable making high quality maps and manipulating data. We will also learn about some new markdown techniques for “inline code” and adding equations By the end of the lab you will be able to.</p>
+<ul>
+<li><ol style="list-style-type: decimal">
+<li>Use inline code commands</li>
+</ol></li>
+<li><ol start="2" style="list-style-type: decimal">
+<li>Insert an equation into your text and data</li>
+</ol></li>
+<li><ol start="3" style="list-style-type: decimal">
+<li>Make beautiful spatial plots</li>
+</ol></li>
+<li><ol start="4" style="list-style-type: decimal">
+<li>Read in shapefiles and manipulate your data spatially</li>
+</ol></li>
+<li><ol start="5" style="list-style-type: decimal">
+<li>Re-analyse your new york data</li>
+</ol></li>
+</ul>
+<p>Assignment 4 is due by midnight the night before your next lab on Canvas. Your job is to submit the requirements on this page.</p>
+<p>See <a href="https://psu.instructure.com/courses/2120046/assignments/13274836"><strong>your canvas assignment here</strong></a>. E.g go to canvas for assignment guidelines.</p>
+<p class="comment">
+<strong>Need help?</strong> Add a screenshot/question to the discussion board here: <a href="https://psu.instructure.com/courses/2120046/discussion_topics/14125712"><strong>LAB 4 DISCUSSION BOARD</strong></a>
+</p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="step-a-set-up-the-lab" class="section level2">
+<h2>Step A: Set up the lab</h2>
+<p>First, we want to set up R in the same way as before, creating a project file and a blank markdown document. This will be the last time I am going to spell it out.</p>
+<ol style="list-style-type: decimal">
+<li>Open R-Studio.<br>Create a new R-Project in your GEOG-364 folder called <code>GEOG364_Lab4_PROJECT</code>.<br><em>Reminder: <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html">Tutorial 2C: Projects</a></em>.</li>
+</ol>
+<p><br></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Go on Canvas to the Lab 4 page and download any datasets as needed.<br>Put it/them in your <code>GEOG364_Lab4_PROJECT</code> folder. See the lab 3 instructions for how it should look.</li>
+</ol>
+<p><br></p>
+<ol start="3" style="list-style-type: decimal">
+<li><p>Let’s retrieve our lab template:</p>
+<ol style="list-style-type: lower-alpha">
+<li><em>If you’re on your own computer:</em><br>
+<ul>
+<li>Make a <strong>COPY</strong> of the template Rmd file. <br></li>
+<li>Rename the <strong>COPY</strong> <code>GEOG364_Lab4_userID_CODE.Rmd</code> e.g. for me GEOG364_Lab3_hlg5155_CODE.Rmd <br></li>
+<li>Move GEOG364_Lab4_userID_CODE.Rmd into your GEOG364_Lab4_PROJECT folder. <br></li>
+</ul></li>
+</ol>
+<p><br></p>
+<ol start="2" style="list-style-type: lower-alpha">
+<li><em>If you’re using R-studio cloud.</em><br>
+<ul>
+<li>MAKE SURE YOU WENT TO YOUR WORKSPACE AND MADE A LAB 4 PROJECT!</li>
+<li>Click on your Lab 4 project folder <br></li>
+<li>In the files tab, click the check box by your template file, then click the More button/Export and download it. <br></li>
+<li>Click on Workspaces (top left) and enter your Lab 4 project folder. <br></li>
+<li>In the files tab, click upload and upload the template <br></li>
+<li>Now click the check box by the template file and rename to <code>GEOG364_Lab4_userID_CODE.Rmd</code> <br> e.g. for me GEOG364_Lab4_hlg5155_CODE.Rmd<br></li>
+</ul></li>
+</ol></li>
+</ol>
+<p><br></p>
+<p>In both cases, your “Lab 4” R-Studio should look like this but for lab 4. If not ASK FOR HELP</p>
+<div class="figure" style="text-align: center">
+<img src="pg_364Lab3_Spatial_2021_fig2.png" alt="*this is for lab 3 but you get the idea.*" width="100%" />
+<p class="caption">
+<em>this is for lab 3 but you get the idea.</em>
+</p>
+</div>
+<p><br> Also, if R-studio isn’t “looking in” your lab 4 project, close R studio, go to your lab 3 folder and double click the .Rproj to open your lab 3 project</p>
+<p class="comment">
+<strong>IMPORTANT! Did you open R via your lab 4 project file?</strong> If R-studio <em>isn’t</em> “looking in” your lab 4 folder in Files, or doesn’t have your lab 4 project name on the logo/at the top of the screen, close R studio, go to your lab 4 folder and double click the .Rproj to open your lab 4 project
+</p>
+<p><br></p>
+<ol start="4" style="list-style-type: decimal">
+<li>Click on your lab 4 .Rmd file in the files tab. You should not have to search if you are in your Lab 4 project. It should open the script.
+<ul>
+<li><p>Change the title to Lab 4. <br><br />
+</p></li>
+<li><p>Change the theme if you like <br><br />
+</p></li>
+<li><p>Edit the library code chunk so it looks like this:</p>
+<pre class="r"><code>library(knitr) 
+library(tidyverse)
+library(sf)
+library(sp)
+library(tmap)
+library(skimr)
+library(rnaturalearth)
+library(readxl)</code></pre></li>
+<li><p>If you accidentally messed up something remember you can re-copy your YAML code or options from a previous lab.<br><br><em>The easiest way to do this is to naviagte on your computer to that lab folder then double click the project file for the old lab to open an entirely new version of R-Studio for that lab. Then nothing gets confused</em><br><em>equally on the cloud, make a new tab in your browser, go to your workspace (top lef), and open the other project there</em><br></p></li>
+</ul></li>
+</ol>
+<p><br></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Press knit. You screen should look like this but for Lab 4 and your options. If so,congrats! If not, ASK FOR HELP. Note, your message=FALSE and warning = FALSE can go in the general options like my screenshot, or as “code chunk options” for the library chunk</li>
+</ol>
+<p><img src="pg_364Lab3_Spatial_2021_fig3.png" width="90%" style="display: block; margin: auto;" /></p>
+<p><br></p>
+<div style="margin-bottom:25px;">
+
+</div>
+</div>
+<div id="step-b-markdown-and-r" class="section level2">
+<h2>Step B: MARKDOWN AND R</h2>
+<ol start="6" style="list-style-type: decimal">
+<li>Read the start of <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text">Tutorial 4G: Visual Editor</a> to turn on the markdown visual editor</li>
+</ol>
+<p><br></p>
+<ol start="7" style="list-style-type: decimal">
+<li>Follow the new inline-code tutorial in <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4F:_Formatting_code_chunks">Tutorial 4F: Inline Code</a> to understand about inline code</li>
+</ol>
+<p><br></p>
+<ol start="8" style="list-style-type: decimal">
+<li>Follow <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4I:_Adding_equations">Tutorial 4I: Equations</a> to understand about adding equations.</li>
+</ol>
+<p><br></p>
+<ol start="9" style="list-style-type: decimal">
+<li>Make a new section called Markdown. Feel free to use subsections, numbers, bold font etc to make it look professional<br> IF YOU HAVEN’T DONE STEPS 6,7,8, GO DO THEM.</li>
+</ol>
+<p>Now, attempt the following tasks - they are building also on what you learnt in Labs 1,2 &amp; 3 - <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text">TUTORIAL 4: MARKDOWN</a> HAS THE ANSWERS.</p>
+<ol start="10" style="list-style-type: decimal">
+<li><p>Have a play with the markdown visual editor.<br> Write a paragraph to explain the difference between pattern and process (lecture 5a &amp; resources there).<br> See what you can do with the visual editor to play with the fonts/formats etc.<br> <em>[you are being graded on the paragraph not the format, so go wild]</em></p>
+<ul>
+<li>COPY your frost data from Lab 2 to your Lab 4 folder.<br />
+</li>
+<li>In a code chunk, read in the data to a variable called frost.<br />
+</li>
+<li>Calculate the mean of the Elevation column and the number of rows and the number of columns( hint <code>nrow() and ncol()</code>), and save the answers to sensibly named variables e.g. frost.elev, frost.nrow….</li>
+<li>Edit the code chunk options so that the code and output are invisible when you press knit (you will still see them in the editing window).</li>
+</ul></li>
+</ol>
+<ul>
+<li>In the text make a new paragraph, that says <strong>“In lab 2, we read in a dataset called frostdata.xlsx. The data has XXXX rows and YYYY columns, The mean of the Elevation column is ZZZZ UNITS.”</strong> . Where, XXXX, YYYY and ZZZZ are inline code that creates the answers and UNTIS is the appropriate units.</li>
+</ul>
+<p><em>Note, you have a choice! You can either run the commands in the “silent” code chunk, save them to a variable and just put the variable name in your inline code. or you can do the full calculation in the inline code itself. For example </em></p>
+<p><img src="pg_364Lab4_Spatial_2021_fig1.png" width="90%" style="display: block; margin: auto;" /></p>
+<p>will make:</p>
+<p>Hello, my birth month is Apr.</p>
+<p>Or</p>
+<p>Hello, my birth month is April.</p>
+<ol start="11" style="list-style-type: decimal">
+<li>You can see that the elevation input is to many decimal places. You can use the <code>round()</code> command to round to a sensible number of significant figures. See the tutorials below on round, then make a new copy of your sentence about frost, but round the mean of the elevation to an appropriate number of decimal places for your units.</li>
+</ol>
+<p><a href="https://www.datasciencemadesimple.com/round-function-in-r/" class="uri">https://www.datasciencemadesimple.com/round-function-in-r/</a></p>
+<p>Your final sentence should look something link this but about your frost data</p>
+<p>In the inbuilt starwars dataset, there are 87 rows and 14 columns. The average height of a character is 174 cm.</p>
+<p><br></p>
+<p>LAB GLITCHES. UPDATED LAB TO COME.</p>
+<hr />
+<p>Website created and maintained by <a href="https://www.geog.psu.edu/directory/helen-greatrex">Helen Greatrex</a>. Website template by <a href="https://nbrazil.faculty.ucdavis.edu/">Noli Brazil</a></p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>

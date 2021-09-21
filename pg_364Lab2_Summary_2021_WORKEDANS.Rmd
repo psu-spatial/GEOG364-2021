@@ -1,0 +1,227 @@
+---
+title: "GEOG 364 Lab 2"
+author: "TA WORKED ANSWERS"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: yes
+    number_sections: yes
+    theme: sandstone
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
+```
+
+# Load Libraries
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sp)
+library(sf)
+library(readxl)
+library(skimr)
+library(tmap)
+library(USAboundaries)
+library(viridis)
+```
+
+
+# Last Spring Frost
+
+* The original study was conducted to examine characteristics of the growing period across the southeastern United States during the spring season. 
+
+* The study aimed to understand the spatial and temporal variability of last spring frost dates, synoptic conditions that are associated with frost extremes, and the agricultural impacts of the extreme frost events during the start of the growing season. 
+
+* The data set contains last spring frost dates for weather stations across the southeastern United States collected between 1950 and 1999. 
+
+* The last print frost dates were generated from daily minimum temperature data from the stations. 
+
+* Only weather stations that had the last spring frost date occurring between February and late March were included. A total of 92 stations met the criteria. 
+
+* Looking at the average last frost date over time and across space can provide insights about possible climate change. However, it is important to consider other factors that might have influenced any such changes in the last spring frost date. Changes in vegetation patterns (or land cover) for example can influence both frost occurrence as well as local climate. Increased human settlements/urbanization is another factor that can influence local micro-climates and therefore frost occurrences. 
+
+* Climate change can also be a confounding factor given that it will determine the spatial and temporal distribution of frost occurrences (early or late occurrences) by influencing among other things precipitation, temperature and the longitudinal (north-south) gradient of temperature. 
+
+## Summary Statistics
+
+```{r, include=FALSE}
+frost <- read_excel("pg_364Data_1frostday.xlsx")
+```
+
+
+```{r,eval=FALSE}
+#frost <- read_excel("frostdata.xlsx")
+```
+
+```{r}
+glimpse(frost)
+```
+
+```{r}
+skim(frost)
+```
+
+
+The population being studied here are weather stations across several states (Alabama, Florida, Georgia, North Carolina, South Carolina or Virginia) in southeastern USA. Stations were sampled/selected based on the criteria that the average last frost spring date occurred between early February and late March. The unit of observation is a weather station. There are 76 units (stations) each within a row in the data set. The dataset has 8 columns each with a specific attribute of the weather station. Below is a description of the columns:
+
+- Station: The name of the weather station
+- State: The US State that the station resides in
+- Type_Fake: The type of environment within which the station reside in
+- Latitude: The latitude of the station (degrees)
+- Longitude: The longitude of the station (degrees)
+- Elevation: The elevation of the station (feet)
+- Dist_to_Coast: The distance from the station to the coast (miles)
+- Avg_DOY_SpringFrost: The Day-Of-Year of the average final spring frost date for that station
+
+There are a total of 76 stations.
+
+The mean longitude of the stations locations is -81.8 degrees
+
+The standard deviation of the stations distance to the coast is 80.5 miles
+
+My chosen State is Alabama.
+
+
+
+```{r}
+tmp <- mean(frost$Longitude,na.rm=TRUE)
+mdist <- min(frost$Dist_to_Coast,na.rm=TRUE)
+medDate <- median(frost$Avg_DOY_SpringFrost,na.rm=TRUE)
+iqrange <- IQR(frost$Latitude)
+```
+
+Note, I used the inline code option from lab 4 to answer this, but I'm also showing the code I wrote by putting ` around it.
+
+ - The mean of the Longitude column is: `tmp` `{r  tmp}
+ - The minimum distance to the coast is: `mdist` `{r  mdist}
+ - The median climatological frost date: `medDate` `{r  mdist}
+ - The interquartile range of the Latitude `medDate` `{r  mdist}
+
+print(paste0("The minimum distance to the coast: ", mdist))
+print(paste0("The median climatological frost date: ", medDate))
+print(paste0("The interquartile range of the Latitude: ", medDate))
+```
+
+The median climatological frost date (90.87) is the median Julian date of the average final spring frost date.
+
+## Grouping data
+
+```{r}
+table(frost$State)
+```
+
+My chosen state is Alabama, and it has six stations.
+
+```{r}
+table(frost$State, frost$Type_Fake)
+```
+
+There is one agricultural station in Alabama.
+
+
+
+```{r}
+frost.summary.state <- group_by(frost, by=State) %>%
+                          summarise(max(Avg_DOY_SpringFrost),
+                                    min(Avg_DOY_SpringFrost),
+                                    mean(Avg_DOY_SpringFrost))
+frost.summary.state
+```
+
+The mean spring final frost Day of Year for Alabama is 93.71. This means day 94 begining January first.
+
+Ignore the warning messages, this is part of the strange website issues right now
+
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+p <- ggplot(frost, aes(Elevation)) + 
+  geom_histogram(bins=10, color = "purple", fill = "yellow") +
+    xlab("Elevation (feet)")+
+  ylab("Number of stations")+
+  ggtitle("Elevation of weather stations used in the study")
+  theme(
+    axis.title.x = element_text(color="black", size=14, face="bold"),
+    axis.text=element_text(size=14, face="bold"),
+axis.title.y = element_text(color="black", size=14, face="bold")
+  )
+```  
+
+ 
+```{r,message=FALSE,warning=FALSE,echo=FALSE}
+# and print
+p
+```
+
+# Testing Normality
+
+```{r}
+qqnorm(frost$Elevation)
+qqline(frost$Elevation)
+```
+
+Based on the histogram and the QQ plot, it appears that the elevation values are not normally distributed. Looking at the histogram we see that the values are positively skewed. That means we have most of the values on one (right) side of the histogram instead of in the middle as it would be for a normal distribution. Looking at the QQ plot, we can confirm that the low elevation values are indeed much higher than would be expected for a normal distribution and the high elevation values are slightly higher than would be expected for a normal distribution. 
+
+## Z-Score mapping
+
+```{r}
+frost$ZScore <- ( frost$Avg_DOY_SpringFrost - mean(frost$Avg_DOY_SpringFrost)  ) / sd(frost$Avg_DOY_SpringFrost)
+```
+
+## Mapping 
+
+```{r}
+frost.sf <- st_as_sf(frost,coords = c("Longitude", "Latitude"),crs=4326)
+```
+
+```{r}
+tmap_mode("view")
+qtm(frost.sf,dots.col="ZScore")
+```
+
+### _QTM Map for last frost date_
+
+```{r}
+tmap_mode("view")
+qtm(frost.sf,dots.col="Avg_DOY_SpringFrost")
+```
+
+### _QTM Map for distance to coast_
+
+```{r}
+tmap_mode("view")
+qtm(frost.sf,dots.col="Dist_to_Coast")
+```
+
+### _QTM Map for Elevation_
+
+```{r}
+tmap_mode("view")
+qtm(frost.sf,dots.col="Elevation")
+```
+
+### _Observations_
+
+**What is the pattern of the last spring frost dates and what influences it?**
+
+* The last spring frost date is correlated with elevation and distance to the coastline. Areas with high elevation and those further from the coastline have their last spring frost date coming much later in the year (prolonged cold period) than low elevation areas and those close to the coastline.
+
+**Was it appropriate to apply the Z-score in this case? (prove it!)**
+
+* The observed relationship between last spring frost date and elevation/distance to coast, does not tell us much about the spatial pattern of anomalies in the appearance of last spring frost date. The Z-Score shows that areas high elevation areas and those further from the coast have their last spring frost date appearing earlier than normal and the those areas with low elevation and closer to the coast have their last spring frost date appearing later than normal. However, z-scores are most appropriate for use with normally distributed data and our variable in this case "the last spring frost date" is not normally distributed. See the Q-Q plot below showing that our variable is not normally distributed.
+
+```{r}
+qqnorm(frost$Avg_DOY_SpringFrost)
+qqline(frost$Avg_DOY_SpringFrost)
+```
+
+**Is the last frost day a raster or a vector dataset? Are there consequences of using a point dataset to measure it?**
+
+* The last spring frost date is vector data. These are represented in point format. The consequence of representing this variable in point rather than raster format is that were are only able to asses data for the point locations (stations) for which we have data and not other areas surrounding them.
+
+
+# New York Data Analysis
+
+[**Student to explore this on their own - we're coming back to it in future labs**]{color="red"}
+
