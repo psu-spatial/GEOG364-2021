@@ -61,6 +61,7 @@ library(kableExtra)
 frost   <- readxl::read_excel("pg_364Data_1frostday.xlsx")
 newyork <- readxl::read_excel("pg_364Data_1frostday.xlsx")
 firefly <- readxl::read_excel("pg_364Data_3Firefly.xlsx")
+ozone   <- read.csv("pg_364Data_4Ozone.csv")
 ```
 
 ## Welcome to Lab 4!
@@ -82,22 +83,25 @@ See [**your canvas assignment here**](https://psu.instructure.com/courses/212004
 <p class="comment">**Need help?**  Add a screenshot/question to the discussion board here:    [**LAB 4 DISCUSSION BOARD**](https://psu.instructure.com/courses/2120046/discussion_topics/14125712)</p>
 
 <br>
+<br>
 
 <div style="margin-bottom:25px;">
 </div>  
-## Step A: Set up the lab
+## A: Set up the lab
 
-First, we want to set up R in the same way as before, creating a project file and a blank markdown document.  This will be the last time I am going to spell it out.
 
-1. Open R-Studio.<br>Create a new R-Project in your GEOG-364 folder called `GEOG364_Lab4_PROJECT`.<br>*Reminder: [Tutorial 2C: Projects](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html)*.   
-   
+Set up R-Studio in the same way as before, creating a project file and a blank markdown document.<br>This will be the last time I am going to spell it out.
+
+1. **Step 1**<br>Open R-Studio.<br>Create a new R-Project in your GEOG-364 folder called `GEOG364_Lab4_PROJECT`.<br>*Reminder: [Tutorial 2C: Projects](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html)*.   
+  
+
 <br>  
 
-2. Go on Canvas to the Lab 4 page and download any datasets as needed.<br>Put it/them in your `GEOG364_Lab4_PROJECT` folder.  See the lab 3 instructions for how it should look.
+2. **Step 2**<br>Go on Canvas to the Lab 4 page and download any datasets as needed (`ozone.csv`) <br>Put it/them in your `GEOG364_Lab4_PROJECT` folder.  See the lab 3 instructions for how it should look.
 
 <br>
 
-3. Let's retrieve our lab template: 
+3. **Step 3**<br>Make a copy of the lab template: 
     a. *If you're on your own computer:*<br>
        + Make a **COPY** of the template Rmd file.
        <br>
@@ -112,7 +116,7 @@ First, we want to set up R in the same way as before, creating a project file an
        + MAKE SURE YOU WENT TO YOUR WORKSPACE AND MADE A LAB 4 PROJECT!
        + Click on your Lab 4 project folder
        <br>
-       + In the files tab, click the check box by your template file, then click the More button/Export and download it.
+       + In the files tab, click the check box by your template file, click More/Export & download it.
        <br>
        + Click on Workspaces (top left) and enter your Lab 4 project folder.
        <br>
@@ -125,19 +129,19 @@ First, we want to set up R in the same way as before, creating a project file an
 
 In both cases, your "Lab 4" R-Studio should look like this but for lab 4.  If not ASK FOR HELP
 
-```{r, Lab3Fig1, echo=FALSE, fig.align='center',out.width="100%", fig.cap="*this is for lab 3 but you get the idea.*"}
+```{r, Lab4Fig31, echo=FALSE, fig.align='center',out.width="100%", fig.cap="*This is for lab 3 but you get the idea.*"}
 knitr::include_graphics('pg_364Lab3_Spatial_2021_fig2.png')
 ```
+
 <br>
-Also, if R-studio isn't "looking in" your lab 4 project, close R studio, go to your lab 3 folder and double click the .Rproj to open your lab 3 project
 
 <p class="comment">**IMPORTANT! Did you open R via your lab 4 project file?** If R-studio *isn't* "looking in" your lab 4 folder in Files, or doesn't have your lab 4 project name on the logo/at the top of the screen, close R studio, go to your lab 4 folder and double click the .Rproj to open your lab 4 project</p>
 
 <br>
 
-4. Click on your lab 4 .Rmd file in the files tab. You should not have to search if you are in your Lab 4 project.  It should open the script.  
-     + Change the title to Lab 4.  <br>    
-     + Change the theme if you like <br>     
+4. **Step 4**<br>Click on your lab 4 .Rmd file in the files tab to open the script<br>(You should not have to search if you are in your Lab 4 project):<br>
+     + Change the title to Lab 4.    
+     + Change the theme if you like     
      + Edit the library code chunk so it looks like this:
        ```{r,eval=FALSE}
        library(knitr) 
@@ -149,13 +153,15 @@ Also, if R-studio isn't "looking in" your lab 4 project, close R studio, go to y
        library(rnaturalearth)
        library(readxl)
        ```
-     + If you accidentally messed up something remember you can re-copy your YAML code or options from a previous lab.<br><br>*The easiest way to do this is to naviagte on your computer to that lab folder then double click the project file for the old lab to open an entirely new version of R-Studio for that lab. Then nothing gets confused*<br>*equally on the cloud, make a new tab in your browser, go to your workspace (top lef), and open the other project there*<br>     
+     + Add in message=FALSE and warning=FALSE inside the top code chunk (see screenshot below) to remove the packages printing all the text
+     + If you accidentally messed up something remember you can re-copy your YAML code or options from a previous lab.<br>*The easiest way to do this is to naviagte on your computer to that lab folder then double click the project file for the old lab to open an entirely new version of R-Studio for that lab. Then nothing gets confused*<br>*equally on the cloud, make a new tab in your browser, go to your workspace (top lef), and open the other project there*<br>     
+     + Press knit.
 
 <br>   
 
-5. Press knit. You screen should look like this but for Lab 4 and your options.  If so,congrats! If not, ASK FOR HELP.  Note, your message=FALSE and warning = FALSE can go in the general options like my screenshot, or as "code chunk options" for the library chunk
+You screen should now look like this but for Lab 4 and your options.  If so,congrats<br>If not, ASK FOR HELP.  
 
-```{r, Lab4Fig2, echo=FALSE, fig.align='center',out.width="90%"}
+```{r, Lab4FigL22, echo=FALSE, fig.align='center',fig.cap="*Note, your message=FALSE and warning = FALSE can go in the general options like my screenshot, or in the code chunk options for the library chunk*"}
 knitr::include_graphics('pg_364Lab3_Spatial_2021_fig3.png')
 ```
 
@@ -163,69 +169,227 @@ knitr::include_graphics('pg_364Lab3_Spatial_2021_fig3.png')
 
 <div style="margin-bottom:25px;">
 </div>  
-## Step B: MARKDOWN AND R
+## B: Markdown Edits
 
-6. Read the start of [Tutorial 4G: Visual Editor](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text) to turn on the markdown visual editor
+We are now going to insert "inline code" along with mathematical equations:
+
+5. **Step 5: Visual editor**<br>Read the section: [Tutorial 4G: Visual Editor](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text) to turn on the markdown visual editor (near the top of 4G)
 
 <br>
 
-7. Follow the new inline-code tutorial in [Tutorial 4F: Inline Code](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4F:_Formatting_code_chunks) to understand about inline code
+6. **Step 6: Inline code**<br>Follow the new inline-code tutorial in [Tutorial 4F: Inline Code](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4F:_Formatting_code_chunks) to understand about inline code
 
 <br> 
 
-8. Follow [Tutorial 4I: Equations](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4I:_Adding_equations) to understand about adding equations.
+7. **Step 7: Equations**<br>Follow [Tutorial 4I: Equations](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4I:_Adding_equations) to understand about adding equations.
 
 <br> 
 
-9. Make a new section called Markdown.  Feel free to use subsections, numbers, bold font etc to make it look professional<br> IF YOU HAVEN'T DONE STEPS 6,7,8, GO DO THEM.
+8. **Step 8:**<br> Make a new section called Markdown.<br>*Feel free to use subsections, numbers, font formats throughout to make it look professional as possible<br> IF YOU SKIPPED STEPS 6,7,8, GO DO THEM.* 
 
-Now, attempt the following tasks - they are building also on what you learnt in Labs 1,2 & 3 -  [TUTORIAL 4: MARKDOWN](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text) HAS THE ANSWERS.
+<br>
 
-10. Have a play with the markdown visual editor.<br>
-Write a paragraph to explain the difference between pattern and process (lecture 5a & resources there).<br>
-See what you can do with the visual editor to play with the fonts/formats etc.<br>
-*[you are being graded on the paragraph not the format, so go wild]*
 
-    + COPY your frost data from Lab 2 to your Lab 4 folder.  
-    + In a code chunk, read in the data to a variable called frost.  
-    + Calculate the mean of the Elevation column and the number of rows and the number of columns( hint `nrow() and ncol()`), and save the answers to sensibly named variables e.g. frost.elev,  frost.nrow....
-    + Edit the code chunk options so that the code and output are invisible when you press knit (you will still see them in the editing window).
-    
- - In the text make a new paragraph, that says   **"In lab 2, we read in a dataset called frostdata.xlsx.  The data has XXXX rows and YYYY columns,  The mean of the Elevation column is ZZZZ UNITS."** .  Where, XXXX, YYYY and ZZZZ are inline code that creates the answers and UNTIS is the appropriate units.   
- 
-*Note, you have a choice!  You can either run the commands in the "silent" code chunk, save them to a variable and just put the variable name in your inline code.  or you can do the full calculation in the inline code itself. For example *
- 
- 
-```{r, Lab4Fig3, echo=FALSE, fig.align='center',out.width="90%"}
-knitr::include_graphics('pg_364Lab4_Spatial_2021_fig1.png')
+9. **Step 9:**<br>Now, attempt the following tasks, which are building on those tutorials but also on what you learnt in Labs 1,2 & 3:<br>[TUTORIAL 4: MARKDOWN](https://psu-spatial.github.io/Geog364-2021/pg_Tut4_markdown.html#Tutorial_4G:_Formatting_text) HAS THE ANSWERS.
+
+   a. **Visual editor**<br>Write a short paragraph to explain the difference between pattern and process ([**See Lecture 5A & Sullivan chapter pdf**](https://psu.instructure.com/courses/2120046/pages/lecture-5a-maup-pattern-vs-process)).<br>Use the visual editor to play with the fonts & formats.<br>*[you are being graded on the paragraph content not the format, so go wild]*<br><br>
+   b. **Inline code**
+      + COPY your frost data from Lab 2 to your Lab 4 folder.    
+      + In a code chunk, read in the data to a variable called frost.  
+      + In the same code chunk, calculate 
+         + *the mean of the Elevation column*
+         + *the number of rows*  
+         + *the number of columns( hint `nrow() and ncol()`)*
+         + Save the answers to sensibly named variables e.g. `frost.elev`,`frost.nrow`....<br>
+      + Edit the code chunk options so that the code and output are invisible when you press knit (you will still see them in the editing window).<br><br>
+      + In the text make a new paragraph, that says<br>_*"In lab 2, we read in a dataset called frostdata.xlsx.  The data has XXXX rows and YYYY columns,  The mean of the Elevation column is ZZZZ UNITS."*_.<br><br>Replace XXXX, YYYY and ZZZZ with inline code that creates the answers automatically and UNITS with the appropriate units.<br><br>   
+   c. **Rounding**<br> Your mean elevation is to too many decimal places in your sentence.<br>Use the  `round()` command to round your output to a sensible number of significant figures.<br>To do this:<br> 
+      + See this tutorials below on round (or google)  https://www.datasciencemadesimple.com/round-function-in-r/
+      + Make a new copy of your sentence about frost, 
+      + Now edit the inline code chunk to round the mean of the elevation to an appropriate number of decimal places for your units.<br>
+      + Your final sentence should look something link this but about your frost data and with a good number of decimal places for your units.<br><br>*"In the inbuilt starwars dataset, there are `r nrow(starwars)` rows and  `r ncol(starwars)` columns.  The average height of a character is `r round(mean(starwars$height,na.rm=TRUE),1)` cm."*
+   d. **Equations**<br> In a new pararaph, describe the Z score and include the equation properly formatted.<br>
+   
+   
+<br>
+
+<div style="margin-bottom:25px;">
+</div>  
+## C: Better spatial plots
+
+<br> 
+
+This is the final "lego" lab e.g. where it is more about building blocks than statistics.  So let's improve our maps. There are some wonderful tutorials online, much better than I could write.  So we shall work through one of them
+
+10. **Step 10:**<br>Tutorial script.<br>We need a place for you to work through the tutorial.  Follow step 3 to make a new copy of your lab template and put it in the Lab 4 folder.**This time, call your copy  `GEOG364_MapTutorial.Rmd`**
+
+<p class="comment">**You do NOT have to submit your tutorial file**</p>
+
+11. **Step 11:**<br>Work through the tutorial.<br>Go here: https://mgimond.github.io/Spatial/mapping-data-in-r.html <br> Work through the mapping tutorial at that page, copying the code into code chunks in your tutorial lab script, checking it works and trying to understand why each line of code is there.
+
+12. **Step 12:**<br> Once you are done, close your tutorial script so that you don't accidentally edit it for your Lab 4.<br>Go here: htt
+
+<br>
+
+<div style="margin-bottom:25px;">
+</div>  
+## D: Ozone & MAUP
+
+### Lab Background
+
+<span style="color:#134f5c">As cities increase in size, it is  important to understand atmospheric air pollution. Two major pollutants include Ozone (O3) and particulates (PM 2.5). In this lab, we will map them and explore their impact on populations in California.</span>
+
+<span style="color:#134f5c">Ozone is a naturally occurring molecule made up of three Oxygen atoms. 90% of the plant’s ozone exists in the “ozone layer”, which exists approximately 20-25km above sea level, in the stratosphere. Stratospheric ozone is crucial for human life, as it absorbs damaging solar ultra-violet radiation (see the “ozone hole” for the importance of natural ozone).</span>
+
+<span style="color:#134f5c">However, 10% of the planet’s ozone is found in the lowest levels of the atmosphere, in the air which we breathe. It is created when pollutants such as NOx and VOCs (emitted by cars and industry) react with sunlight.</span>
+
+<span style="color:#134f5c">Strong evidence exists that the risk of premature death increases with increased amounts of low-level-ozone.Too much ozone can cause immediate health problems such as asthma. Over the longer term, ozone exposure can exacerbate pre-existing lung and heart health problems.  It is therefore important to map the spread of ozone to support public health policy.</span> 
+
+<span style="color:#134f5c">To explore this issue, ozone measurements were taken across the State of California. Population density has also been recorded at each site using this source: https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-density-rev11.</span>
+
+ - <span style="color:#134f5c">*The units of the ozone measurements are in “1000 parts per billion”.</span>
+ - <span style="color:#134f5c">*The units of population density are people per square km.</span>
+
+
+<br>
+<br>
+
+### Basics
+
+13. **Step 13:**<br>Read the `ozone.csv` data into R and assign to a variable called `ozone`.<br>*hint! Like HW4 you need a the `read.csv()` command instead of the read_excel one. Tutorial here if you're stuck (https://www.datacamp.com/community/tutorials/r-data-import-tutorial)*
+
+<br>
+
+14. **Step 14: Summary Statistics...**<br>This is week 4, you know the drill! Explore the data and tell me professinally in the text:<br>
+
+   a. Tell me more about Ozone pollution and health.  What's the big deal (feel free to use REFERENCED pictures/screenshots)<br><br>
+   b. Tell me what you know about the data/study.  Imagine you are a journalist or a policy maker - be critical!  If some aspect of the "meta data" (the data source, author, population etc.) is missing, make sure to note it.<br><br>
+   b. Tell me about the data you just read into R e.g.
+      + What is the unit of observation for this data
+      + Is the data marked?  If so, what are the marks? (e.g. what columns are there)
+      + How many observations are there? (e.g. how many rows)
+      + What are the summary statistics - do they look reasonable?
+      + What does the histograms of the ozone column look like (remember to get the exact column name you can use the command `names(ozonedata)`)?<br>
+      + Use a QQ-Norm to plot to assess if the data in the ozone column is normally distributed. (hint, see the QQQplot here http://www.sthda.com/english/wiki/normality-test-in-r if you want a prettier one)
+      + BONUS!  Conduct and interpret in full sentences, a Wilks-Shapiro test to assess if the data is normal (hint: tutorial: http://www.sthda.com/english/wiki/normality-test-in-r)
+
+<br>
+
+15. **Step 15: Research hypothesis...**<br>From what you (now) know about ozone, how do you expect the pattern of ozone to be disributed over California?  What influences it and what are confounding factors?
+
+
+```{r, include=FALSE}
+ozone.sf <- st_as_sf(ozone,coords=c("LONGITUDE","LATITUDE"),crs=4326)
 ```
- 
- will make:
- 
- Hello, my birth month is `r month.abb[4]`.
- 
- Or
- 
-```{r, include=FALSE, echo=FALSE}
-birthday <- month.name[4]
+
+
+### Spatial mapping
+
+
+16. **Step 16: Convert to spatial...**<br>Make a new code chunk<br>Use *Reminder: [Tutorial 11Bb convert-to-sf: Projects](https://psu-spatial.github.io/Geog364-2021/pg_Tut11_spatial101.html#b_Converting_a_dataframe_in_R_to_spatial_sf)* to do the following:
+   a. Look at the ozone data and note the colunm names containing the x and y coordinates (CASE SENSITIVE)<br>
+   b. Convert `ozone` to sf format and assign the result to a variable called `ozone.sf`<br>*hint, the current map projection is Lat/Long 4326*<br><br>
+   c. Check it works. use the command `plot(st_geometry(ozone.sf))` to make sure it converted OK.  Hint, to understand what I was asking last week with st_geometry, also try `plot(ozone.sf)`  and `plot(ozone$LONGITUDE,ozone$LATITUDE)`
+   
+<br>  
+
+16. **Step 17: First map...**<br>Use the previous labs and tutorials to make an interactive map of ozone levels. Use the layers button to explore the data.  Does the distribution agree with what you expected? (hint, rural Joshua Tree has some of the highest Ozone levels..)
+   
+   
+<br>   
+
+18. **Step 18: Download county borders**<br>Make a new code chunk<br>Use this code to download county borders for California and plot to check (ignore the warnings). Luckily for us they are in the same map projection. you should see something like this:
+
+   ```{r}  
+   ca_counties.sf <- us_boundaries(states="CA", type = "county")
+   
+   plot(st_geometry(ca_counties.sf))
+   plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
+   ```
+
+19. **Step 19: Download congressional borders**<br>Make a new code chunk<br>Use this code to download congressional borders for California and plot to check (ignore the warnings). Luckily for us they are in the same map projection. you should see something like this:
+
+   ```{r}  
+   ca_congress.sf <- us_boundaries(states="CA", type = "congressional")
+   
+   plot(st_geometry(ca_congress.sf))
+   plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
+   ```
+
+Here are my prettier tmaps of population density over ozone tracts.
+
+```{r}
+# Plot the population density data, the col is the column name
+# You can run the command tmaptools::palette_explorer() in the console and choose a more appropriate palette (you will need to install the shinyjs package)
+tmap_mode("view")
+tm_shape(ca_congress.sf) + tm_borders() +
+  tm_shape(ozone.sf) +
+  tm_dots(col="POPULATION_DENSITY", palette = "YlOrRd", 
+          title="Population density (people/km^2)", size=0.04) +
+  tm_legend(legend.outside=TRUE)+
+  tm_basemap(leaflet::providers$OpenStreetMap.DE)
 ```
- 
-  Hello, my birth month is `r birthday`.
+
+```{r}
+# Plot the population density data, the col is the column name
+# No basemaps are possible in static mode, which is frustrating
+tmap_mode("plot")
+tm_shape(ca_congress.sf) + tm_borders() +
+  tm_shape(ozone.sf) +
+  tm_dots(col="POPULATION_DENSITY", palette = "YlOrRd", 
+          title="Population density (people/km^2)", size=0.04) +
+  tm_legend(legend.outside=TRUE)
+```
 
 
-11. You can see that the elevation input is to many decimal places.  You can use the  `round()` command to round to a sensible number of significant figures. See the tutorials below on round, then make a new copy of your sentence about frost, but round the mean of the elevation to an appropriate number of decimal places for your units.
-
-https://www.datasciencemadesimple.com/round-function-in-r/
-
-Your final sentence should look something link this but about your frost data
-
-In the inbuilt starwars dataset, there are `r nrow(starwars)` rows and  `r ncol(starwars)` columns.  The average height of a character is `r round(mean(starwars$height,na.rm=TRUE),0)` cm.
+20. **Step 20: Make prettier maps**<br> Given my code here and your tutorials, make some unique & beautiful maps of the ozone levels at your California sites, overlayed with the COUNTY borders.<br>(hint the column name is OZONE_1000PPB..)
 
 
-<br> 
+ ### Spatial wrangling
+
+Finally, let's assess how to summarise our data across polygons. There is a wonderful tutorial here: https://mattherman.info/blog/point-in-poly/
+
+We will use the `st_join`, `left_join` and `right_join` commands. For example, to see the average population density in each congressional unit, I would use the following commands
+
+**[1] work out the points in each congressional area:**
+
+```{r}
+observation_per_area <- st_join(ozone.sf, ca_congress.sf, join = st_within)
+```
+
+   *Looking at the output, I added new columns onto my ozone data which say which zone each point falls into.*
+
+   ```{r}
+   head(obs_per_area)
+   ```
+
+**[2] work out the statistic we want**
+
+Here I am counting 
+
+```{r}
+# "cd115fp" is the column containing the congressional unit number, so i'm counting how many observations in each bin.
+number_obs    <- count(as_tibble(observation_per_area), cd115fp)
+ca_congress.sf <- left_join(ca_congress.sf, number_obs)
+
+```
 
 
-LAB GLITCHES. UPDATED LAB TO COME.
+```{r}
+pop_dens_mean <- mean(as_tibble(observation_per_area), POPULATION_DENSITY)
+pop_dens_max  <- max(as_tibble(observation_per_area), POPULATION_DENSITY)
+```
+
+
+
+```{r}
+#ca_congress.sf$POPULATION_DENSITY <- left_join(ca_congress.sf, tree_tract_count)
+```
+
+
+
+
+
 
 
 ***

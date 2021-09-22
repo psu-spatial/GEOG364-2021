@@ -279,7 +279,24 @@ Follow these tutorial to see how to add inline code. e.g. answers to commands IN
  - https://www.njtierney.com/post/2019/07/10/jq-verbatim-inline-r/
  - https://rmarkdown.rstudio.com/lesson-4.html
 
+Hint, when you write your own inline code, depending on how complex it is, you have a choice!  
+
+ - You can either run your commands in a "silent" code chunk, save them to a variable and just put the variable name in your inline code to print.  
+ - Or you can do the full calculation in the inline code itself. For example *
  
+ 
+<img src="pg_364Lab4_Manip_2021_fig1.png" width="90%" style="display: block; margin: auto;" />
+ 
+ will make:
+ 
+ Hello, my birth month is Apr.
+ 
+ Or
+ 
+
+ 
+  Hello, my birth month is April.
+
 
 <div style="margin-bottom:25px;">
 </div>  
@@ -439,7 +456,6 @@ $$
 
 Note the fancy version of the equation will definitely appear when you press knit and normally preview in your editing window.   Yours might look fancier than mine when you press knit, my fonts aren't working right.
 
-
 Note, this isn't real code!  It's fancy text. So you can lie and it doesn't auto complete.  e.g.
 
 <img src="pg_Tut4_markdown_fig13.png" width="1504" />
@@ -478,65 +494,67 @@ So this text would have an equation here $E = mc^2$
 
 There are special symbols for all the greek/latin words, for making fractions, etc etc.  The easiest way by far to create them, is to use an online equation generator where you can create the equation you want, then it will tell you the code
 
-
-There are loads out there.  One favourite:
-
- - http://atomurl.net/math/
-
-
-For example
+There are loads out there, for example: http://atomurl.net/math/
 
 <img src="pg_Tut4_markdown_fig15.png" width="2058" />
 
-Then I copy the code into my text
-
-
-This will show as:
+Then I copy the code into my text:
 
 <img src="pg_Tut4_markdown_fig16.png" width="1584" />
 
-NOTE FOR ME ON THIS WEBSITE THIS IS BROKEN AND SHOWS THE COMMAND, FOR YOU IT SHOULD WORK.
-
-$$
-\frac{\sum_{_i}^nx}{n}
-$$
-
-or into my sentence e.g. I'm very happy that $\frac{\sum_{_i}^nx}{n}$ and I hope you are too.
-
-### Its broken
-
-Sometimes R doesn't understand the code when it presses knit. I'm working on it. Let me know. As you can see my special website knit hates equations.
+ which *should* show as: 
+ 
+<p align="center">
+<img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" />
+</p>
 
 
+<br>
+
+or into my text: e.g. I'm very happy that <img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" /> and I hope you are too.
+
+<br>
+<br>
 
 ### Adding in R online code output
 
 What if we want our equations to autocomplete?  Well, we can combine this with our inline code. So instead of typing numbers we type code for it to calculate 
 
-e.g.  Imagine this code chunk with echo =FALSE so you can't see it.
+For example:
+
+<img src="pg_Tut4_markdown_fig18.png" width="1562" />
+
+will show as:
+
+<img src="pg_Tut4_markdown_fig19.png" width="2040" />
+
+<br>
+<br>
+
+### **ERROR:** What if it's not working when I knit?
+
+<br>
+
+<img src="pg_Tut4_markdown_fig17.png" width="1510" />
 
 
-```r
-mydata <- c(1,4,2,252,2,5)
-```
+Sometimes R doesn't understand the code when it presses knit, for example giving an error like the one above.  This is the case with this website!  
 
+In this case, we can force R to create the equations. Instead of the `$$` symbol, we can use an online website to convert it into an image and then get R to include that.
 
-Then in your text, the sum of my data is.  
+`<p align="center">`<br>`<img src="https://latex.codecogs.com/svg.latex?Z=YOUR.EQUATION.}" />`<br>`</p>`
 
-$$
-\overline{x} = 266
-$$
+<br>
 
+For example here is some code and output
 
-Or more complex.. This will look weird in the code, but should work when you press knit.  As you can see, for me it does not.
+<img src="pg_Tut4_markdown_fig20.png" width="1250" />
 
+<p align="center">
+<img src="https://latex.codecogs.com/svg.latex?\frac{\sum_{_i}^nx}{n}" />
+</p>
 
-$$
-\frac{\sum_{_i}^nx}{n} = `{r mean(mydata)}`
-$$
-
-
-
+As far as I am aware, with this error, you can't include inline R code - it sucks. If you have this error and can't work through it, talk to a teacher
 
 <br>
 

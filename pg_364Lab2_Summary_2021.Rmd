@@ -405,14 +405,18 @@ In the lecture, we talked about finding z-scores (e.g. how unusual a value is AK
 
 27. [ ]  Create a new code chunk and copy/run this code.
     ```{r,eval=FALSE}
-    frost$ZScore <- ( frost$Avg_DOY_SpringFrost - mean(frost$Avg_DOY_SpringFrost)  ) / sd(frost$Avg_DOY_SpringFrost) 
+    mean.frost <- mean(frost$Avg_DOY_SpringFrost)
+    sd.frost <- sd(frost$Avg_DOY_SpringFrost)
+    
+    frost$ZScore <- (frost$Avg_DOY_SpringFrost - mean.frost) / sd.frost
     ```
 
 Hopefully you can see that we're just applying the Z-score equation to each row of the Avg_DOY_SpringFrost column of the frost dataset:
 
-$$
-Z=\frac{x_i-mean(x))}{sd(x)}
-$$
+<p align="center">
+<img src="https://latex.codecogs.com/svg.latex?Z=\frac{x_i-mean(x))}{sd(x)}" />
+</p>
+
 
 Have a look at the frost table itself (e.g. click on its name in the environment tab), or look at the summary. you should see the new column. Essentially the ZScore column now contains a normalised value of how unusually early or late that location is.
 
