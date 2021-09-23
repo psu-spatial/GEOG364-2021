@@ -528,7 +528,11 @@ head(ca_congress.data.sf)
 
 28. **Step 28: Raster to vector**: A big problem with this data is that Ozone is a raster (e.g. anywhere on Earth you can measure ozone levels). However, the data we had *sampled* out of the raster layer at specific point locations.<br>Explain how the distribution of the measurement point locations impacted the Modifiable Areal Unit Problem effect you described above.
 
-<br<
+<br>
+
+29. **Step 29: Tobler's law**: Describe Complete-Spatial-Randomness and Tobler's law. Explain whether the ozone data appears to have positive, zero or negative autocorrelation. 
+
+<br>
 
 
 ## E. Above and beyond
@@ -571,7 +575,7 @@ Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR 
 
 You have successfully added equations, inline code and followed question 9.<br>  
 
-**OZONE:Summary Statistics 15 MARKS** 
+**OZONE:Summary Statistics 10 MARKS** 
 
 You fully the dataset and conducted appropriate summary statistics.<br>
 
@@ -583,17 +587,13 @@ You came up with a reasonable hypothesis for what you imagine the map/pattern of
 
 You managed to read in all the spatial data and made professional looking point plots, then reassessed your hypothesis <br>
 
-**OZONE:Mapping points 5 MARKS** 
-
-You managed to read in all the spatial data and made professional looking point plots, then reassessed your hypothesis <br>
-
 **OZONE:Aggregating data 10 MARKS** 
 
 You managed to create county aggregated data and made professional looking plots (Q23-Q26) <br>
 
-**OZONE:MAUP  10 MARKS** 
+**OZONE:MAUP  15 MARKS** 
 
-You thoughtfully answered questions 27 and 28 <br>
+You thoughtfully answered questions 27 - 29 and correctly interpreted MAUP <br>
 
 
 **Above and beyond: 4 MARKS**
