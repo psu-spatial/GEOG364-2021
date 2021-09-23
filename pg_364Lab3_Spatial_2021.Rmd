@@ -398,7 +398,7 @@ myplot
 
 
  
-## Steo E. Above and beyond
+## Step E. Above and beyond
 
 This is back!  Remember that an A is 93%, so you can ignore this section and still easily get an A.
 
@@ -432,11 +432,11 @@ For 4/4
 
 ## Step F. Submitting your Lab
 
-Remember to save your work throughout and to spell check your writing (left of the knit button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 2 folder which includes your answers. If you look at your lab 2 folder, you should see this there - complete with a very recent time-stamp.
+Remember to save your work throughout and to spell check your writing (left of the knit button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 3 folder which includes your answers. If you look at your lab 3 folder, you should see this there - complete with a very recent time-stamp.
 
 In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT
 
-Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 2.
+Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 3.
 
 <br>
 

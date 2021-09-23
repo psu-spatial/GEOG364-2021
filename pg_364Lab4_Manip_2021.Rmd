@@ -33,7 +33,7 @@ h2.title {
 
 <style type="text/css">
 #TOC {
-  font-size: 12px;
+  font-size: 11px;
   font-family: Arial;
 }
 </style>
@@ -154,7 +154,7 @@ knitr::include_graphics('pg_364Lab3_Spatial_2021_fig2.png')
        library(readxl)
        ```
      + Add in message=FALSE and warning=FALSE inside the top code chunk (see screenshot below) to remove the packages printing all the text
-     + If you accidentally messed up something remember you can re-copy your YAML code or options from a previous lab.<br>*The easiest way to do this is to naviagte on your computer to that lab folder then double click the project file for the old lab to open an entirely new version of R-Studio for that lab. Then nothing gets confused*<br>*equally on the cloud, make a new tab in your browser, go to your workspace (top lef), and open the other project there*<br>     
+     + If you accidentally messed up something remember you can re-copy your YAML code or options from a previous lab.<br>*The easiest way to do this is to navigate on your computer to that lab folder then double click the project file for the old lab to open an entirely new version of R-Studio for that lab. Then nothing gets confused*<br>*equally on the cloud, make a new tab in your browser, go to your workspace (top left), and open the other project there*<br>     
      + Press knit.
 
 <br>   
@@ -208,7 +208,7 @@ We are now going to insert "inline code" along with mathematical equations:
       + Make a new copy of your sentence about frost, 
       + Now edit the inline code chunk to round the mean of the elevation to an appropriate number of decimal places for your units.<br>
       + Your final sentence should look something link this but about your frost data and with a good number of decimal places for your units.<br><br>*"In the inbuilt starwars dataset, there are `r nrow(starwars)` rows and  `r ncol(starwars)` columns.  The average height of a character is `r round(mean(starwars$height,na.rm=TRUE),1)` cm."*
-   d. **Equations**<br> In a new pararaph, describe the Z score and include the equation properly formatted.<br>
+   d. **Equations**<br> In a new paragraph, describe the Z score and include the equation properly formatted.<br>
    
    
 <br>
@@ -227,7 +227,7 @@ This is the final "lego" lab e.g. where it is more about building blocks than st
 
 11. **Step 11:**<br>Work through the tutorial.<br>Go here: https://mgimond.github.io/Spatial/mapping-data-in-r.html <br> Work through the mapping tutorial at that page, copying the code into code chunks in your tutorial lab script, checking it works and trying to understand why each line of code is there.
 
-12. **Step 12:**<br> Once you are done, close your tutorial script so that you don't accidentally edit it for your Lab 4.<br>Go here: htt
+12. **Step 12:**<br> Once you are done, close your tutorial script so that you don't accidentally edit it for your Lab 4. 
 
 <br>
 
@@ -260,7 +260,7 @@ This is the final "lego" lab e.g. where it is more about building blocks than st
 
 <br>
 
-14. **Step 14: Summary Statistics...**<br>This is week 4, you know the drill! Explore the data and tell me professinally in the text:<br>
+14. **Step 14: Summary Statistics...**<br>This is week 4, you know the drill! Explore the data and tell me professionally in the text:<br>
 
    a. Tell me more about Ozone pollution and health.  What's the big deal (feel free to use REFERENCED pictures/screenshots)<br><br>
    b. Tell me what you know about the data/study.  Imagine you are a journalist or a policy maker - be critical!  If some aspect of the "meta data" (the data source, author, population etc.) is missing, make sure to note it.<br><br>
@@ -275,7 +275,7 @@ This is the final "lego" lab e.g. where it is more about building blocks than st
 
 <br>
 
-15. **Step 15: Research hypothesis...**<br>From what you (now) know about ozone, how do you expect the pattern of ozone to be disributed over California?  What influences it and what are confounding factors?
+15. **Step 15: Research hypothesis...**<br>From what you (now) know about ozone, how do you expect the pattern of ozone to be distributed over California?  What influences it and what are confounding factors?
 
 
 ```{r, include=FALSE}
@@ -297,6 +297,12 @@ ozone.sf <- st_as_sf(ozone,coords=c("LONGITUDE","LATITUDE"),crs=4326)
    
    
 <br>   
+
+```{r,include=FALSE}
+   ca_congress.sf <- us_boundaries(states="CA", type = "congressional")
+   ca_counties.sf <- us_boundaries(states="CA", type = "county")
+```
+
 
 18. **Step 18: Download county borders**<br>Make a new code chunk<br>Use this code to download county borders for California and plot to check (ignore the warnings). Luckily for us they are in the same map projection. you should see something like this:
 
@@ -342,49 +348,273 @@ tm_shape(ca_congress.sf) + tm_borders() +
 ```
 
 
-20. **Step 20: Make prettier maps**<br> Given my code here and your tutorials, make some unique & beautiful maps of the ozone levels at your California sites, overlayed with the COUNTY borders.<br>(hint the column name is OZONE_1000PPB..)
+20. **Step 20: Make prettier maps**<br> Given my code here and your tutorials, make some better maps of the ozone levels at your California sites, overlayed with the COUNTY borders.<br>(hint the column name is OZONE_1000PPB..)
 
 
- ### Spatial wrangling
+### Spatial wrangling
 
-Finally, let's assess how to summarise our data across polygons. There is a wonderful tutorial here: https://mattherman.info/blog/point-in-poly/
+Finally, let's assess how to summarise our data across polygons using the st_join command
 
-We will use the `st_join`, `left_join` and `right_join` commands. For example, to see the average population density in each congressional unit, I would use the following commands
+Putting this into a tutorial broke the website, so let's add it here.
 
-**[1] work out the points in each congressional area:**
 
-```{r}
-observation_per_area <- st_join(ozone.sf, ca_congress.sf, join = st_within)
-```
-
-   *Looking at the output, I added new columns onto my ozone data which say which zone each point falls into.*
-
-   ```{r}
-   head(obs_per_area)
-   ```
-
-**[2] work out the statistic we want**
-
-Here I am counting 
+22. **Step 22:Get it running on your computer**<br> Copy the code below into a code chunk in your lab script.  Run each line and see if you can understand what is going on. Check it knits and that you can see the same maps in your lab output.
 
 ```{r}
-# "cd115fp" is the column containing the congressional unit number, so i'm counting how many observations in each bin.
-number_obs    <- count(as_tibble(observation_per_area), cd115fp)
-ca_congress.sf <- left_join(ca_congress.sf, number_obs)
-
-```
-
-
-```{r}
-pop_dens_mean <- mean(as_tibble(observation_per_area), POPULATION_DENSITY)
-pop_dens_max  <- max(as_tibble(observation_per_area), POPULATION_DENSITY)
+# First, look at the ozone column names to understand that table
+head(ozone.sf)
 ```
 
 
 
 ```{r}
-#ca_congress.sf$POPULATION_DENSITY <- left_join(ca_congress.sf, tree_tract_count)
+#----------------------------------------------------------
+# Now look at the ca_congress.sf column names, 
+# You can see there are a load of random columns
+# From googling, I worked out that the congressional 
+#   district column is cd115fp
+#-----------------------------------------------------------
+head(ca_congress.sf)
 ```
+```{r, include=FALSE}
+#-----------------------------------------------------------
+# We are first going to stick these together to make a table where I know the 
+# zone every point is in. 
+#-----------------------------------------------------------
+joineddata  <- st_join(ozone.sf, ca_counties.sf)
+
+#-----------------------------------------------------------
+# Now I'm going to do a load of statistics on the joined data
+#-----------------------------------------------------------
+
+# How many observations in each congressional district
+number.obs    <-  joineddata %>%  
+                   group_by(geoid) %>% 
+                   summarize(number.obs = length(geoid)) %>% 
+                   select(number.obs)
+
+# Mean population density in each congressional district
+mean_POPULATION_DENSITY <-   joineddata %>%  
+                             group_by(geoid) %>% 
+                             summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
+                             select(mean_POPULATION_DENSITY)
+                   
+# Max population density in each congressional district
+max_POPULATION_DENSITY <-    joineddata %>%  
+                             group_by(geoid) %>% 
+                             summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
+                             select(max_POPULATION_DENSITY)
+
+# Max population density in each congressional district
+mean_OZONE_1000PPB    <-   joineddata %>%  
+                           group_by(geoid) %>% 
+                           summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
+                           select(mean_OZONE_1000PPB)
+
+#-----------------------------------------------------------
+# And finally, merge them with the congressional polygon variable
+# I'm first making a copy so that I don't mess anything up
+#-----------------------------------------------------------
+ca_county.data.sf <- ca_counties.sf
+
+ca_county.data.sf <- st_join(ca_county.data.sf, number.obs)
+ca_county.data.sf <- st_join(ca_county.data.sf, mean_POPULATION_DENSITY)
+ca_county.data.sf <- st_join(ca_county.data.sf, max_POPULATION_DENSITY)
+ca_county.data.sf <- st_join(ca_county.data.sf, mean_OZONE_1000PPB)
+
+#plot3 <- qtm(ca_county.data.sf,fill ="mean_OZONE_1000PPB")
+#plot4 <- qtm(ca_congress.data.sf,fill ="mean_OZONE_1000PPB")
+#tmap_arrange(plot3,plot4)
+
+
+```
+
+```{r}
+#-----------------------------------------------------------
+# We are first going to stick these together to make a table where I know the 
+# zone every point is in. 
+#-----------------------------------------------------------
+joineddata  <- st_join(ozone.sf, ca_congress.sf)
+
+#-----------------------------------------------------------
+# Now I'm going to do a load of statistics on the joined data
+#-----------------------------------------------------------
+
+# How many observations in each congressional district
+number.obs    <-  joineddata %>%  
+                   group_by(cd115fp) %>% 
+                   summarize(number.obs = length(cd115fp)) %>% 
+                   select(number.obs)
+
+# Mean population density in each congressional district
+mean_POPULATION_DENSITY <-   joineddata %>%  
+                             group_by(cd115fp) %>% 
+                             summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
+                             select(mean_POPULATION_DENSITY)
+                   
+# Max population density in each congressional district
+max_POPULATION_DENSITY <-    joineddata %>%  
+                             group_by(cd115fp) %>% 
+                             summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
+                             select(max_POPULATION_DENSITY)
+
+# Max population density in each congressional district
+mean_OZONE_1000PPB    <-   joineddata %>%  
+                           group_by(cd115fp) %>% 
+                           summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
+                           select(mean_OZONE_1000PPB)
+
+#-----------------------------------------------------------
+# And finally, merge them with the congressional polygon variable
+# I'm first making a copy so that I don't mess anything up
+#-----------------------------------------------------------
+ca_congress.data.sf <- ca_congress.sf
+
+ca_congress.data.sf <- st_join(ca_congress.data.sf, number.obs)
+ca_congress.data.sf <- st_join(ca_congress.data.sf, mean_POPULATION_DENSITY)
+ca_congress.data.sf <- st_join(ca_congress.data.sf, max_POPULATION_DENSITY)
+ca_congress.data.sf <- st_join(ca_congress.data.sf, mean_OZONE_1000PPB)
+
+#-----------------------------------------------------------
+# And test plot, note I'm now plotting ca_congress.data.sf!
+#-----------------------------------------------------------
+plot1 <- qtm(ca_congress.data.sf,fill ="mean_POPULATION_DENSITY")
+plot2 <- qtm(ca_congress.data.sf,fill ="max_POPULATION_DENSITY")
+tmap_arrange(plot1,plot2)
+
+plot3 <- qtm(ca_congress.data.sf,fill ="number.obs")
+plot4 <- qtm(ca_congress.data.sf,fill ="mean_OZONE_1000PPB")
+tmap_arrange(plot3,plot4)
+
+```
+
+```{r}
+#-----------------------------------------------------------
+# And finally take a look at the column names of the new sf variable - you can see
+# our calculations have been added in
+#-----------------------------------------------------------
+head(ca_congress.data.sf)
+```
+
+<br>
+<br>
+
+23. **Step 23:Do the same for the county polygons**<br>Copy/paste the code you just got running into a new code chunk.<br>In THAT ONE, edit the code so that it runs for county borders rather than for the congressional districts and save the result as `ca_counties.data.sf`.<br>
+    + *How to do it:* 
+    +  *The county data is stored as `ca_counties.sf`, so replace all your `ca_congress.data.sf` with `ca_counties.sf`* 
+    + *The unique column name is `geoid`, so replace all your `cd115fp` with `geoid`* 
+    + *The output sf variable is `ca_county.data.sf`. so replace all your `ca_congress.data.sf` with `ca_county.data.sf`*<br>
+    
+<p class="comment">**Hint for fast copy/paste**  Double click on the variable name you want to copy, it should highlight it. Press command-c (or ctrl-c on a windows).  Double click on the variable you want to replace and press command-v | ctrl-v </p>
+
+<br>
+
+24.  **Step 24: BONUS.**<br>Use what you have just learned to find and quickly plot the maximum ozone level in each county in California (aggregated from your point data).
+
+
+25. **Step 25: Better plots**<br> You should now have sf variables called `ca_counties.data.sf` and `ca_congress.data.sf`, within which there are columns called` mean_OZONE_1000PPB`.<br>You also just did a T-map tutorial on good looking polygon maps.<br>Make a map of the county aggregated mean Ozone levels, and another for the congressional district aggregated mean Ozone levels.  Show me all the cool things you can do.<br> See if you can use tmap_arrange to plot them side by side.
+
+<br>
+
+26. **Step 26: Explain what you did**<br> I want to make better tmap tutorials, so below the maps explain what tmap options you chose and why.
+
+<br>
+
+27. **Step 27: MAUP**: During this lab, you have now created three maps of ozone levels over California: [1] At a point level, [2] Aggregated over counties and [3] aggregated over congressional districts.<br> Use those three plots to <br>
+  - Explain the Modifiable Areal Unit problem, especially the scale and zone effects
+  - Explain how do the different aggregations could change your perceptions of the processes causing low level ozone and the people most at risk?.
+  
+<br>
+
+28. **Step 28: Raster to vector**: A big problem with this data is that Ozone is a raster (e.g. anywhere on Earth you can measure ozone levels). However, the data we had *sampled* out of the raster layer at specific point locations.<br>Explain how the distribution of the measurement point locations impacted the Modifiable Areal Unit Problem effect you described above.
+
+<br<
+
+
+## E. Above and beyond
+
+Remember that an A is 93%, so you can ignore this section and still easily get an A. But here is your time to shine. Also, if you are struggling in another part of the lab, you can use this to gain back points.
+
+**To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.** 
+
+ - You get 2/4 for doing something new in any way (including the Wilks Shapiro or step 24)
+ - You get 4/4 for something really impressive or 3+ small things.
+ 
+Please tell us in your R script what you did!
+
+
+
+## F. Submitting your Lab
+
+Remember to save your work throughout and to spell check your writing (left of the knit button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 4 folder which includes your answers. If you look at your lab 4 folder, you should see this there - complete with a very recent time-stamp.
+
+In that folder, double click on the html file.  This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT
+
+Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 4.
+
+<br>
+
+## Lab 4 submission check-list
+
+**For all answers: Full marks = everything down at a high standard, in full sentences as appropriate with no parts of your answer missing. Imagine it as an example I use in class**
+
+
+**HTML FILE SUBMISSION - 5 marks**
+
+**RMD CODE SUBMISSION - 5 marks**
+
+**MARKDOWN/CODE STYLE - 16 MARKS**
+
+Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.You have written in full sentences, it is clear what your answers are referring to. YOU HAVE USED THE SPELL CHECK. SPELLING ERRORS LOSE YOU MARKS.
+    
+**MARKDOWN LEVEL-UP: 15 MARKS** 
+
+You have successfully added equations, inline code and followed question 9.<br>  
+
+**OZONE:Summary Statistics 15 MARKS** 
+
+You fully the dataset and conducted appropriate summary statistics.<br>
+
+**OZONE:Research hypothesis 5 MARKS** 
+
+You came up with a reasonable hypothesis for what you imagine the map/pattern of ozone looks like over CA. (Q.15) <br>
+
+**OZONE:Mapping points 10 MARKS** 
+
+You managed to read in all the spatial data and made professional looking point plots, then reassessed your hypothesis <br>
+
+**OZONE:Mapping points 5 MARKS** 
+
+You managed to read in all the spatial data and made professional looking point plots, then reassessed your hypothesis <br>
+
+**OZONE:Aggregating data 10 MARKS** 
+
+You managed to create county aggregated data and made professional looking plots (Q23-Q26) <br>
+
+**OZONE:MAUP  10 MARKS** 
+
+You thoughtfully answered questions 27 and 28 <br>
+
+
+**Above and beyond: 4 MARKS**
+
+You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.
+
+
+[100 marks total]
+
+
+Overall, here is what your lab should correspond to:
+
+```{r, echo=FALSE}
+rubric <- readxl::read_excel("pg_364Lab_rubrictable.xlsx")
+knitr::kable(rubric) %>%   
+  kable_classic_2() %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
+
+
+```
+
 
 
 
