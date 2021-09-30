@@ -408,26 +408,26 @@ joineddata  <- st_join(ozone.sf, ca_counties.sf)
 # IF THIS DOESN'T WORK, TYPE dplyr::select
 # or dplyr::symmarize etc.
 number.obs    <-  joineddata %>%  
-                   group_by(geoid) %>% 
-                   summarize(number.obs = length(geoid)) %>% 
+                   dplyr::group_by(geoid) %>% 
+                   dplyr::summarize(number.obs = length(geoid)) %>% 
                    dplyr::select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
-                             group_by(geoid) %>% 
-                             summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
+                             dplyr::group_by(geoid) %>% 
+                             dplyr::summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
                              dplyr::select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
-                             group_by(geoid) %>% 
-                             summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
+                             dplyr::group_by(geoid) %>% 
+                             dplyr::summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
                              dplyr::select(max_POPULATION_DENSITY)
 
 # Max population density in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
-                           group_by(geoid) %>% 
-                           summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
+                           dplyr::group_by(geoid) %>% 
+                           dplyr::summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
                            dplyr::select(mean_OZONE_1000PPB)
 
 #-----------------------------------------------------------
@@ -441,9 +441,6 @@ ca_county.data.sf <- st_join(ca_county.data.sf, mean_POPULATION_DENSITY)
 ca_county.data.sf <- st_join(ca_county.data.sf, max_POPULATION_DENSITY)
 ca_county.data.sf <- st_join(ca_county.data.sf, mean_OZONE_1000PPB)
 
-#plot3 <- qtm(ca_county.data.sf,fill ="mean_OZONE_1000PPB")
-#plot4 <- qtm(ca_congress.data.sf,fill ="mean_OZONE_1000PPB")
-#tmap_arrange(plot3,plot4)
 
 
 ```
@@ -457,31 +454,32 @@ joineddata  <- st_join(ozone.sf, ca_congress.sf)
 
 #-----------------------------------------------------------
 # Now I'm going to do a load of statistics on the joined data
+# We are forcing R to use the commands from the dplyr package
 #-----------------------------------------------------------
 
 # How many observations in each congressional district
 number.obs    <-  joineddata %>%  
-                   group_by(cd115fp) %>% 
-                   summarize(number.obs = length(cd115fp)) %>% 
-                    dplyr::select(number.obs)
+                   dplyr::group_by(cd115fp) %>% 
+                   dplyr::summarize(number.obs = length(cd115fp)) %>% 
+                   dplyr::select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
-                             group_by(cd115fp) %>% 
-                             summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
-                              dplyr::select(mean_POPULATION_DENSITY)
+                             dplyr::group_by(cd115fp) %>% 
+                             dplyr::summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
+                             dplyr::select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
-                             group_by(cd115fp) %>% 
-                             summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
-                              dplyr::select(max_POPULATION_DENSITY)
+                             dplyr::group_by(cd115fp) %>% 
+                             dplyr::summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
+                             dplyr::select(max_POPULATION_DENSITY)
 
 # Max population density in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
-                           group_by(cd115fp) %>% 
-                           summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
-                            dplyr::select(mean_OZONE_1000PPB)
+                           dplyr::group_by(cd115fp) %>% 
+                           dplyr::summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
+                           dplyr::select(mean_OZONE_1000PPB)
 
 #-----------------------------------------------------------
 # And finally, merge them with the congressional polygon variable
@@ -506,6 +504,14 @@ plot4 <- qtm(ca_congress.data.sf,fill ="mean_OZONE_1000PPB")
 tmap_arrange(plot3,plot4)
 
 ```
+
+```{r, eval=FALSE, include=FALSE}
+
+plot3 <- qtm(ca_county.data.sf,fill ="mean_OZONE_1000PPB")
+plot4 <- qtm(ca_congress.data.sf,fill ="mean_OZONE_1000PPB")
+tmap_arrange(plot3,plot4)
+```
+
 
 ```{r}
 #-----------------------------------------------------------
