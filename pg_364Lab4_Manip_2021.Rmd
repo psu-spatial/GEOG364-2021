@@ -366,7 +366,6 @@ First many people have had issues with the USBoundaries packages.  Let's reinsta
 
 ```{r, eval=FALSE}
 install.packages("USAboundaries")
-install.packages("USAboundariesData")
 install.packages("rgeos")
 install.packages("remotes")
 remotes::install_github("ropensci/USAboundariesData")
