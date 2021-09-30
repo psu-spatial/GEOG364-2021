@@ -364,7 +364,7 @@ First many people have had issues with the USBoundaries packages.  Let's reinsta
      a. Save your work and close R studio. Open a fresh r studio window. 
      b. copy and run these commands in the console.  They should work
 
-```{r}
+```{r, eval=FALSE}
 install.packages("USAboundaries")
 install.packages("USAboundariesData")
 install.packages("rgeos")
@@ -392,7 +392,8 @@ head(ozone.sf)
 #-----------------------------------------------------------
 head(ca_congress.sf)
 ```
-```{r, include=FALSE}
+
+```{r, include=FALSE, eval=FALSE}
 #-----------------------------------------------------------
 # We are first going to stick these together to make a table where I know the 
 # zone every point is in. 
@@ -404,28 +405,30 @@ joineddata  <- st_join(ozone.sf, ca_counties.sf)
 #-----------------------------------------------------------
 
 # How many observations in each congressional district
+# IF THIS DOESN'T WORK, TYPE dplyr::select
+# or dplyr::symmarize etc.
 number.obs    <-  joineddata %>%  
                    group_by(geoid) %>% 
                    summarize(number.obs = length(geoid)) %>% 
-                   select(number.obs)
+                   dplyr::select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
                              group_by(geoid) %>% 
                              summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
-                             select(mean_POPULATION_DENSITY)
+                             dplyr::select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
                              group_by(geoid) %>% 
                              summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
-                             select(max_POPULATION_DENSITY)
+                             dplyr::select(max_POPULATION_DENSITY)
 
 # Max population density in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
                            group_by(geoid) %>% 
                            summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
-                           select(mean_OZONE_1000PPB)
+                           dplyr::select(mean_OZONE_1000PPB)
 
 #-----------------------------------------------------------
 # And finally, merge them with the congressional polygon variable
@@ -460,25 +463,25 @@ joineddata  <- st_join(ozone.sf, ca_congress.sf)
 number.obs    <-  joineddata %>%  
                    group_by(cd115fp) %>% 
                    summarize(number.obs = length(cd115fp)) %>% 
-                   select(number.obs)
+                    dplyr::select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
                              group_by(cd115fp) %>% 
                              summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
-                             select(mean_POPULATION_DENSITY)
+                              dplyr::select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
                              group_by(cd115fp) %>% 
                              summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
-                             select(max_POPULATION_DENSITY)
+                              dplyr::select(max_POPULATION_DENSITY)
 
 # Max population density in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
                            group_by(cd115fp) %>% 
                            summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
-                           select(mean_OZONE_1000PPB)
+                            dplyr::select(mean_OZONE_1000PPB)
 
 #-----------------------------------------------------------
 # And finally, merge them with the congressional polygon variable
