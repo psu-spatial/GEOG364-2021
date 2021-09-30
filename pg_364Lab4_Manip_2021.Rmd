@@ -358,7 +358,23 @@ Finally, let's assess how to summarise our data across polygons using the st_joi
 Putting this into a tutorial broke the website, so let's add it here.
 
 
-22. **Step 22:Get it running on your computer**<br> Copy the code below into a code chunk in your lab script.  Run each line and see if you can understand what is going on. Check it knits and that you can see the same maps in your lab output.
+22. **Step 22:Get it running on your computer**<br> Copy the code below into a code chunk in your lab script.  Run each line and see if you can understand what is going on. Check it knits and that you can see the same maps in your lab output.<br>
+
+First many people have had issues with the USBoundaries packages.  Let's reinstall:
+     a. Save your work and close R studio. Open a fresh r studio window. 
+     b. copy and run these commands in the console.  They should work
+
+```{r}
+install.packages("USAboundaries")
+install.packages("USAboundariesData")
+install.packages("rgeos")
+install.packages("remotes")
+remotes::install_github("ropensci/USAboundariesData")
+remotes::install_github("ropenscilabs/rnaturalearthhires")
+```
+     c. Close and reopen your Lab 4 project (go to the lab 4 folder and double click your .RProj file). In R, go to the files tab, reopen your .Rmd code and press run all. It should now work.
+
+OK let's continue
 
 ```{r}
 # First, look at the ozone column names to understand that table
