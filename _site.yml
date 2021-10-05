@@ -41,8 +41,8 @@ navbar:
           href: pg_364Lab3_Spatial_2021.html   
         - text: "Lab 4: Spatial Intermediate"
           href: pg_364Lab4_Manip_2021.html   
-    - text: "LAB 2 WORKED ANSWER"
-      href: pg_364Lab2_Summary_2021_WORKEDANS.html
+    - text: "PROJECT LAB"
+      href: pg_364Project1_2021.html
 output:
   html_document:
     theme: flatly
