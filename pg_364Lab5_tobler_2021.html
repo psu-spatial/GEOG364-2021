@@ -505,7 +505,7 @@ h2.title {
 <div id="b1-custom-commands-functions" class="section level3">
 <h3>B1: Custom commands: Functions</h3>
 <p>We don’t need to just rely on commands that others provide. We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your “show me something new”.</p>
-<p>Here is a good overview of functions where they make a custom command to turn Celcius into Farenheit: - <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/" class="uri">https://swcarpentry.github.io/r-novice-inflammation/02-func-R/</a></p>
+<p>Here is a good overview of functions where they make a custom command to turn Celsius into Fahrenheit: - <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/" class="uri">https://swcarpentry.github.io/r-novice-inflammation/02-func-R/</a></p>
 </div>
 <div id="b2-asking-questions-if-statements" class="section level3">
 <h3>B2: Asking Questions: If statements</h3>
@@ -519,10 +519,10 @@ h2.title {
 </div>
 <div id="c-join-counts" class="section level2">
 <h2>C: Join Counts</h2>
-<p>We will first explore the theory, then create a toy dataset, then manually run a hyothesis test, then auto-create one.</p>
+<p>We will first explore the theory, then create a toy dataset, then manually run a hypothesis test, then auto-create one.</p>
 <div id="c1-join-counts-theory" class="section level3">
 <h3>C1: Join Counts theory</h3>
-<p>Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.</p>
+<p>Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies among binary or categorical data.</p>
 <p><br></p>
 <ol style="list-style-type: decimal">
 <li><strong>Step 1:</strong><br> <u><strong>DO NOT SKIP THIS STEP!</strong></u> Go to Canvas and read the pdf on join counts from canvas (chapter 15.1 of the textbook) - it’s only 4 pages but provides crucial background.</li>
@@ -588,7 +588,7 @@ All the way through my example, I use ToyA_… for my variable names. e.g. <cod
 </div>
 <div id="c2b.-creating-a-spatial-weights-matrix" class="section level4">
 <h4>C2b. Creating a spatial weights matrix</h4>
-<p>Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are “nearby” and create a spatial weights matrix. To find adjacent polygons, we can use package ‘spdep’.</p>
+<p>Now, we will convert our dataset to a specific type of spatial data (spdep), so that we can determine which grid-cells are “nearby” and create a spatial weights matrix. To find adjacent polygons, we can use package ‘spdep’.</p>
 <ol style="list-style-type: decimal">
 <li><p>First, we covert our raster data to a spatial polygon using <code>rasterToPolygons</code> and <code>SpatialPolygons</code></p></li>
 <li><p>Then we use the <code>poly2nb</code> command to build a list of neighbors based on adjacency (queens or rooks)</p></li>
@@ -620,13 +620,13 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 </ol>
 <p><br></p>
 <ol start="7" style="list-style-type: decimal">
-<li><strong>Step 7:</strong><br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.</li>
+<li><strong>Step 7:</strong><br> Explain why your Queens adjacency plot for the Toy_B data looks identical to my Rooks adjacency plot for the Toy_A data.</li>
 </ol>
 <p><br><br></p>
 </div>
 <div id="c2c.-conduct-a-join-count-analysis-manually" class="section level4">
 <h4>C2c. Conduct a join count analysis manually</h4>
-<p>Sometimes this process can feel like a blackbox</p>
+<p>Sometimes this process can feel like a black-box</p>
 <p><br></p>
 <p>Now, everything is set for the analyses: I have my spatial data (<code>ToyA_polygon</code>), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable <code>ToyA_weights.rook</code>.</p>
 <p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.</p>
@@ -697,8 +697,10 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
 <ol start="12" style="list-style-type: decimal">
 <li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?</li>
 </ol>
-<p>What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation. Note, it doesn’t mean that an IRP will ALWAYS cause the “expected number”, this equation just calcuates the mean of the histogram.</p>
-<p><img src="pg_364Lab5_tobler_2021_fig8.png" width="2560" /></p>
+<p>What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects.</p>
+<p>But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation. Note, it doesn’t mean that an IRP will ALWAYS cause the “expected number”, this equation just calculates the mean of the histogram.</p>
+<p>[THIS FIGURE IS FROM YOUR READING, IF YOU DON’T RECOGNISE IT, GO AND DO THE READING]</p>
+<p><img src="pg_364Lab5_tobler_2021_fig8.png" width="2560" /> <br></p>
 <ol start="12" style="list-style-type: decimal">
 <li><strong>Step 12:</strong><br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)</li>
 </ol>
@@ -716,12 +718,12 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
  text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
 <ol start="13" style="list-style-type: decimal">
-<li><strong>Step 13:</strong><br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusally high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</li>
+<li><strong>Step 13:</strong><br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</li>
 </ol>
 </div>
 <div id="c2d.-formally-set-up-a-hypothesis-test" class="section level4">
 <h4>C2d. Formally set up a hypothesis test</h4>
-<p><strong>That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hyothesis test is!!</strong></p>
+<p><strong>That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hypothesis test is!!</strong></p>
 <p>The steps are:</p>
 <ul>
 <li>Choose a process to compare against (in our case an IRP caused the data)</li>
@@ -842,7 +844,7 @@ The strawberry poison frog
 <p><br></p>
 <p><img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" /></p>
 <ol start="18" style="list-style-type: decimal">
-<li><strong>Step 18:</strong><br> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted where-ever they hopped?</li>
+<li><strong>Step 18:</strong><br> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?</li>
 </ol>
 <p><br><br></p>
 </div>

@@ -382,11 +382,16 @@ hist(alloutput, br=20, main="The number of same color joins for 1001 variations 
 12. **Step 12:**<br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?
 
 
-What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes.  This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation.  Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calculates the mean of the histogram.
+What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes.  This can be very powerful as it can allow you do deal with things like edge effects. 
+
+But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation.  Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calculates the mean of the histogram.
+
+[THIS FIGURE IS FROM YOUR READING, IF YOU DON'T RECOGNISE IT, GO AND DO THE READING]
 
 ```{r, L5Fig8, echo=FALSE}
 knitr::include_graphics('pg_364Lab5_tobler_2021_fig8.png')
 ```
+<br>
 
 12. **Step 12:**<br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)
 

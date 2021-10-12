@@ -120,7 +120,7 @@ Feel free to also update this in your code template - then as you need libraries
 
 We don't need to just rely on commands that others provide.  We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your "show me something new".
 
-Here is a good overview of functions where they make a custom command to turn Celcius into Farenheit:
+Here is a good overview of functions where they make a custom command to turn Celsius into Fahrenheit:
  - https://swcarpentry.github.io/r-novice-inflammation/02-func-R/
  
 
@@ -146,11 +146,11 @@ Here is a good overview of if-else
 
 ## C: Join Counts
 
-We will first explore the theory, then create a toy dataset, then manually run a hyothesis test, then auto-create one.
+We will first explore the theory, then create a toy dataset, then manually run a hypothesis test, then auto-create one.
 
 ### C1: Join Counts theory
 
-Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.
+Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies among binary or categorical data.
 
 <br>
 
@@ -235,7 +235,7 @@ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)
 
 #### C2b. Creating a spatial weights matrix
 
-Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are "nearby" and create a spatial weights matrix. To find adjacent polygons, we can use package 'spdep'.
+Now, we will convert our dataset to a specific type of spatial data (spdep), so that we can determine which grid-cells are "nearby" and create a spatial weights matrix. To find adjacent polygons, we can use package 'spdep'.
 
 1.  First, we covert our raster data to a spatial polygon using `rasterToPolygons` and `SpatialPolygons`
 
@@ -276,13 +276,13 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 <br>
 
-7. **Step 7:**<br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.
+7. **Step 7:**<br> Explain why your Queens adjacency plot for the Toy_B data looks identical to my Rooks adjacency plot for the Toy_A data.
 
 <br><br>
 
 #### C2c. Conduct a join count analysis manually
 
-Sometimes this process can feel like a blackbox
+Sometimes this process can feel like a black-box
 
 
 <br>
@@ -378,9 +378,14 @@ hist(alloutput, br=20, main="The number of same color joins for 1001 variations 
 12. **Step 12:**<br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?
 
 
-What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes.  This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation.  Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calcuates the mean of the histogram.
+What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes.  This can be very powerful as it can allow you do deal with things like edge effects. 
+
+But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation.  Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calculates the mean of the histogram.
+
+[THIS FIGURE IS FROM YOUR READING, IF YOU DON'T RECOGNISE IT, GO AND DO THE READING]
 
 <img src="pg_364Lab5_tobler_2021_fig8.png" width="2560" />
+<br>
 
 12. **Step 12:**<br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)
 
@@ -404,12 +409,12 @@ Now let's compare against our data.  We can run the same command on our Toy data
 
 ![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
-13. **Step 13:**<br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusally high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?
+13. **Step 13:**<br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?
 
 
 #### C2d. Formally set up a hypothesis test
 
-**That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hyothesis test is!!**
+**That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hypothesis test is!!**
 
 The steps are:
 
@@ -576,7 +581,7 @@ Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in w
 
 <img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" />
 
-18. **Step 18:**<br>  At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted where-ever they hopped?
+18. **Step 18:**<br>  At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
 
 <br><br>
 
