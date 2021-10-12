@@ -9,7 +9,7 @@ output:
     theme: flatly
 ---
 
-```{=html}
+
 <style>
 p.comment {
 background-color: #DBDBDB;
@@ -30,20 +30,21 @@ h2.title {
 }
 
 </style>
-```
-```{=html}
+
+
 <style type="text/css">
 #TOC {
   font-size: 11px;
   font-family: Arial;
 }
 </style>
-```
 
 
 
 
-## Welcome to Lab 5!  DRAFT DO NOT USE
+
+
+## Welcome to Lab 5!
 
 <br>
 
@@ -57,11 +58,7 @@ Assignment 5 is due by midnight the night before your next lab on Canvas. Your j
 
 See [**your canvas assignment here**](https://psu.instructure.com/courses/2120046/assignments/13274838).
 
-<p class="comment">
-
-**Need help?** Add a screenshot/question to the discussion board here: [**LAB 5 DISCUSSION BOARD**](https://psu.instructure.com/courses/2120046/discussion_topics/14125716)
-
-</p>
+<p class="comment">**Need help?** Add a screenshot/question to the discussion board here: [**LAB 5 DISCUSSION BOARD**](https://psu.instructure.com/courses/2120046/discussion_topics/14125716)</p>
 
 <br> <br>
 
@@ -97,7 +94,7 @@ Follow the instructions in Labs 1-4 to create your project file and a blank mark
     -   Change the theme if you like or add in any other features <br>
     -   Remember you can edit your lab in the "editor" mode by clicking on the A at the top right
 
-5.  IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the `VIM` package. (For more instructions, see [Tutorial 2: Package Install](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages))
+5.  **IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the `VIM` package. DO NOT PUT THE CODE IN YOUR SCRIPT OR IT WILL TRY TO DOWNLOAD EVERY TIME YOU PRESS KNIT** (For more instructions, see [Tutorial 2: Package Install](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages))
 
 <br><br>
 
@@ -113,6 +110,8 @@ and turn it into this, which should disappear when you press knit.
 
 <img src="pg_364Lab5_tobler_2021_fig2.png" width="1410" />
 
+Feel free to also update this in your code template - then as you need libraries (e.g. if you run your code and it's missing a library, you can then proactively just add it into this code chunk)
+
 <br><br>
 
 ### B1: Join Counts theory
@@ -121,12 +120,11 @@ Join count statistics are valuable autocorrelation statistics in understanding s
 
 <br>
 
-1.  **Step 1:**<br> Go to Canvas and read the pdf on join counts from canvas (chapter 15.1 of the textbook) - it's only 4 pages but provides crucial background.
+1.  **Step 1:**<br> [**DO NOT SKIP THIS STEP!**]{.ul} Go to Canvas and read the pdf on join counts from canvas (chapter 15.1 of the textbook) - it's only 4 pages but provides crucial background.
 
 <br>
 
-2.  **Step 2:**<br> In your code, create a new heading called join counts. Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary (yes/no ; TRUE/FALSE) data.
-
+2.  **Step 2:**<br> In your code, create a new heading called Join Counts. Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary data (yes/no ; TRUE/FALSE). Feel free to use pictures/examples etc to help you explain it.
 
 <br> <br>
 
@@ -139,16 +137,15 @@ b)  B2b: Create a spatial weights matrix using spdep
 c)  B2c: Set up a hypothesis test
 d)  B2c: Use the `joincount.test` command to automatically calculate it.
 
-
 #### B2a. Create the test dataset
 
-Now let's test on a toy dataset. Here's a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.
+Let's work on a "toy" (tiny/easy/made-up) dataset. Here's a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.
 
 <img src="pg_364Lab5_tobler_2021_fig4.png" width="20%" />
 
 <br>
 
-Now, I will create this in R using a new type of data called a matrix. This is simply a grid of numbers (see data camp intro R for more details: <https://www.datacamp.com/community/tutorials/matrices-in-r>)
+As we are making up imaginary data, we need to create it in R. Now, I will create this in R using a new type of data called a matrix. This is simply a grid of numbers (see data camp intro R for more details: <https://www.datacamp.com/community/tutorials/matrices-in-r>)
 
 
 ```r
@@ -193,13 +190,17 @@ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)
 
 <br>
 
-4.  **Step 4:**<br> Use the code above to create your own matrix that you assign to a variable called called `ToyB_matrix`. <br> **You should create your grid to generally have negative spatial autocorrelation, but still include a little bit of randomness.**<br>Your grid could also have additional rows and column as you desire.
+4.  **Step 4:**<br> Use the code above to create your own matrix that you assign to a variable called called `ToyB_matrix`. <br> **You should create your grid to generally have negative spatial autocorrelation, but still include a little bit of randomness.**<br>Your grid could also have additional rows and column as you desire. 
+
+
+<p class="comment">All the way through my example, I use ToyA_... for my variable names. e.g. `ToyA_raster`, `ToyA_matrix` Name yours ToyB_... to keep your code neat </p>
+
 
 <br> <br>
 
 #### B2b. Creating a spatial weights matrix
 
-Now let's convert our dataset to the right type of spatial data (spdep), so that we can determine which grid-cells are "nearby". To find adjacent polygons, we can use package 'spdep'.
+Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are "nearby" and create a spatial weights matrix. To find adjacent polygons, we can use package 'spdep'.
 
 1.  First, we covert our raster data to a spatial polygon using `rasterToPolygons` and `SpatialPolygons`
 
@@ -232,7 +233,15 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 <br> <br>
 
-5.  **Step 5:**<br> Use the code above to create a spatial weights matrix for `ToyB_matrix`. <br> **Use a queen's weights matrix in your example**
+5.  **Step 5:**<br> In your answer, make a sub-heading called Spatial weights matrix. Explain what a spatial-weights-matrix is, how adjacency can been used to create one (e.g. what are queens/rooks) or how distance might be used to create one (lecture 8A, Lecture 7B). **
+
+<br>
+
+6.  **Step 6:**<br> Use the code above to create a spatial weights matrix for `ToyB_matrix`. <br> **Use a queen's weights matrix in your example**
+
+<br>
+
+7. **Step 7:**<br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.
 
 <br><br>
 
@@ -243,15 +252,18 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 <p class="caption">Join Count Summary from the McGrew textbook</p>
 </div>
 
-Now, everything is set for the analyses: We have our raster, which shows our pattern of green/white grid cells, plus the weights information (as object 'ToyA_weights.rook').
+<br>
 
-Let's now apply the join counts test to evaluate the presence of absence of spatial autocorrelation.
+Now, everything is set for the analyses: I have my spatial data (`ToyA_polygon`), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable `ToyA_weights.rook`.
+
+We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation.
+
 
 First, let's set up in words.
 
 <br>
 
-#### Null hypothesis, H~0~ {-}
+#### Null hypothesis, H~0~ {.unnumbered}
 
 This is normally that we suspect our pattern is *caused* by an Independent Random Process
 
@@ -259,7 +271,7 @@ This null hypothesis of "caused by an IRP" is contained within all the R command
 
 <br>
 
-#### Alternative hypothesis, H~1~ {-}
+#### Alternative hypothesis, H~1~ {.unnumbered}
 
 This could be one of three things, depending on the *direction* of our test:
 
@@ -271,19 +283,9 @@ This could be one of three things, depending on the *direction* of our test:
 
 #### Turning words into maths
 
-The way we are testing "clustered" is by looking at the number of "joins" e.g. is a white cell next to a white cell, or a green cell next to a green cell? (see the reading and the lectures for more). 
+The way we are testing "clustered" is by looking at the number of "joins" e.g. is a white cell next to a white cell, or a green cell next to a green cell? (see the reading and the lectures for more).
 
 We could calculate the average number we would get theoretically and then compare against our observed value for our specific pattern.
-
-
-
-
-
-
-
-
-
-
 
 This means we can turn our hypotheses into:
 
@@ -362,48 +364,36 @@ We can see that there are many more white-white joins / green-green joins than y
 
 <br>
 
-
 **C. Interpretation**
 
-*How many white-to-white joins were observed vs expected in the example above?  How many green-to-green joins were observed vs expected?  What does that mean in terms of the spatial autocorrelation of the field and why?* **[4 marks]**
+*How many white-to-white joins were observed vs expected in the example above? How many green-to-green joins were observed vs expected? What does that mean in terms of the spatial autocorrelation of the field and why?* **[4 marks]**
 
 *Do you accept or reject your null hypothesis?* **[4 marks]**
 
-
-
-
 #### C1. Real life interpretation
 
-In 2010, Staudt et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio).  Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.
+In 2010, Staudt et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio). Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.
 
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig5.png" alt="The strawberry poison frog" width="1832" />
 <p class="caption">The strawberry poison frog</p>
 </div>
 
-The connectivity of grids where frogs were observed feeding in the main foraging time was analysed with “Joins
-Count Statistics”, which tests whether the spatial connection of grids differed from a random spatial distribution. The test counts the number of connected grids in a binary system; in this case a “foraging grid” is marked black and a “non-foraging grid” is marked white. The results indicate whether or not frogs favour special areas (patches) in their territories for prey hunting. If they search in patches, there should be more connections between black-black grids and fewer connections between black-white grids than in a random distribution.
+The connectivity of grids where frogs were observed feeding in the main foraging time was analysed with "Joins Count Statistics", which tests whether the spatial connection of grids differed from a random spatial distribution. The test counts the number of connected grids in a binary system; in this case a "foraging grid" is marked black and a "non-foraging grid" is marked white. The results indicate whether or not frogs favour special areas (patches) in their territories for prey hunting. If they search in patches, there should be more connections between black-black grids and fewer connections between black-white grids than in a random distribution.
 
-Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in which was hunted. W (white) = grid
-in which was not hunted.  The Join Count results for two frogs are as follows:
-
+Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in which was hunted. W (white) = grid in which was not hunted. The Join Count results for two frogs are as follows:
 
 <img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" />
 
 **Frog question 1**
 
-The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely?  Why?
+The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
 
 <img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" />
 
 **Frog question 2**
 
-At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas?  Or is there no evidence to reject the notion that they randomly hunted whereever they hopped?
-
-
-
-
-
+At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted whereever they hopped?
 
 ## E. Above and beyond
 
@@ -437,8 +427,6 @@ Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 4.
 **MARKDOWN/CODE STYLE - 16 MARKS**
 
 Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.You have written in full sentences, it is clear what your answers are referring to. YOU HAVE USED THE SPELL CHECK. SPELLING ERRORS LOSE YOU MARKS.
-
-
 
 **Above and beyond: 4 MARKS**
 

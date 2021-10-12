@@ -445,8 +445,8 @@ h2.title {
   font-family: Arial;
 }
 </style>
-<div id="welcome-to-lab-5-draft-do-not-use" class="section level2">
-<h2>Welcome to Lab 5! DRAFT DO NOT USE</h2>
+<div id="welcome-to-lab-5" class="section level2">
+<h2>Welcome to Lab 5!</h2>
 <p><br></p>
 <p>The aim of this lab is to work on autocorrelation, especially join counts and census data. By the end of the lab you will be able to:</p>
 <ol style="list-style-type: decimal">
@@ -457,7 +457,7 @@ h2.title {
 <p>Assignment 5 is due by midnight the night before your next lab on Canvas. Your job is to submit the requirements on this page.</p>
 <p>See <a href="https://psu.instructure.com/courses/2120046/assignments/13274838"><strong>your canvas assignment here</strong></a>.</p>
 <p class="comment">
-<p><strong>Need help?</strong> Add a screenshot/question to the discussion board here: <a href="https://psu.instructure.com/courses/2120046/discussion_topics/14125716"><strong>LAB 5 DISCUSSION BOARD</strong></a></p>
+<strong>Need help?</strong> Add a screenshot/question to the discussion board here: <a href="https://psu.instructure.com/courses/2120046/discussion_topics/14125716"><strong>LAB 5 DISCUSSION BOARD</strong></a>
 </p>
 <p><br> <br></p>
 </div>
@@ -485,7 +485,7 @@ h2.title {
 <li>Change the theme if you like or add in any other features <br></li>
 <li>Remember you can edit your lab in the “editor” mode by clicking on the A at the top right</li>
 </ul></li>
-<li><p>IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the <code>VIM</code> package. (For more instructions, see <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages">Tutorial 2: Package Install</a>)</p></li>
+<li><p><strong>IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the <code>VIM</code> package. DO NOT PUT THE CODE IN YOUR SCRIPT OR IT WILL TRY TO DOWNLOAD EVERY TIME YOU PRESS KNIT</strong> (For more instructions, see <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages">Tutorial 2: Package Install</a>)</p></li>
 </ol>
 <p><br><br></p>
 </div>
@@ -496,6 +496,7 @@ h2.title {
 <p><img src="pg_364Lab5_tobler_2021_fig1.png" width="1310" /></p>
 <p>and turn it into this, which should disappear when you press knit.</p>
 <p><img src="pg_364Lab5_tobler_2021_fig2.png" width="1410" /></p>
+<p>Feel free to also update this in your code template - then as you need libraries (e.g. if you run your code and it’s missing a library, you can then proactively just add it into this code chunk)</p>
 <p><br><br></p>
 </div>
 <div id="b1-join-counts-theory" class="section level3">
@@ -503,11 +504,11 @@ h2.title {
 <p>Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.</p>
 <p><br></p>
 <ol style="list-style-type: decimal">
-<li><strong>Step 1:</strong><br> Go to Canvas and read the pdf on join counts from canvas (chapter 15.1 of the textbook) - it’s only 4 pages but provides crucial background.</li>
+<li><strong>Step 1:</strong><br> <u><strong>DO NOT SKIP THIS STEP!</strong></u> Go to Canvas and read the pdf on join counts from canvas (chapter 15.1 of the textbook) - it’s only 4 pages but provides crucial background.</li>
 </ol>
 <p><br></p>
 <ol start="2" style="list-style-type: decimal">
-<li><strong>Step 2:</strong><br> In your code, create a new heading called join counts. Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary (yes/no ; TRUE/FALSE) data.</li>
+<li><strong>Step 2:</strong><br> In your code, create a new heading called Join Counts. Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary data (yes/no ; TRUE/FALSE). Feel free to use pictures/examples etc to help you explain it.</li>
 </ol>
 <p><br> <br></p>
 </div>
@@ -522,10 +523,10 @@ h2.title {
 </ol>
 <div id="b2a.-create-the-test-dataset" class="section level4">
 <h4>B2a. Create the test dataset</h4>
-<p>Now let’s test on a toy dataset. Here’s a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.</p>
+<p>Let’s work on a “toy” (tiny/easy/made-up) dataset. Here’s a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.</p>
 <p><img src="pg_364Lab5_tobler_2021_fig4.png" width="20%" /></p>
 <p><br></p>
-<p>Now, I will create this in R using a new type of data called a matrix. This is simply a grid of numbers (see data camp intro R for more details: <a href="https://www.datacamp.com/community/tutorials/matrices-in-r" class="uri">https://www.datacamp.com/community/tutorials/matrices-in-r</a>)</p>
+<p>As we are making up imaginary data, we need to create it in R. Now, I will create this in R using a new type of data called a matrix. This is simply a grid of numbers (see data camp intro R for more details: <a href="https://www.datacamp.com/community/tutorials/matrices-in-r" class="uri">https://www.datacamp.com/community/tutorials/matrices-in-r</a>)</p>
 <pre class="r"><code>row.1 &lt;- rep(1,6)  
 row.2 &lt;- c(0,1,1,1,1,1)
 row.3 &lt;- c(rep(0,5),1)
@@ -558,11 +559,14 @@ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li><strong>Step 4:</strong><br> Use the code above to create your own matrix that you assign to a variable called called <code>ToyB_matrix</code>. <br> <strong>You should create your grid to generally have negative spatial autocorrelation, but still include a little bit of randomness.</strong><br>Your grid could also have additional rows and column as you desire.</li>
 </ol>
+<p class="comment">
+All the way through my example, I use ToyA_… for my variable names. e.g. <code>ToyA_raster</code>, <code>ToyA_matrix</code> Name yours ToyB_… to keep your code neat
+</p>
 <p><br> <br></p>
 </div>
 <div id="b2b.-creating-a-spatial-weights-matrix" class="section level4">
 <h4>B2b. Creating a spatial weights matrix</h4>
-<p>Now let’s convert our dataset to the right type of spatial data (spdep), so that we can determine which grid-cells are “nearby”. To find adjacent polygons, we can use package ‘spdep’.</p>
+<p>Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are “nearby” and create a spatial weights matrix. To find adjacent polygons, we can use package ‘spdep’.</p>
 <ol style="list-style-type: decimal">
 <li><p>First, we covert our raster data to a spatial polygon using <code>rasterToPolygons</code> and <code>SpatialPolygons</code></p></li>
 <li><p>Then we use the <code>poly2nb</code> command to build a list of neighbors based on adjacency (queens or rooks)</p></li>
@@ -586,7 +590,15 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
 <p><br> <br></p>
 <ol start="5" style="list-style-type: decimal">
-<li><strong>Step 5:</strong><br> Use the code above to create a spatial weights matrix for <code>ToyB_matrix</code>. <br> <strong>Use a queen’s weights matrix in your example</strong></li>
+<li><strong>Step 5:</strong><br> In your answer, make a sub-heading called Spatial weights matrix. Explain what a spatial-weights-matrix is, how adjacency can been used to create one (e.g. what are queens/rooks) or how distance might be used to create one (lecture 8A, Lecture 7B). **</li>
+</ol>
+<p><br></p>
+<ol start="6" style="list-style-type: decimal">
+<li><strong>Step 6:</strong><br> Use the code above to create a spatial weights matrix for <code>ToyB_matrix</code>. <br> <strong>Use a queen’s weights matrix in your example</strong></li>
+</ol>
+<p><br></p>
+<ol start="7" style="list-style-type: decimal">
+<li><strong>Step 7:</strong><br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -598,8 +610,9 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 Join Count Summary from the McGrew textbook
 </p>
 </div>
-<p>Now, everything is set for the analyses: We have our raster, which shows our pattern of green/white grid cells, plus the weights information (as object ‘ToyA_weights.rook’).</p>
-<p>Let’s now apply the join counts test to evaluate the presence of absence of spatial autocorrelation.</p>
+<p><br></p>
+<p>Now, everything is set for the analyses: I have my spatial data (<code>ToyA_polygon</code>), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable <code>ToyA_weights.rook</code>.</p>
+<p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation.</p>
 <p>First, let’s set up in words.</p>
 <p><br></p>
 </div>
