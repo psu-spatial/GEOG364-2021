@@ -297,20 +297,23 @@ For example, here is how I would use an Independent Random Process to create the
 
 
 ```r
-toyIRP <- function(nrow=6,ncolumn=6, silent=FALSE){
+toyIRP <- function(matrix_input, silent=FALSE){
 
-  #---------------------------------------------------------------------------
-  # create X random numbers between 0 and 1  (runif, = random uniform generator)
-  # use the round function to turn them into either a 0 (< 0.5) or a 1 (>= 0.5)
-  # X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
-  #---------------------------------------------------------------------------
-  randomnumbers <- runif(nrow*ncolumn,0,1)
-  randombinary <- round(randomnumbers)
+  # find how big out input matrix is
+  nrows  <- nrow(matrix_input)
+  ncols <- nrow(matrix_input)
+  numberones <- 13
+  # make a list of all the ones and zeros
+  alltheones  <- rep(1,numberones)
+  allthezeros  <- rep(0, ((nrows*ncols) - numberones))
+  # randomise
+  randombinary <- sample(c(alltheones,allthezeros),size=(nrows*ncols),replace=FALSE)
+
   
   #---------------------------------------------------------------------------
   # Turn into a matrix and create the weights etc.
   #---------------------------------------------------------------------------
-  IRP_matrix   <- matrix(randombinary, nrow=nrow,ncol=ncolumn, byrow=TRUE)
+  IRP_matrix   <- matrix(randombinary, nrow=nrows,ncol=ncols, byrow=TRUE)
   IRP_raster   <- raster(IRP_matrix)
   IRP_polygon  <- rasterToPolygons(IRP_raster, dissolve=FALSE)
   IRP_spdep    <- SpatialPolygons(IRP_polygon@polygons)
@@ -323,7 +326,7 @@ toyIRP <- function(nrow=6,ncolumn=6, silent=FALSE){
   # If you want to see the output (e.g. silent=FALSE) then plot
   if(silent == FALSE){
     plot(IRP_raster, 
-         main = list(paste("Number of same color (WW or GG) boundaries = ",ww_gg_joincount),cex=.9))
+         main = list(paste("CSR:Number of same color (WW or GG) boundaries = ",ww_gg_joincount),cex=.9))
     text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
   }
   
@@ -337,12 +340,11 @@ toyIRP <- function(nrow=6,ncolumn=6, silent=FALSE){
 8. **Step 8:**<br> Create a new code chunk and copy the code above into your script. When you press run, nothing should happen, but you will see a new "function" appear in your Environment quadrant/tab.
 
 
-9. **Step 9:**<br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of same-color joins.  Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of same-color joins each time,<br> *If you are confused, To fully understand, try editing the nunmber of rows and columns to make a mini one e.g. try 2 rows and 2 columns and you can count white-white and green-green boundaries manually*
-
+9. **Step 9:**<br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of same-color joins.  Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of same-color joins each time,<br> 
 
 
 ```r
-output <- toyIRP(nrow=6,ncolumn=6, silent=FALSE)
+output <- toyIRP(ToyA_matrix, silent=FALSE)
 ```
 
 ![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
@@ -357,11 +359,11 @@ output <- toyIRP(nrow=6,ncolumn=6, silent=FALSE)
 
 ```r
 # Run once
-alloutput <-  toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+alloutput <-  toyIRP(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
 for(n in 1:1000){
-  newIRP <- toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  newIRP <- toyIRP(ToyA_matrix, silent=TRUE)
   alloutput <-  c(alloutput, newIRP)
 }  
 
@@ -378,7 +380,7 @@ hist(alloutput, br=20, main="The number of same color joins for 1001 variations 
 
 What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes.  This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation.  Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calcuates the mean of the histogram.
 
-<img src="pg_364Lab5_tobler_2021_fig8.png" width="20%" />
+<img src="pg_364Lab5_tobler_2021_fig8.png" width="2560" />
 
 12. **Step 12:**<br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)
 
@@ -484,7 +486,8 @@ For my ToyA_jointest:
 
 ```r
 ToyA_jointest <- joincount.test(fx    = as.factor(ToyA_polygon$layer), 
-                                listw = ToyA_weights.rook,             
+                                listw = ToyA_weights.rook,   
+                                sampling = "nonfree",
                                 alternative = "two.sided") 
 ```
 
@@ -511,26 +514,47 @@ ToyA_jointest[[1]]
 ##             33.000000             24.095238              4.594478
 ```
 
-Here's how this looks on our histogram:
+Here's how this looks on our histogram.  The probability/p-value is the percentage of the histogram that is more extreme than our observation (assuming it comes from a normal distribution).  Note, my histogram here looks much wider than the one you made because I ran the IRP 15000 times to capture all the unusual cases.
+
+We can see that, with a p-value = 3.262e-05, only 0.003262% of cases from an IRP-generated pattern would have seen 33 or more white-white joins.  It's incredibly unusual.
+
+*If the p-value was 0.041, then it means 4.1% of cases from an IRP-generated pattern would have seen 33 or more white-white joins.*
+
+*If the p-value was 0.61, then it means 61% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. So it's very common and there's no evidence at all that this is unusual.*
+
+Often you can choose your level of tolerance in advance (e.g. I'm willing to accept that this is unusual and it might not be from an IRP if my p-value was < 0.02, e.g. I'm willing to be wrong 2% of the time).  The exact number depends on your level of tolerance.  0.05 is nothing special.
 
 
 
 
 
+![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
-We can see that there are many more white-white joins / green-green joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins, so in this case, most people can can safely reject the null hypothesis.
+We can see that there are many more white-white joins joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins (), so in this case, most people can can safely reject the null hypothesis.
+
+15. **Step 15:**<br> In the `joincount.test` command, there is an argument, sampling = "nonfree".  Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.
+
 
 <br>
 
+#### Interpretation
+
+So finally we can formally conclude:
+
+- The p-value for our test of white-white joins was 3.262e-05, so only 0.003262% of cases caused by an IRP-generated pattern (non-free sampling) would have seen 33 or more white-white joins.  
+
+ - I am willing to accept this level of uncertainty in the result. I have enough evidence to reject the null hypothesis and suggest that Toy_A is not caused by an IRP.
+
+
+16. **Step 16:**<br> Run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.  
+ 
+
+<br>
 <br>
 
-**C. Interpretation**
 
-*How many white-to-white joins were observed vs expected in the example above? How many green-to-green joins were observed vs expected? What does that mean in terms of the spatial autocorrelation of the field and why?* **[4 marks]**
 
-*Do you accept or reject your null hypothesis?* **[4 marks]**
-
-#### C1. Real life interpretation
+##. Real life example
 
 In 2010, Staudt et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio). Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.
 
@@ -544,16 +568,17 @@ The connectivity of grids where frogs were observed feeding in the main foraging
 Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in which was hunted. W (white) = grid in which was not hunted. The Join Count results for two frogs are as follows:
 
 <img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" />
+<br>
 
-**Frog question 1**
+17. **Step 17:**<br> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
 
-The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
+<br>
 
 <img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" />
 
-**Frog question 2**
+18. **Step 18:**<br>  At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted where-ever they hopped?
 
-At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted whereever they hopped?
+<br><br>
 
 ## E. Above and beyond
 
@@ -565,6 +590,8 @@ Remember that an A is 93%, so you can ignore this section and still easily get a
 -   You get 4/4 for something really impressive or 3+ small things.
 
 Please tell us in your R script what you did!
+
+<br><br>
 
 ## F. Submitting your Lab
 

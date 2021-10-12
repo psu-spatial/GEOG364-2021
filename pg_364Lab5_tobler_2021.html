@@ -632,20 +632,23 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 <p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.</p>
 <p>We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.</p>
 <p>For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I’m using the “function” command to make a custom command that I am calling <code>toyIRP</code>.</p>
-<pre class="r"><code>toyIRP &lt;- function(nrow=6,ncolumn=6, silent=FALSE){
+<pre class="r"><code>toyIRP &lt;- function(matrix_input, silent=FALSE){
 
-  #---------------------------------------------------------------------------
-  # create X random numbers between 0 and 1  (runif, = random uniform generator)
-  # use the round function to turn them into either a 0 (&lt; 0.5) or a 1 (&gt;= 0.5)
-  # X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
-  #---------------------------------------------------------------------------
-  randomnumbers &lt;- runif(nrow*ncolumn,0,1)
-  randombinary &lt;- round(randomnumbers)
+  # find how big out input matrix is
+  nrows  &lt;- nrow(matrix_input)
+  ncols &lt;- nrow(matrix_input)
+  numberones &lt;- 13
+  # make a list of all the ones and zeros
+  alltheones  &lt;- rep(1,numberones)
+  allthezeros  &lt;- rep(0, ((nrows*ncols) - numberones))
+  # randomise
+  randombinary &lt;- sample(c(alltheones,allthezeros),size=(nrows*ncols),replace=FALSE)
+
   
   #---------------------------------------------------------------------------
   # Turn into a matrix and create the weights etc.
   #---------------------------------------------------------------------------
-  IRP_matrix   &lt;- matrix(randombinary, nrow=nrow,ncol=ncolumn, byrow=TRUE)
+  IRP_matrix   &lt;- matrix(randombinary, nrow=nrows,ncol=ncols, byrow=TRUE)
   IRP_raster   &lt;- raster(IRP_matrix)
   IRP_polygon  &lt;- rasterToPolygons(IRP_raster, dissolve=FALSE)
   IRP_spdep    &lt;- SpatialPolygons(IRP_polygon@polygons)
@@ -658,7 +661,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
   # If you want to see the output (e.g. silent=FALSE) then plot
   if(silent == FALSE){
     plot(IRP_raster, 
-         main = list(paste(&quot;Number of same color (WW or GG) boundaries = &quot;,ww_gg_joincount),cex=.9))
+         main = list(paste(&quot;CSR:Number of same color (WW or GG) boundaries = &quot;,ww_gg_joincount),cex=.9))
     text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
   }
   
@@ -667,9 +670,9 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 <p><br></p>
 <ol start="8" style="list-style-type: decimal">
 <li><p><strong>Step 8:</strong><br> Create a new code chunk and copy the code above into your script. When you press run, nothing should happen, but you will see a new “function” appear in your Environment quadrant/tab.</p></li>
-<li><p><strong>Step 9:</strong><br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of same-color joins. Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of same-color joins each time,<br> <em>If you are confused, To fully understand, try editing the nunmber of rows and columns to make a mini one e.g. try 2 rows and 2 columns and you can count white-white and green-green boundaries manually</em></p></li>
+<li><p><strong>Step 9:</strong><br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of same-color joins. Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of same-color joins each time,<br></p></li>
 </ol>
-<pre class="r"><code>output &lt;- toyIRP(nrow=6,ncolumn=6, silent=FALSE)</code></pre>
+<pre class="r"><code>output &lt;- toyIRP(ToyA_matrix, silent=FALSE)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
 <ol start="10" style="list-style-type: decimal">
 <li><strong>Step 10:</strong><br> On average, if an IRP really did cause the pattern for a 6x6 matrix, how many same-colorjoins would you expect to see? Why does the number change each time you run it?</li>
@@ -679,11 +682,11 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 <li><strong>Step 11:</strong><br> Now, let’s run the code many times (1001 times!), store the number of same color joins each time and make a histogram of the output. Copy/run the code below, I have turned the plotting off. It is running the command 1000 times, so it might take a minute.</li>
 </ol>
 <pre class="r"><code># Run once
-alloutput &lt;-  toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+alloutput &lt;-  toyIRP(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
 for(n in 1:1000){
-  newIRP &lt;- toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  newIRP &lt;- toyIRP(ToyA_matrix, silent=TRUE)
   alloutput &lt;-  c(alloutput, newIRP)
 }  
 
@@ -695,7 +698,7 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
 <li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?</li>
 </ol>
 <p>What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation. Note, it doesn’t mean that an IRP will ALWAYS cause the “expected number”, this equation just calcuates the mean of the histogram.</p>
-<p><img src="pg_364Lab5_tobler_2021_fig8.png" width="20%" /></p>
+<p><img src="pg_364Lab5_tobler_2021_fig8.png" width="2560" /></p>
 <ol start="12" style="list-style-type: decimal">
 <li><strong>Step 12:</strong><br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)</li>
 </ol>
@@ -782,7 +785,8 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
 <p>R will do all the hard work for us. In the command below, <code>fx</code> is the data itself, <code>listw</code> is what we count as a “neighbour” (e.g. our spatial weights matrix, what pairs of boundaries to compare) and <code>alternative</code> is whether you want to test if something is more clustered (“greater”), more uniform (“less”) or simply different (“two.sided”).</p>
 <p>For my ToyA_jointest:</p>
 <pre class="r"><code>ToyA_jointest &lt;- joincount.test(fx    = as.factor(ToyA_polygon$layer), 
-                                listw = ToyA_weights.rook,             
+                                listw = ToyA_weights.rook,   
+                                sampling = &quot;nonfree&quot;,
                                 alternative = &quot;two.sided&quot;) </code></pre>
 <p>joincount.test actually does two tests (white-white) and (green-green), so we use double square brackets [[ ]] to show the first and second test separately:</p>
 <pre class="r"><code># White-to-white Join counts
@@ -798,16 +802,30 @@ ToyA_jointest[[1]]</code></pre>
 ## sample estimates:
 ## Same colour statistic           Expectation              Variance 
 ##             33.000000             24.095238              4.594478</code></pre>
-<p>Here’s how this looks on our histogram:</p>
-<p>We can see that there are many more white-white joins / green-green joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins, so in this case, most people can can safely reject the null hypothesis.</p>
+<p>Here’s how this looks on our histogram. The probability/p-value is the percentage of the histogram that is more extreme than our observation (assuming it comes from a normal distribution). Note, my histogram here looks much wider than the one you made because I ran the IRP 15000 times to capture all the unusual cases.</p>
+<p>We can see that, with a p-value = 3.262e-05, only 0.003262% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. It’s incredibly unusual.</p>
+<p><em>If the p-value was 0.041, then it means 4.1% of cases from an IRP-generated pattern would have seen 33 or more white-white joins.</em></p>
+<p><em>If the p-value was 0.61, then it means 61% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. So it’s very common and there’s no evidence at all that this is unusual.</em></p>
+<p>Often you can choose your level of tolerance in advance (e.g. I’m willing to accept that this is unusual and it might not be from an IRP if my p-value was &lt; 0.02, e.g. I’m willing to be wrong 2% of the time). The exact number depends on your level of tolerance. 0.05 is nothing special.</p>
+<p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+<p>We can see that there are many more white-white joins joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins (), so in this case, most people can can safely reject the null hypothesis.</p>
+<ol start="15" style="list-style-type: decimal">
+<li><strong>Step 15:</strong><br> In the <code>joincount.test</code> command, there is an argument, sampling = “nonfree”. Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.</li>
+</ol>
 <p><br></p>
-<p><br></p>
-<p><strong>C. Interpretation</strong></p>
-<p><em>How many white-to-white joins were observed vs expected in the example above? How many green-to-green joins were observed vs expected? What does that mean in terms of the spatial autocorrelation of the field and why?</em> <strong>[4 marks]</strong></p>
-<p><em>Do you accept or reject your null hypothesis?</em> <strong>[4 marks]</strong></p>
 </div>
-<div id="c1.-real-life-interpretation" class="section level4">
-<h4>C1. Real life interpretation</h4>
+<div id="interpretation" class="section level4">
+<h4>Interpretation</h4>
+<p>So finally we can formally conclude:</p>
+<ul>
+<li><p>The p-value for our test of white-white joins was 3.262e-05, so only 0.003262% of cases caused by an IRP-generated pattern (non-free sampling) would have seen 33 or more white-white joins.</p></li>
+<li><p>I am willing to accept this level of uncertainty in the result. I have enough evidence to reject the null hypothesis and suggest that Toy_A is not caused by an IRP.</p></li>
+</ul>
+<ol start="16" style="list-style-type: decimal">
+<li><strong>Step 16:</strong><br> Run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.</li>
+</ol>
+<p><br> <br></p>
+<p>##. Real life example</p>
 <p>In 2010, Staudt et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio). Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.</p>
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig5.png" alt="The strawberry poison frog" width="1832" />
@@ -817,12 +835,16 @@ The strawberry poison frog
 </div>
 <p>The connectivity of grids where frogs were observed feeding in the main foraging time was analysed with “Joins Count Statistics”, which tests whether the spatial connection of grids differed from a random spatial distribution. The test counts the number of connected grids in a binary system; in this case a “foraging grid” is marked black and a “non-foraging grid” is marked white. The results indicate whether or not frogs favour special areas (patches) in their territories for prey hunting. If they search in patches, there should be more connections between black-black grids and fewer connections between black-white grids than in a random distribution.</p>
 <p>Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in which was hunted. W (white) = grid in which was not hunted. The Join Count results for two frogs are as follows:</p>
-<p><img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" /></p>
-<p><strong>Frog question 1</strong></p>
-<p>The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?</p>
+<p><img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" /> <br></p>
+<ol start="17" style="list-style-type: decimal">
+<li><strong>Step 17:</strong><br> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?</li>
+</ol>
+<p><br></p>
 <p><img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" /></p>
-<p><strong>Frog question 2</strong></p>
-<p>At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted whereever they hopped?</p>
+<ol start="18" style="list-style-type: decimal">
+<li><strong>Step 18:</strong><br> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted where-ever they hopped?</li>
+</ol>
+<p><br><br></p>
 </div>
 </div>
 </div>
@@ -835,6 +857,7 @@ The strawberry poison frog
 <li>You get 4/4 for something really impressive or 3+ small things.</li>
 </ul>
 <p>Please tell us in your R script what you did!</p>
+<p><br><br></p>
 </div>
 <div id="f.-submitting-your-lab" class="section level2">
 <h2>F. Submitting your Lab</h2>
