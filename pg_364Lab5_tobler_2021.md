@@ -436,9 +436,9 @@ Here we are suggesting that our pattern is *caused* by an Independent Random Pro
 
 Although the default code is set to test against an IRP generated pattern, you don't *have* to use one - e.g. you could manually test if pattern is more/less clustered than one caused by some other process that you care about like distance to a power station.
 
-If that is the case then we can say things like 
+So....
 
-H~0~: An Independent Random Process is causing the pattern. Therefore the observed  O~WW~ \= E~WW~
+**H~0~: An Independent Random Process is causing the pattern (e.g. our observation is just another one of those 1000 runs that made the histogram)<br> So the number of Observed "white-white" joins (O~White-White~) is no different than what you would expect from a pattern caused by an Independent Random Process: O~WW~ = E~WW~*.**
 
 
 <br>
@@ -447,11 +447,21 @@ H~0~: An Independent Random Process is causing the pattern. Therefore the observ
 
 This could be one of three things, depending on the *direction* of our test:
 
--   H~1~ : Our pattern is **different** than we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test") <br> So we're saying this pattern is unusual given the process or..
+-   H~1~ : Our pattern is **different** than we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test") <br> So we're saying this pattern is unusual given the process <br>
 
--   H~1~ : Our pattern is **more** **clustered** than we would expect from one caused by an IRP ("one tailed test") <br> or...
+or..
+
+-   H~1~ : Our pattern is **more** **clustered** than we would expect from one caused by an IRP ("one tailed test") <br> 
+
+or...
 
 -   H~1~ : Our pattern is **less** **clustered/more uniform** than we would expect from one caused by an IRP ("one tailed test")
+
+
+
+e.g.
+
+
 
 #### Turning words into maths
 
