@@ -457,29 +457,39 @@ or..
 or...
 
  - H~1~ :*Our pattern is unusually uniform/dispersed compared to one caused by an IRP, so the number of Observed "same color" joins (O~White-White~) is __less__ than what you would expect from a pattern caused by an Independent Random Process: O~WW~ < E~WW~* <br> 
+ 
+#### Example
+
+If I wanted to see if my ToyA matrix was simply usual to one compared to an IRP, here are my H0 and H1:
+
+ - H~0~: *An Independent Random Process is causing the pattern in ToyA. <br> The number of Observed "white-white" joins (O~WW~) is no different than what you would expect from a pattern caused by an Independent Random Process (E~WW~):<br> O~WW~ = E~WW~*.
+ 
+  - H~1~ : *The pattern in ToyA is __different__ than what we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test"): <br> O~WW~ != E~WW~* <br>
+
+ 
+ 
+14. **Step 14:**<br> Write your H0 and H1 to test whether your pattern in ToyB is unusually clustered compared to one caused by an IRP (e.g. does it exhibit unusual levels of positive autocorrelation)
+
+ 
 
 #### Test statistic
 
-We now need a way to formally compare our observed and expected number of white-white borders.  The way we are going to do this is to assume that the histogram we made earlier comes from a normal distribution.
+We now need a way to formally compare our observed and expected number of white-white borders.  The way we are going to do this is to assume that the histogram we made earlier comes from a normal distribution.  Then we can simply use a z-score to look at the probability of getting that value (see homework 2).
+
+R will do all the hard work for us. In the command below, `fx` is the data itself, `listw` is what we count as a "neighbour" (e.g. our spatial weights matrix, what pairs of boundaries to compare) and `alternative` is whether you want to test if something is more clustered ("greater"), more uniform ("less") or simply different ("two.sided").
 
 
-
-Here is the code for the Z-test
+For my ToyA_jointest:
 
 
 ```r
 ToyA_jointest <- joincount.test(fx    = as.factor(ToyA_polygon$layer), 
                                 listw = ToyA_weights.rook,             
-                                alternative = "greater") 
+                                alternative = "two.sided") 
 ```
 
-Another thing to note is that you can select which different tailed alternative hypothesis:
 
--   (default) 'greater': the alternative hypothesis that the number of like joins is more than expected by random chance. *(THIS IS ONLY TRUE IF THE THING YOU ARE TESTING IS WW or GG joins. The opposite would be the case if you tested GW joins, think through why this is the case)*
--   'less': the alternative hypothesis that the number of like joins is fewer than expected by random chance (indicating higher levels of dispersion). *(IF THE THING YOU ARE TESTING IS WW or GG joins. The opposite would be the case if you tested GW joins.)*
--   'two.sided': the alternative hypothesis that the number of like joins is simply different to the number you would expect from random chance. This is unusual to use as we are normally looking for either clustering or dispersion.
-
-joincount.test actually does two tests, so we use double square brackets [[ ]] to show the first and second test separately:
+joincount.test actually does two tests (white-white) and (green-green), so we use double square brackets [[ ]] to show the first and second test separately:
 
 
 ```r
@@ -494,32 +504,19 @@ ToyA_jointest[[1]]
 ## data:  as.factor(ToyA_polygon$layer) 
 ## weights: ToyA_weights.rook 
 ## 
-## Std. deviate for 0 = 4.1544, p-value = 1.631e-05
-## alternative hypothesis: greater
+## Std. deviate for 0 = 4.1544, p-value = 3.262e-05
+## alternative hypothesis: two.sided
 ## sample estimates:
 ## Same colour statistic           Expectation              Variance 
 ##             33.000000             24.095238              4.594478
 ```
 
+Here's how this looks on our histogram:
 
-```r
-# Green-to-green Join counts
-ToyA_jointest[[2]]
-```
 
-```
-## 
-## 	Join count test under nonfree sampling
-## 
-## data:  as.factor(ToyA_polygon$layer) 
-## weights: ToyA_weights.rook 
-## 
-## Std. deviate for 1 = 4.06, p-value = 2.453e-05
-## alternative hypothesis: greater
-## sample estimates:
-## Same colour statistic           Expectation              Variance 
-##             15.000000              7.428571              3.477764
-```
+
+
+
 
 We can see that there are many more white-white joins / green-green joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins, so in this case, most people can can safely reject the null hypothesis.
 
