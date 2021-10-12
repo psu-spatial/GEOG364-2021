@@ -499,8 +499,25 @@ h2.title {
 <p>Feel free to also update this in your code template - then as you need libraries (e.g. if you run your code and it’s missing a library, you can then proactively just add it into this code chunk)</p>
 <p><br><br></p>
 </div>
-<div id="b1-join-counts-theory" class="section level3">
-<h3>B1: Join Counts theory</h3>
+<div id="b-new-r-coding" class="section level3">
+<h3>B: New R coding</h3>
+<div id="b1-custom-commands-functions" class="section level4">
+<h4>B1: Custom commands: Functions</h4>
+<p>We don’t need to just rely on commands that others provide. We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your “show me something new”.</p>
+<p>Here is a good overview of functions where they make a custom command to turn Celcius into Farenheit: - <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/" class="uri">https://swcarpentry.github.io/r-novice-inflammation/02-func-R/</a></p>
+</div>
+<div id="b2-asking-questions-if-statements" class="section level4">
+<h4>B2: Asking Questions: If statements</h4>
+<p>Sometimes we only want R to do something <em>if</em> something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10. The if statement allows us to do this.</p>
+<p>if(a &gt; b){ do output commands }else{ do something else }</p>
+<p>You can read this like a sentence e.g. “if a is greater than b, do the output commands in the first bit, else do the other stuff.”</p>
+<p>Again, you will not be asked to make your own in this class, but it is a useful skill and you could consider making if statements as your “show me something new”.</p>
+<p>Here is a good overview of if-else - <a href="https://www.datamentor.io/r-programming/if-else-statement/" class="uri">https://www.datamentor.io/r-programming/if-else-statement/</a></p>
+<p><br><br></p>
+</div>
+</div>
+<div id="c1-join-counts-theory" class="section level3">
+<h3>C1: Join Counts theory</h3>
 <p>Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.</p>
 <p><br></p>
 <ol style="list-style-type: decimal">
@@ -512,17 +529,17 @@ h2.title {
 </ol>
 <p><br> <br></p>
 </div>
-<div id="b2-join-counts-coding" class="section level3">
-<h3>B2: Join Counts coding</h3>
+<div id="c2-join-counts-coding" class="section level3">
+<h3>C2: Join Counts coding</h3>
 <p>This section focuses on using R to calculate join count statistics using a toy dataset. We will:</p>
 <ol style="list-style-type: lower-alpha">
-<li>B2a: Create a test “toy” dataset (note normally you would read your own data in from file)</li>
-<li>B2b: Create a spatial weights matrix using spdep</li>
-<li>B2c: Set up a hypothesis test</li>
-<li>B2c: Use the <code>joincount.test</code> command to automatically calculate it.</li>
+<li>C2a: Create a test “toy” dataset (note normally you would read your own data in from file)</li>
+<li>C2b: Create a spatial weights matrix using spdep</li>
+<li>C2c: Set up a hypothesis test</li>
+<li>C2c: Use the <code>joincount.test</code> command to automatically calculate it.</li>
 </ol>
-<div id="b2a.-create-the-test-dataset" class="section level4">
-<h4>B2a. Create the test dataset</h4>
+<div id="c2a.-create-the-test-dataset" class="section level4">
+<h4>C2a. Create the test dataset</h4>
 <p>Let’s work on a “toy” (tiny/easy/made-up) dataset. Here’s a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.</p>
 <p><img src="pg_364Lab5_tobler_2021_fig4.png" width="20%" /></p>
 <p><br></p>
@@ -564,8 +581,8 @@ All the way through my example, I use ToyA_… for my variable names. e.g. <cod
 </p>
 <p><br> <br></p>
 </div>
-<div id="b2b.-creating-a-spatial-weights-matrix" class="section level4">
-<h4>B2b. Creating a spatial weights matrix</h4>
+<div id="c2b.-creating-a-spatial-weights-matrix" class="section level4">
+<h4>C2b. Creating a spatial weights matrix</h4>
 <p>Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are “nearby” and create a spatial weights matrix. To find adjacent polygons, we can use package ‘spdep’.</p>
 <ol style="list-style-type: decimal">
 <li><p>First, we covert our raster data to a spatial polygon using <code>rasterToPolygons</code> and <code>SpatialPolygons</code></p></li>
@@ -602,8 +619,8 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 </ol>
 <p><br><br></p>
 </div>
-<div id="b2c.-conduct-a-join-count-analysis" class="section level4">
-<h4>B2c. Conduct a join count analysis</h4>
+<div id="c2c.-conduct-a-join-count-analysis" class="section level4">
+<h4>C2c. Conduct a join count analysis</h4>
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig3.png" alt="Join Count Summary from the McGrew textbook" width="1972" />
 <p class="caption">
@@ -612,7 +629,48 @@ Join Count Summary from the McGrew textbook
 </div>
 <p><br></p>
 <p>Now, everything is set for the analyses: I have my spatial data (<code>ToyA_polygon</code>), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable <code>ToyA_weights.rook</code>.</p>
-<p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation.</p>
+<p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.</p>
+<p>We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.</p>
+<p>For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I’m using the “function” command to make a custom command that I am calling <code>toyIRP</code>.</p>
+<pre class="r"><code>toyIRP &lt;- function(nrow=6,ncolumn=6){
+
+#---------------------------------------------------------------------------
+# create X random numbers between 0 and 1  (runif, = random uniform generator)
+# use the round function to turn them into either a 0 (&lt; 0.5) or a 1 (&gt;= 0.5)
+# X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
+#---------------------------------------------------------------------------
+ randomnumbers &lt;- runif(nrow*ncol,0,1)
+ randombinary &lt;- round(randomnumbers)
+ 
+ # If you want to see the output, then I am asking the code to print the things I just created
+ if(silent == FALSE){
+   print(randomnumbers)
+   print(randombinary)
+ }
+
+#---------------------------------------------------------------------------
+# Turn into a matrix and create the weights etc.
+#---------------------------------------------------------------------------
+IRP_matrix   &lt;- matrix(randombinary, nrow=6,ncol=6, byrow=TRUE)
+IRP_raster   &lt;- raster(IRP_matrix)
+IRP_polygon  &lt;- rasterToPolygons(IRP_raster, dissolve=FALSE)
+IRP_spdep    &lt;- SpatialPolygons(IRP_polygon@polygons)
+IRP_nb.rook  &lt;- poly2nb(IRP_spdep, queen = FALSE)
+IRP_weights.rook &lt;- nb2listw(IRP_nb.rook, style=&#39;B&#39;)
+
+# Plot if you want to see the output
+if(silent == FALSE){
+    plot(IRP_raster)
+    text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
+}
+
+return(IRP_polygon)
+}</code></pre>
+<p><br></p>
+<ol start="7" style="list-style-type: decimal">
+<li><strong>Step 8:</strong><br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.</li>
+</ol>
+<p>Copy this code chunk into your script</p>
 <p>First, let’s set up in words.</p>
 <p><br></p>
 </div>

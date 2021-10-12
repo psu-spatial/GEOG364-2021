@@ -114,7 +114,38 @@ Feel free to also update this in your code template - then as you need libraries
 
 <br><br>
 
-### B1: Join Counts theory
+### B: New R coding
+
+#### B1: Custom commands:  Functions
+
+We don't need to just rely on commands that others provide.  We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your "show me something new".
+
+Here is a good overview of functions where they make a custom command to turn Celcius into Farenheit:
+ - https://swcarpentry.github.io/r-novice-inflammation/02-func-R/
+ 
+
+#### B2: Asking Questions: If statements
+
+Sometimes we only want R to do something *if* something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10.  The if statement allows us to do this.
+
+if(a > b){
+  do output commands
+}else{
+  do something else
+}
+
+You can read this like a sentence e.g. "if a is greater than b, do the output commands in the first bit, else do the other stuff."
+
+Again, you will not be asked to make your own in this class, but it is a useful skill and you could consider making if statements as your "show me something new".
+
+Here is a good overview of if-else
+ - https://www.datamentor.io/r-programming/if-else-statement/
+
+
+<br><br>
+
+
+### C1: Join Counts theory
 
 Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.
 
@@ -128,16 +159,16 @@ Join count statistics are valuable autocorrelation statistics in understanding s
 
 <br> <br>
 
-### B2: Join Counts coding
+### C2: Join Counts coding
 
 This section focuses on using R to calculate join count statistics using a toy dataset. We will:
 
-a)  B2a: Create a test "toy" dataset (note normally you would read your own data in from file)
-b)  B2b: Create a spatial weights matrix using spdep
-c)  B2c: Set up a hypothesis test
-d)  B2c: Use the `joincount.test` command to automatically calculate it.
+a)  C2a: Create a test "toy" dataset (note normally you would read your own data in from file)
+b)  C2b: Create a spatial weights matrix using spdep
+c)  C2c: Set up a hypothesis test
+d)  C2c: Use the `joincount.test` command to automatically calculate it.
 
-#### B2a. Create the test dataset
+#### C2a. Create the test dataset
 
 Let's work on a "toy" (tiny/easy/made-up) dataset. Here's a picture of the grid we are going to make. In this case, each polygon is a simple grid cell.
 
@@ -198,7 +229,7 @@ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)
 
 <br> <br>
 
-#### B2b. Creating a spatial weights matrix
+#### C2b. Creating a spatial weights matrix
 
 Now, we will convert our dataset to a specifica type of spatial data (spdep), so that we can determine which grid-cells are "nearby" and create a spatial weights matrix. To find adjacent polygons, we can use package 'spdep'.
 
@@ -245,7 +276,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 <br><br>
 
-#### B2c. Conduct a join count analysis
+#### C2c. Conduct a join count analysis
 
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig3.png" alt="Join Count Summary from the McGrew textbook" width="1972" />
@@ -256,7 +287,59 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 Now, everything is set for the analyses: I have my spatial data (`ToyA_polygon`), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable `ToyA_weights.rook`.
 
-We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation.
+We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.
+
+We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.
+
+For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I'm using the "function" command to make a custom command that I am calling `toyIRP`.  
+
+
+```r
+toyIRP <- function(nrow=6,ncolumn=6){
+
+#---------------------------------------------------------------------------
+# create X random numbers between 0 and 1  (runif, = random uniform generator)
+# use the round function to turn them into either a 0 (< 0.5) or a 1 (>= 0.5)
+# X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
+#---------------------------------------------------------------------------
+ randomnumbers <- runif(nrow*ncol,0,1)
+ randombinary <- round(randomnumbers)
+ 
+ # If you want to see the output, then I am asking the code to print the things I just created
+ if(silent == FALSE){
+   print(randomnumbers)
+   print(randombinary)
+ }
+
+#---------------------------------------------------------------------------
+# Turn into a matrix and create the weights etc.
+#---------------------------------------------------------------------------
+IRP_matrix   <- matrix(randombinary, nrow=6,ncol=6, byrow=TRUE)
+IRP_raster   <- raster(IRP_matrix)
+IRP_polygon  <- rasterToPolygons(IRP_raster, dissolve=FALSE)
+IRP_spdep    <- SpatialPolygons(IRP_polygon@polygons)
+IRP_nb.rook  <- poly2nb(IRP_spdep, queen = FALSE)
+IRP_weights.rook <- nb2listw(IRP_nb.rook, style='B')
+
+# Plot if you want to see the output
+if(silent == FALSE){
+    plot(IRP_raster)
+    text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
+}
+
+return(IRP_polygon)
+}
+```
+
+
+
+<br>
+
+7. **Step 8:**<br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.
+
+
+
+Copy this code chunk into your script
 
 
 First, let's set up in words.
