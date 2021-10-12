@@ -540,8 +540,8 @@ h2.title {
 <li>C2a: Create a test “toy” dataset (note normally you would read your own data in from file)</li>
 <li>C2b: Create a spatial weights matrix using spdep</li>
 <li>C2c: Manually understand what we are doing in a join counts analysis.</li>
-<li>C2c: Set up a hypothesis test</li>
-<li>C2c: Use the <code>joincount.test</code> command to automatically calculate it.</li>
+<li>C2d: Formally set up a hypothesis test</li>
+<li>C2d: Use the <code>joincount.test</code> command to automatically calculate it.</li>
 </ol>
 <div id="c2a.-create-the-test-dataset" class="section level4">
 <h4>C2a. Create the test dataset</h4>
@@ -626,12 +626,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 </div>
 <div id="c2c.-conduct-a-join-count-analysis-manually" class="section level4">
 <h4>C2c. Conduct a join count analysis manually</h4>
-<div class="figure">
-<img src="pg_364Lab5_tobler_2021_fig3.png" alt="Join Count Summary from the McGrew textbook" width="1972" />
-<p class="caption">
-Join Count Summary from the McGrew textbook
-</p>
-</div>
+<p>Sometimes this process can feel like a blackbox</p>
 <p><br></p>
 <p>Now, everything is set for the analyses: I have my spatial data (<code>ToyA_polygon</code>), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable <code>ToyA_weights.rook</code>.</p>
 <p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.</p>
@@ -658,27 +653,30 @@ Join Count Summary from the McGrew textbook
   IRP_weights.rook &lt;- nb2listw(IRP_nb.rook, style=&#39;B&#39;)
   IRB_jointest &lt;- joincount.test(fx    = as.factor(IRP_polygon$layer), listw = IRP_weights.rook) 
   
+  ww_gg_joincount &lt;- IRB_jointest[[1]]$estimate[1]+  IRB_jointest[[2]]$estimate[1]
+  
   # If you want to see the output (e.g. silent=FALSE) then plot
   if(silent == FALSE){
-    plot(IRP_raster, main = paste(&quot;Number of white-white boundaries = &quot;,IRB_jointest[[1]]$estimate[1]))
+    plot(IRP_raster, 
+         main = list(paste(&quot;Number of same color (WW or GG) boundaries = &quot;,ww_gg_joincount),cex=.9))
     text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
   }
   
-  return(IRB_jointest[[1]]$estimate[1])
+  return(ww_gg_joincount)
 }</code></pre>
 <p><br></p>
 <ol start="8" style="list-style-type: decimal">
 <li><p><strong>Step 8:</strong><br> Create a new code chunk and copy the code above into your script. When you press run, nothing should happen, but you will see a new “function” appear in your Environment quadrant/tab.</p></li>
-<li><p><strong>Step 9:</strong><br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of white-white joins. Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of white-white joins each time,</p></li>
+<li><p><strong>Step 9:</strong><br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of same-color joins. Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of same-color joins each time,<br> <em>If you are confused, To fully understand, try editing the nunmber of rows and columns to make a mini one e.g. try 2 rows and 2 columns and you can count white-white and green-green boundaries manually</em></p></li>
 </ol>
 <pre class="r"><code>output &lt;- toyIRP(nrow=6,ncolumn=6, silent=FALSE)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
 <ol start="10" style="list-style-type: decimal">
-<li><strong>Step 10:</strong><br> On average, if an IRP really did cause the pattern in the matrix, how many white-white joins would you expect to see? Why does the number change each time you run it?</li>
+<li><strong>Step 10:</strong><br> On average, if an IRP really did cause the pattern for a 6x6 matrix, how many same-colorjoins would you expect to see? Why does the number change each time you run it?</li>
 </ol>
 <p><br></p>
 <ol start="11" style="list-style-type: decimal">
-<li><strong>Step 11:</strong><br> Now, let’s run the code many times (1001 times!), store the number of white-white joins each time and make a histogram of the output. Copy/run the code below, I have turned the plotting off. It is running the command 1000 times, so it might take a minute.</li>
+<li><strong>Step 11:</strong><br> Now, let’s run the code many times (1001 times!), store the number of same color joins each time and make a histogram of the output. Copy/run the code below, I have turned the plotting off. It is running the command 1000 times, so it might take a minute.</li>
 </ol>
 <pre class="r"><code># Run once
 alloutput &lt;-  toyIRP(nrow=6,ncolumn=6, silent=TRUE)
@@ -690,21 +688,28 @@ for(n in 1:1000){
 }  
 
 #make a histogram of all the white-white joins
-hist(alloutput, br=20)</code></pre>
+hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variations of an IRP&quot;)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
 <p><br></p>
 <ol start="12" style="list-style-type: decimal">
-<li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of white-white joins if an IRP caused the process?</li>
+<li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?</li>
+</ol>
+<p>What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects. But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation. Note, it doesn’t mean that an IRP will ALWAYS cause the “expected number”, this equation just calcuates the mean of the histogram.</p>
+<p><img src="pg_364Lab5_tobler_2021_fig8.png" width="20%" /></p>
+<ol start="12" style="list-style-type: decimal">
+<li><strong>Step 12:</strong><br> Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)</li>
 </ol>
 <p><br></p>
-<p>Now let’s compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are. As you can see, the number of white-white boundaries is 33, which would be very unusally high considering our output from the Independent Random Process. So this suggests maybe the data is clustered.</p>
+<p>Now let’s compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are. As you can see, the number of white-white boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons and whites touching whites.</p>
 <pre class="r"><code># run the command
  ToyA_jointest &lt;- joincount.test(fx = as.factor(ToyA_polygon$layer), 
                                 listw = ToyA_weights.rook,        
                                 alternative = &quot;greater&quot;) 
+ numberboundaries &lt;- ToyA_jointest[[1]]$estimate[1]+  ToyA_jointest[[2]]$estimate[1]
+
 
 # and plot
- plot(ToyA_raster, main = paste(&quot;Number of white-white boundaries = &quot;,ToyA_jointest[[1]]$estimate[1]))
+ plot(ToyA_raster, main = paste(&quot;TOYA: Number of same color boundaries =&quot;,numberboundaries))
  text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
 <ol start="13" style="list-style-type: decimal">
@@ -717,15 +722,29 @@ hist(alloutput, br=20)</code></pre>
 <p>The steps are:</p>
 <ul>
 <li>Choose a process to compare against (in our case an IRP caused the data)</li>
+<li>Think of a thing you can compare (in our case, the number of same-color joins)</li>
+<li>Either manually repeat your process a few thousand times and record that thing (our histogram).. OR theoretically calculate what you might expect.<br />
+</li>
+<li>Calculate the same thing for our actual observed data</li>
+<li>Use a test statistic to asses how unusual our is (because the histogram is a probability density function, we can use a z-score here.)</li>
 </ul>
-<p>**That sentence above, "is it unusual coma</p>
-<p>First, let’s set up in words.</p>
+<p>And here is the summary you often see as the record of that process (note, its often unspoken that an IRP causes H0, you don’t have to use one which is why I’m being specific)</p>
+<div class="figure">
+<img src="pg_364Lab5_tobler_2021_fig3.png" alt="*Join Count Summary from the McGrew textbook, O_BW is the observed black-white joins, E_BW is the expected from an IRP*" width="1972" />
+<p class="caption">
+<em>Join Count Summary from the McGrew textbook, O_BW is the observed black-white joins, E_BW is the expected from an IRP</em>
+</p>
+</div>
+<p>We often don’t want to manually repeat the previous section. So here’s how to set up the test. Rather than looking at “same color” or “different color”, the R code likes to look at “white-white” joins individually so we will use that.</p>
+<p>NOTE - WE CAN NEVER TEST IF OUR PATTERN IS “CLUSTERED”, BUT WE CAN TEST HOW UNUSUAL IT IS TO ONE WHERE SPATIAL DEPENDENCE DOESN’T EXIST.</p>
 <p><br></p>
 </div>
-<div id="null-hypothesis-h0" class="section level4 unnumbered">
-<h4 class="unnumbered">Null hypothesis, H<sub>0</sub></h4>
-<p>This is normally that we suspect our pattern is <em>caused</em> by an Independent Random Process</p>
-<p>This null hypothesis of “caused by an IRP” is contained within all the R commands, but you could add your own custom ones (e.g. I want to test if my pattern is more/less clustered than one caused by some other process that you care about. We would simply use R as a calculator and do the math manually.</p>
+<div id="null-hypothesis-h0-what-process-are-you-comparing-against" class="section level4 unnumbered">
+<h4 class="unnumbered">Null hypothesis, H<sub>0</sub> : What process are you comparing against?</h4>
+<p>Here we are suggesting that our pattern is <em>caused</em> by an Independent Random Process.</p>
+<p>Although the default code is set to test against an IRP generated pattern, you don’t <em>have</em> to use one - e.g. you could manually test if pattern is more/less clustered than one caused by some other process that you care about like distance to a power station.</p>
+<p>If that is the case then we can say things like</p>
+<p>H<sub>0</sub>: An Independent Random Process is causing the pattern. Therefore the observed O<sub>WW</sub> = E<sub>WW</sub></p>
 <p><br></p>
 </div>
 <div id="alternative-hypothesis-h1" class="section level4 unnumbered">
