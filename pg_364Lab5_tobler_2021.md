@@ -436,52 +436,33 @@ Here we are suggesting that our pattern is *caused* by an Independent Random Pro
 
 Although the default code is set to test against an IRP generated pattern, you don't *have* to use one - e.g. you could manually test if pattern is more/less clustered than one caused by some other process that you care about like distance to a power station.
 
-So....
+So if we wanted to test simply whether our pattern was simply *different* to an IRP:
 
-**H~0~: An Independent Random Process is causing the pattern (e.g. our observation is just another one of those 1000 runs that made the histogram)<br> So the number of Observed "white-white" joins (O~White-White~) is no different than what you would expect from a pattern caused by an Independent Random Process: O~WW~ = E~WW~*.**
-
+ - H~0~: *An Independent Random Process is causing the pattern (e.g. our observation could be just another one of those 1000 runs that made the histogram)<br> So the number of Observed "white-white" joins (O~WW~) is no different than what you would expect from a pattern caused by an Independent Random Process (E~WW~):<br> O~WW~ = E~WW~*.
 
 <br>
 
 #### Alternative hypothesis, H~1~ {.unnumbered}
 
-This could be one of three things, depending on the *direction* of our test:
+This part is what we are comparing against.This could be one of three things, depending on the *direction* of our test:
 
--   H~1~ : Our pattern is **different** than we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test") <br> So we're saying this pattern is unusual given the process <br>
+ - H~1~ : *Our pattern is __different__ than we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test") <br> So we're saying this pattern is unusual given our guess at the process causing it: : O~WW~ != E~WW~* <br>
+
+(!= means not equal)
 
 or..
 
--   H~1~ : Our pattern is **more** **clustered** than we would expect from one caused by an IRP ("one tailed test") <br> 
+ - H~1~ :*Our pattern is unusually clustered compared to one caused by an IRP, so the number of Observed "same color" joins (O~White-White~) is __higher__ than what you would expect from a pattern caused by an Independent Random Process: O~WW~ > E~WW~* <br> 
 
 or...
 
--   H~1~ : Our pattern is **less** **clustered/more uniform** than we would expect from one caused by an IRP ("one tailed test")
+ - H~1~ :*Our pattern is unusually uniform/dispersed compared to one caused by an IRP, so the number of Observed "same color" joins (O~White-White~) is __less__ than what you would expect from a pattern caused by an Independent Random Process: O~WW~ < E~WW~* <br> 
+
+#### Test statistic
+
+We now need a way to formally compare our observed and expected number of white-white borders.  The way we are going to do this is to assume that the histogram we made earlier comes from a normal distribution.
 
 
-
-e.g.
-
-
-
-#### Turning words into maths
-
-The way we are testing "clustered" is by looking at the number of "joins" e.g. is a white cell next to a white cell, or a green cell next to a green cell? (see the reading and the lectures for more).
-
-We could calculate the average number we would get theoretically and then compare against our observed value for our specific pattern.
-
-This means we can turn our hypotheses into:
-
-Finally, we apply the Join Count test to evaluate presence or absence or spatial autocorrelation. This is done using a z-test.
-
-We can choose if the test is two sides.
-
-Slightly differently to the textbook and the lecture notes (which looked for green/white), the R version of this test looks for how likely it is that there are white-to-white joins compared to random chance, but the principle is the same.
-
-So we have:
-
--   H0: The pattern exhibits complete spatial randomness or is dispersed.<br>*The number of Observed "same color" joins (O~White-White~) is no higher than what you would expect from a pattern caused by an Independent Random Process: O~WW~ = E~WW~*
-
--   H1: The pattern is not random. The number of "same color" joins is unusually high (AKA the pattern is clustered): O~WW~ \> E~WW~
 
 Here is the code for the Z-test
 
