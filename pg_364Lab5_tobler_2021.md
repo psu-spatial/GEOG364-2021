@@ -114,9 +114,9 @@ Feel free to also update this in your code template - then as you need libraries
 
 <br><br>
 
-### B: New R coding
+## B: New R coding
 
-#### B1: Custom commands:  Functions
+### B1: Custom commands:  Functions
 
 We don't need to just rely on commands that others provide.  We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your "show me something new".
 
@@ -124,7 +124,7 @@ Here is a good overview of functions where they make a custom command to turn Ce
  - https://swcarpentry.github.io/r-novice-inflammation/02-func-R/
  
 
-#### B2: Asking Questions: If statements
+### B2: Asking Questions: If statements
 
 Sometimes we only want R to do something *if* something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10.  The if statement allows us to do this.
 
@@ -144,6 +144,9 @@ Here is a good overview of if-else
 
 <br><br>
 
+## C: Join Counts
+
+We will first explore the theory, then create a toy dataset, then manually run a hyothesis test, then auto-create one.
 
 ### C1: Join Counts theory
 
@@ -165,6 +168,7 @@ This section focuses on using R to calculate join count statistics using a toy d
 
 a)  C2a: Create a test "toy" dataset (note normally you would read your own data in from file)
 b)  C2b: Create a spatial weights matrix using spdep
+c)  C2c: Manually understand what we are doing in a join counts analysis.
 c)  C2c: Set up a hypothesis test
 d)  C2c: Use the `joincount.test` command to automatically calculate it.
 
@@ -276,7 +280,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 <br><br>
 
-#### C2c. Conduct a join count analysis
+#### C2c. Conduct a join count analysis manually
 
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig3.png" alt="Join Count Summary from the McGrew textbook" width="1972" />
@@ -295,52 +299,113 @@ For example, here is how I would use an Independent Random Process to create the
 
 
 ```r
-toyIRP <- function(nrow=6,ncolumn=6){
+toyIRP <- function(nrow=6,ncolumn=6, silent=FALSE){
 
-#---------------------------------------------------------------------------
-# create X random numbers between 0 and 1  (runif, = random uniform generator)
-# use the round function to turn them into either a 0 (< 0.5) or a 1 (>= 0.5)
-# X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
-#---------------------------------------------------------------------------
- randomnumbers <- runif(nrow*ncol,0,1)
- randombinary <- round(randomnumbers)
- 
- # If you want to see the output, then I am asking the code to print the things I just created
- if(silent == FALSE){
-   print(randomnumbers)
-   print(randombinary)
- }
-
-#---------------------------------------------------------------------------
-# Turn into a matrix and create the weights etc.
-#---------------------------------------------------------------------------
-IRP_matrix   <- matrix(randombinary, nrow=6,ncol=6, byrow=TRUE)
-IRP_raster   <- raster(IRP_matrix)
-IRP_polygon  <- rasterToPolygons(IRP_raster, dissolve=FALSE)
-IRP_spdep    <- SpatialPolygons(IRP_polygon@polygons)
-IRP_nb.rook  <- poly2nb(IRP_spdep, queen = FALSE)
-IRP_weights.rook <- nb2listw(IRP_nb.rook, style='B')
-
-# Plot if you want to see the output
-if(silent == FALSE){
-    plot(IRP_raster)
+  #---------------------------------------------------------------------------
+  # create X random numbers between 0 and 1  (runif, = random uniform generator)
+  # use the round function to turn them into either a 0 (< 0.5) or a 1 (>= 0.5)
+  # X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
+  #---------------------------------------------------------------------------
+  randomnumbers <- runif(nrow*ncolumn,0,1)
+  randombinary <- round(randomnumbers)
+  
+  #---------------------------------------------------------------------------
+  # Turn into a matrix and create the weights etc.
+  #---------------------------------------------------------------------------
+  IRP_matrix   <- matrix(randombinary, nrow=nrow,ncol=ncolumn, byrow=TRUE)
+  IRP_raster   <- raster(IRP_matrix)
+  IRP_polygon  <- rasterToPolygons(IRP_raster, dissolve=FALSE)
+  IRP_spdep    <- SpatialPolygons(IRP_polygon@polygons)
+  IRP_nb.rook  <- poly2nb(IRP_spdep, queen = FALSE)
+  IRP_weights.rook <- nb2listw(IRP_nb.rook, style='B')
+  IRB_jointest <- joincount.test(fx    = as.factor(IRP_polygon$layer), listw = IRP_weights.rook) 
+  
+  # If you want to see the output (e.g. silent=FALSE) then plot
+  if(silent == FALSE){
+    plot(IRP_raster, main = paste("Number of white-white boundaries = ",IRB_jointest[[1]]$estimate[1]))
     text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
-}
-
-return(IRP_polygon)
+  }
+  
+  return(IRB_jointest[[1]]$estimate[1])
 }
 ```
 
 
+<br> 
+
+8. **Step 8:**<br> Create a new code chunk and copy the code above into your script. When you press run, nothing should happen, but you will see a new "function" appear in your Environment quadrant/tab.
+
+
+9. **Step 9:**<br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of white-white joins.  Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of white-white joins each time, 
+
+
+
+```r
+output <- toyIRP(nrow=6,ncolumn=6, silent=FALSE)
+```
+
+![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+
+10. **Step 10:**<br> On average, if an IRP really did cause the pattern in the matrix, how many white-white joins would you expect to see? Why does the number change each time you run it?
 
 <br>
 
-7. **Step 8:**<br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.
+11. **Step 11:**<br> Now, let's run the code many times (1001 times!), store the number of white-white joins each time and make a histogram of the output.  Copy/run the code below, I have turned the plotting off. It is running the command 1000 times, so it might take a minute.
+
+
+```r
+# Run once
+alloutput <-  toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  
+# Repeat 200 times and add in the answer
+for(n in 1:1000){
+  newIRP <- toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  alloutput <-  c(alloutput, newIRP)
+}  
+
+#make a histogram of all the white-white joins
+hist(alloutput, br=20)
+```
+
+![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+
+<br>
+
+12. **Step 12:**<br> Given this output, what is your new expectation of the number of white-white joins if an IRP caused the process?
+
+<br>
+
+Now let's compare against our data.  We can run the same command on our Toy dataset A to see how many white-white joins there are. As you can see, the number of white-white boundaries is 33, which would be very unusally high considering our output from the Independent Random Process.  So this suggests maybe the data is clustered.
+
+
+```r
+# run the command
+ ToyA_jointest <- joincount.test(fx = as.factor(ToyA_polygon$layer), 
+                                listw = ToyA_weights.rook,        
+                                alternative = "greater") 
+
+# and plot
+ plot(ToyA_raster, main = paste("Number of white-white boundaries = ",ToyA_jointest[[1]]$estimate[1]))
+ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)
+```
+
+![](pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
+13. **Step 13:**<br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusally high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?
 
 
 
-Copy this code chunk into your script
+#### C2d. Formally set up a hypothesis test
 
+**That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hyothesis test is!!**
+
+The steps are:
+
+ - Choose a process to compare against (in our case an IRP caused the data)
+
+
+**That sentence above, "is it unusual coma
 
 First, let's set up in words.
 

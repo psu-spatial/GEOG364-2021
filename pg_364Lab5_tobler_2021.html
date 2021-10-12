@@ -499,15 +499,16 @@ h2.title {
 <p>Feel free to also update this in your code template - then as you need libraries (e.g. if you run your code and it’s missing a library, you can then proactively just add it into this code chunk)</p>
 <p><br><br></p>
 </div>
-<div id="b-new-r-coding" class="section level3">
-<h3>B: New R coding</h3>
-<div id="b1-custom-commands-functions" class="section level4">
-<h4>B1: Custom commands: Functions</h4>
+</div>
+<div id="b-new-r-coding" class="section level2">
+<h2>B: New R coding</h2>
+<div id="b1-custom-commands-functions" class="section level3">
+<h3>B1: Custom commands: Functions</h3>
 <p>We don’t need to just rely on commands that others provide. We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your “show me something new”.</p>
 <p>Here is a good overview of functions where they make a custom command to turn Celcius into Farenheit: - <a href="https://swcarpentry.github.io/r-novice-inflammation/02-func-R/" class="uri">https://swcarpentry.github.io/r-novice-inflammation/02-func-R/</a></p>
 </div>
-<div id="b2-asking-questions-if-statements" class="section level4">
-<h4>B2: Asking Questions: If statements</h4>
+<div id="b2-asking-questions-if-statements" class="section level3">
+<h3>B2: Asking Questions: If statements</h3>
 <p>Sometimes we only want R to do something <em>if</em> something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10. The if statement allows us to do this.</p>
 <p>if(a &gt; b){ do output commands }else{ do something else }</p>
 <p>You can read this like a sentence e.g. “if a is greater than b, do the output commands in the first bit, else do the other stuff.”</p>
@@ -516,6 +517,9 @@ h2.title {
 <p><br><br></p>
 </div>
 </div>
+<div id="c-join-counts" class="section level2">
+<h2>C: Join Counts</h2>
+<p>We will first explore the theory, then create a toy dataset, then manually run a hyothesis test, then auto-create one.</p>
 <div id="c1-join-counts-theory" class="section level3">
 <h3>C1: Join Counts theory</h3>
 <p>Join count statistics are valuable autocorrelation statistics in understanding spatial dependencies amongst binary or categorical data.</p>
@@ -535,6 +539,7 @@ h2.title {
 <ol style="list-style-type: lower-alpha">
 <li>C2a: Create a test “toy” dataset (note normally you would read your own data in from file)</li>
 <li>C2b: Create a spatial weights matrix using spdep</li>
+<li>C2c: Manually understand what we are doing in a join counts analysis.</li>
 <li>C2c: Set up a hypothesis test</li>
 <li>C2c: Use the <code>joincount.test</code> command to automatically calculate it.</li>
 </ol>
@@ -619,8 +624,8 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 </ol>
 <p><br><br></p>
 </div>
-<div id="c2c.-conduct-a-join-count-analysis" class="section level4">
-<h4>C2c. Conduct a join count analysis</h4>
+<div id="c2c.-conduct-a-join-count-analysis-manually" class="section level4">
+<h4>C2c. Conduct a join count analysis manually</h4>
 <div class="figure">
 <img src="pg_364Lab5_tobler_2021_fig3.png" alt="Join Count Summary from the McGrew textbook" width="1972" />
 <p class="caption">
@@ -632,45 +637,88 @@ Join Count Summary from the McGrew textbook
 <p>We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.</p>
 <p>We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.</p>
 <p>For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I’m using the “function” command to make a custom command that I am calling <code>toyIRP</code>.</p>
-<pre class="r"><code>toyIRP &lt;- function(nrow=6,ncolumn=6){
+<pre class="r"><code>toyIRP &lt;- function(nrow=6,ncolumn=6, silent=FALSE){
 
-#---------------------------------------------------------------------------
-# create X random numbers between 0 and 1  (runif, = random uniform generator)
-# use the round function to turn them into either a 0 (&lt; 0.5) or a 1 (&gt;= 0.5)
-# X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
-#---------------------------------------------------------------------------
- randomnumbers &lt;- runif(nrow*ncol,0,1)
- randombinary &lt;- round(randomnumbers)
- 
- # If you want to see the output, then I am asking the code to print the things I just created
- if(silent == FALSE){
-   print(randomnumbers)
-   print(randombinary)
- }
-
-#---------------------------------------------------------------------------
-# Turn into a matrix and create the weights etc.
-#---------------------------------------------------------------------------
-IRP_matrix   &lt;- matrix(randombinary, nrow=6,ncol=6, byrow=TRUE)
-IRP_raster   &lt;- raster(IRP_matrix)
-IRP_polygon  &lt;- rasterToPolygons(IRP_raster, dissolve=FALSE)
-IRP_spdep    &lt;- SpatialPolygons(IRP_polygon@polygons)
-IRP_nb.rook  &lt;- poly2nb(IRP_spdep, queen = FALSE)
-IRP_weights.rook &lt;- nb2listw(IRP_nb.rook, style=&#39;B&#39;)
-
-# Plot if you want to see the output
-if(silent == FALSE){
-    plot(IRP_raster)
+  #---------------------------------------------------------------------------
+  # create X random numbers between 0 and 1  (runif, = random uniform generator)
+  # use the round function to turn them into either a 0 (&lt; 0.5) or a 1 (&gt;= 0.5)
+  # X is the number of cells e.g. 6 rows and 6 columns makes 36 pieces of data
+  #---------------------------------------------------------------------------
+  randomnumbers &lt;- runif(nrow*ncolumn,0,1)
+  randombinary &lt;- round(randomnumbers)
+  
+  #---------------------------------------------------------------------------
+  # Turn into a matrix and create the weights etc.
+  #---------------------------------------------------------------------------
+  IRP_matrix   &lt;- matrix(randombinary, nrow=nrow,ncol=ncolumn, byrow=TRUE)
+  IRP_raster   &lt;- raster(IRP_matrix)
+  IRP_polygon  &lt;- rasterToPolygons(IRP_raster, dissolve=FALSE)
+  IRP_spdep    &lt;- SpatialPolygons(IRP_polygon@polygons)
+  IRP_nb.rook  &lt;- poly2nb(IRP_spdep, queen = FALSE)
+  IRP_weights.rook &lt;- nb2listw(IRP_nb.rook, style=&#39;B&#39;)
+  IRB_jointest &lt;- joincount.test(fx    = as.factor(IRP_polygon$layer), listw = IRP_weights.rook) 
+  
+  # If you want to see the output (e.g. silent=FALSE) then plot
+  if(silent == FALSE){
+    plot(IRP_raster, main = paste(&quot;Number of white-white boundaries = &quot;,IRB_jointest[[1]]$estimate[1]))
     text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
-}
-
-return(IRP_polygon)
+  }
+  
+  return(IRB_jointest[[1]]$estimate[1])
 }</code></pre>
 <p><br></p>
-<ol start="7" style="list-style-type: decimal">
-<li><strong>Step 8:</strong><br> Explain why your Queens adjacecy plot for the Toy_B data looks identical to my Rooks adjacecy plot for the Toy_A data.</li>
+<ol start="8" style="list-style-type: decimal">
+<li><p><strong>Step 8:</strong><br> Create a new code chunk and copy the code above into your script. When you press run, nothing should happen, but you will see a new “function” appear in your Environment quadrant/tab.</p></li>
+<li><p><strong>Step 9:</strong><br> In a new code chunk, copy this code and run. It should make a random pattern that tells you the numbers of white-white joins. Run it again, and again.. keep going and get a sense for how an IRP created process looks and the number of white-white joins each time,</p></li>
 </ol>
-<p>Copy this code chunk into your script</p>
+<pre class="r"><code>output &lt;- toyIRP(nrow=6,ncolumn=6, silent=FALSE)</code></pre>
+<p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<ol start="10" style="list-style-type: decimal">
+<li><strong>Step 10:</strong><br> On average, if an IRP really did cause the pattern in the matrix, how many white-white joins would you expect to see? Why does the number change each time you run it?</li>
+</ol>
+<p><br></p>
+<ol start="11" style="list-style-type: decimal">
+<li><strong>Step 11:</strong><br> Now, let’s run the code many times (1001 times!), store the number of white-white joins each time and make a histogram of the output. Copy/run the code below, I have turned the plotting off. It is running the command 1000 times, so it might take a minute.</li>
+</ol>
+<pre class="r"><code># Run once
+alloutput &lt;-  toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  
+# Repeat 200 times and add in the answer
+for(n in 1:1000){
+  newIRP &lt;- toyIRP(nrow=6,ncolumn=6, silent=TRUE)
+  alloutput &lt;-  c(alloutput, newIRP)
+}  
+
+#make a histogram of all the white-white joins
+hist(alloutput, br=20)</code></pre>
+<p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+<p><br></p>
+<ol start="12" style="list-style-type: decimal">
+<li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of white-white joins if an IRP caused the process?</li>
+</ol>
+<p><br></p>
+<p>Now let’s compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are. As you can see, the number of white-white boundaries is 33, which would be very unusally high considering our output from the Independent Random Process. So this suggests maybe the data is clustered.</p>
+<pre class="r"><code># run the command
+ ToyA_jointest &lt;- joincount.test(fx = as.factor(ToyA_polygon$layer), 
+                                listw = ToyA_weights.rook,        
+                                alternative = &quot;greater&quot;) 
+
+# and plot
+ plot(ToyA_raster, main = paste(&quot;Number of white-white boundaries = &quot;,ToyA_jointest[[1]]$estimate[1]))
+ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
+<p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<ol start="13" style="list-style-type: decimal">
+<li><strong>Step 13:</strong><br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusally high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</li>
+</ol>
+</div>
+<div id="c2d.-formally-set-up-a-hypothesis-test" class="section level4">
+<h4>C2d. Formally set up a hypothesis test</h4>
+<p><strong>That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hyothesis test is!!</strong></p>
+<p>The steps are:</p>
+<ul>
+<li>Choose a process to compare against (in our case an IRP caused the data)</li>
+</ul>
+<p>**That sentence above, "is it unusual coma</p>
 <p>First, let’s set up in words.</p>
 <p><br></p>
 </div>
