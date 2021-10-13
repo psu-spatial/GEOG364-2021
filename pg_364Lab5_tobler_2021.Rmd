@@ -42,9 +42,7 @@ h2.title {
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
-```
 
-```{r,include=FALSE,echo=FALSE}
 # invisible data read
 library(tidyverse)
 library(sp)
@@ -65,6 +63,7 @@ firefly <- readxl::read_excel("pg_364Data_3Firefly.xlsx")
 ozone   <- read.csv("pg_364Data_4Ozone.csv")
 ```
 
+
 ## Welcome to Lab 5!
 
 <br>
@@ -72,8 +71,9 @@ ozone   <- read.csv("pg_364Data_4Ozone.csv")
 The aim of this lab is to work on autocorrelation, especially join counts and census data. By the end of the lab you will be able to:
 
 1.  Create a matrix of data
-2.  Conduct a join counts analysis on "toy data"
-3.  Download census data and conduct a real life analysis
+2.  Understand if statements and functions
+3.  Conduct a join counts analysis on "toy data"
+4.  Hypothesis test
 
 Assignment 5 is due by midnight the night before your next lab on Canvas. Your job is to submit the requirements on this page.
 
@@ -89,6 +89,8 @@ See [**your canvas assignment here**](https://psu.instructure.com/courses/212004
 
 ### A1: Sign up for Census API
 
+We will need this next week, so we are registering now.
+
 You can easily access US census data within R, but you need to sign up in advance for a password.
 
 <https://api.census.gov/data/key_signup.html>
@@ -103,25 +105,25 @@ You can use Penn State as the organisation. This is just you promising that you 
 
 Follow the instructions in Labs 1-4 to create your project file and a blank markdown document. e.g. <br>
 
-1.  Open R-Studio. Create a new R-Project in your GEOG-364 folder called `GEOG364_Lab5_PROJECT`.<br>
+1.  Open R-Studio. Create a new R-Project in your GEOG-364 folder called `GEOG364_Lab5_PROJECT`.<br><br>
 
-2.  Make a copy of the lab template Rmd file and move it into your project folder.
+2.  Make a copy of the lab template Rmd file and move it into your project folder.<br><br>
 
-3.  DOUBLE CLICK ON THE GEOG364_Lab5_PROJECT.RPROJ FILE IN YOUR PROJECT FOLDER TO OPEN R.<br>
+3.  DOUBLE CLICK ON THE GEOG364_Lab5_PROJECT.RPROJ FILE IN YOUR PROJECT FOLDER TO OPEN R.<br><br>
 
-4.  Click on your lab 5 .Rmd file in the files tab to open the script<br>(You should not have to search if you are in your Lab 5 project):<br>
+4.  Click on your lab 5 .Rmd file in the files tab to open the script<br>(You should not have to search if you are in your Lab 5 project):<br><br>
 
-    -   Change the title to Lab 5. <br>
-    -   Change the theme if you like or add in any other features <br>
-    -   Remember you can edit your lab in the "editor" mode by clicking on the A at the top right
+    -   Change the title to Lab 5. <br><br>
+    -   Change the theme if you like or add in any other features <br><br>
+    -   Remember you can edit your lab in the "editor" mode by clicking on the A at the top right<br><br>
 
-5.  **IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the `VIM` package. DO NOT PUT THE CODE IN YOUR SCRIPT OR IT WILL TRY TO DOWNLOAD EVERY TIME YOU PRESS KNIT** (For more instructions, see [Tutorial 2: Package Install](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages))
+5.  **IN THE CONSOLE (OR BY CLICKING THE INSTALL BUTTON IN THE PACKAGES TAB), install the `VIM` package.** <br> DO NOT PUT THE CODE IN YOUR SCRIPT OR IT WILL TRY TO DOWNLOAD EVERY TIME YOU PRESS KNIT <br> *For more instructions, see [Tutorial 2: Package Install](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages)*
 
 <br><br>
 
 ### A3: Libraries and the top code chunk
 
-Let's continue to make our code more professional. There is rarely a reason to show a reader the libraries being loaded. So this time, let's add in the libraries into the top code chunk.
+Let's continue to make our code more professional. There is rarely a reason to show a reader the libraries being loaded. So this time, let's add in the libraries into the top code chunk.<br>
 
 Edit your code chunk that looks like this
 
@@ -135,27 +137,44 @@ and turn it into this, which should disappear when you press knit.
 knitr::include_graphics('pg_364Lab5_tobler_2021_fig2.png')
 ```
 
-Feel free to also update this in your code template - then as you need libraries (e.g. if you run your code and it's missing a library, you can then proactively just add it into this code chunk)
+
+Feel free to also update this in your code template - then you can simply edit as you need to add/remove libraries (e.g. if you run your code and it's missing a library, you can then proactively just add it into this code chunk)
 
 <br><br>
 
 ## B: New R coding
 
+<br>
+
 ### B1: Custom commands: Functions
 
 We don't need to just rely on commands that others provide. We can also create our own, as you will see later on. You will not be asked to make your own in this class, but it is a useful skill and you could consider making and running a mini function as your "show me something new".
 
+<br>
+
 Here is a good overview of functions where they make a custom command to turn Celsius into Fahrenheit: - <https://swcarpentry.github.io/r-novice-inflammation/02-func-R/>
+
+<br><br>
 
 ### B2: Asking Questions: If statements
 
-Sometimes we only want R to do something *if* something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10. The if statement allows us to do this.
+Sometimes we only want R to do something *if* something else happens. e.g. run this command if I want to see the output, or run another command if our result is greater than 10. The if statement allows us to do this.<br>
 
-if(a \> b){ do output commands }else{ do something else }
+if(a \> b){ 
 
-You can read this like a sentence e.g. "if a is greater than b, do the output commands in the first bit, else do the other stuff."
+do output commands 
 
-Again, you will not be asked to make your own in this class, but it is a useful skill and you could consider making if statements as your "show me something new".
+}else{ 
+
+do something else 
+
+}
+
+<br>
+
+You can read this like a sentence e.g. "if a is greater than b, do the output commands in the first bit, else do the other stuff."<br>
+
+Again, you will not be asked to make your own in this class, but it is a useful skill and you could consider making if statements as your "show me something new".<br>
 
 Here is a good overview of if-else - <https://www.datamentor.io/r-programming/if-else-statement/>
 
@@ -164,6 +183,8 @@ Here is a good overview of if-else - <https://www.datamentor.io/r-programming/if
 ## C: Join Counts
 
 We will first explore the theory, then create a toy dataset, then manually run a hypothesis test, then auto-create one.
+
+<br>
 
 ### C1: Join Counts theory
 
@@ -180,6 +201,8 @@ Join count statistics are valuable autocorrelation statistics in understanding s
 <br> <br>
 
 ### C2: Join Counts coding
+
+<br>
 
 This section focuses on using R to calculate join count statistics using a toy dataset. We will:
 
@@ -232,11 +255,7 @@ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)
 
 4.  **Step 4:**<br> Use the code above to create your own matrix that you assign to a variable called called `ToyB_matrix`. <br> **You should create your grid to generally have negative spatial autocorrelation, but still include a little bit of randomness.**<br>Your grid could also have additional rows and column as you desire.
 
-<p class="comment">
-
-All the way through my example, I use ToyA\_... for my variable names. e.g. `ToyA_raster`, `ToyA_matrix` Name yours ToyB\_... to keep your code neat
-
-</p>
+<p class="comment">All the way through my example, I use ToyA\_... for my variable names. e.g. `ToyA_raster`, `ToyA_matrix` Name yours ToyB\_... to keep your code neat</p>
 
 <br> <br>
 
@@ -244,13 +263,12 @@ All the way through my example, I use ToyA\_... for my variable names. e.g. `Toy
 
 Now, we will convert our dataset to a specific type of spatial data (spdep), so that we can determine which grid-cells are "nearby" and create a spatial weights matrix. To find adjacent polygons, we can use package 'spdep'.
 
--   First, we covert our raster data to a spatial polygon using `rasterToPolygons` and `SpatialPolygons`
+<br>
 
--   Then we use the `poly2nb` command to build a list of neighbors based on adjacency (queens or rooks)
-
--   Calculate the weights matrix. In this case we use a binary (B) criteria, i.e. there is adjacency (1) or there is no adjacency (0).
-
--   And plot.
+-   First, we covert our raster data to a spatial polygon using `rasterToPolygons` and `SpatialPolygons`<br>
+-   Then we use the `poly2nb` command to build a list of neighbors based on adjacency (queens or rooks)<br>
+-   Calculate the weights matrix. In this case we use a binary (B) criteria, i.e. there is adjacency (1) or there is no adjacency (0).<br>
+-   And plot.<br>
 
 <br>
 
@@ -288,17 +306,16 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 #### C2c. Conduct a join count analysis manually
 
-Sometimes this process can feel like a black-box
+Sometimes this process can feel like a black-box<br><br>
 
-<br>
+Now, everything is set for the analyses: I have my spatial data (`ToyA_polygon`), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable `ToyA_weights.rook`.<br><br>
 
-Now, everything is set for the analyses: I have my spatial data (`ToyA_polygon`), which shows our pattern of green/white grid cells, plus our spatial weights matrix saved as variable `ToyA_weights.rook`.
+We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.<br><br>
 
-We can now conduct a join counts test to evaluate the presence of absence of spatial autocorrelation. As described in the textbook, essentially we are looking at the boundaries between polygons are the same color (e.g. two green polygons next to each other, two white polygons next to each other), which suggests clustering, or whether there are lots of green-white boundaries, suggesting a chessboard effect/negative autocorrelation.
+We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.<br><br>
 
-We can theoretically calculate (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.
+For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I'm using the "function" command to make a custom command that I am calling `toyIRP`.<br><br>
 
-For example, here is how I would use an Independent Random Process to create the a matrix of the same shape but filled with random 1s and 0s. I'm using the "function" command to make a custom command that I am calling `toyIRP`.
 
 ```{r}
 toyIRP <- function(matrix_input, silent=FALSE){
@@ -383,11 +400,13 @@ hist(alloutput, br=20, main="The number of same color joins for 1001 variations 
 
 What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects.
 
+<br>
+
 But as you saw from your readings, in this case, we could have theoretically calculated the number of joins if an IRP caused the pattern, using this equation. Note, it doesn't mean that an IRP will ALWAYS cause the "expected number", this equation just calculates the mean of the histogram.
 
-[THIS FIGURE IS FROM YOUR READING, IF YOU DON'T RECOGNISE IT, GO AND DO THE READING]
+<br>
 
-```{r, L5Fig8, echo=FALSE}
+```{r, L5Fig8, echo=FALSE,fig.cap="*THIS FIGURE IS FROM YOUR READING, IF YOU DON'T RECOGNISE IT, GO AND DO THE READING*"}
 knitr::include_graphics('pg_364Lab5_tobler_2021_fig8.png')
 ```
 
@@ -397,7 +416,11 @@ knitr::include_graphics('pg_364Lab5_tobler_2021_fig8.png')
 
 <br><br>
 
-Now let's compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are. As you can see, the number of white-white boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons and whites touching whites.
+Now let's compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are. 
+
+<br>
+
+As you can see, the number of white-white boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons, or white polygons touching white polygons.
 
 <br>
 
@@ -423,21 +446,23 @@ Now let's compare against our data. We can run the same command on our Toy datas
 
 #### C2d. Formally set up a hypothesis test
 
-**That process above, where we choose a process we understand and then see whether our results are unusual compared to it, that is literally all a hypothesis test is!!**
+**In following the method above, where we choose a process we understand and then see whether our results are unusual compared to it, is essentially a hypothesis test **
 
-The steps are:
+ <br>
 
--   Choose a process to compare against (in our case an IRP caused the data)
+Let's do it more formally. The steps are:
 
--   Think of a thing you can compare (in our case, the number of same-color joins)
+-   Choose a process to compare against (in our case an IRP caused the data) <br>
 
--   Either manually repeat your process a few thousand times and record that thing (our histogram).. OR theoretically calculate what you might expect.\
+-   Think of a thing you can compare (in our case, the number of same-color joins)  <br>
 
--   Calculate the same thing for our actual observed data
+-   Either manually repeat your process a few thousand times and record that thing (our histogram).. OR theoretically calculate what you might expect.  <br>
+
+-   Calculate the same thing for our actual observed data  <br>
 
 -   Use a test statistic to asses how unusual our is (because the histogram is a probability density function, we can use a z-score here.)<br>
 
-And here is the summary you often see as the record of that process (note, its often unspoken that an IRP causes H0, you don't have to use one which is why I'm being specific)
+And here is the summary you often see as the record of that process (note, its often unspoken that an IRP causes H0 in join counts) <br>
 
 <br>
 
@@ -449,11 +474,11 @@ knitr::include_graphics('pg_364Lab5_tobler_2021_fig3.png')
 
 We often don't want to manually repeat the previous section. So here's how to set up the test. Rather than looking at "same color" or "different color", the R code likes to look at "white-white" joins individually so we will use that.
 
-NOTE - WE CAN NEVER TEST IF OUR PATTERN IS "CLUSTERED", BUT WE CAN TEST HOW UNUSUAL IT IS TO ONE WHERE SPATIAL DEPENDENCE DOESN'T EXIST.
+**Importantly, we can never _prove_ if our pattern is clustered, just like we can never _prove_ that someone is guilty in court. So instead, just like the legal process, we look for a threshold of "beyond reasonable doubt", e.g. we can see how unlikely it would have been to see our observed pattern if an IRP really is causing things. This is why we accept/reject the null hypothesis.**
 
-<br>
+<br><br>
 
-#### Null hypothesis, H~0~ : What process are you comparing against? {.unnumbered}
+##### **Null hypothesis, H~0~ : What process are you comparing against?** {-}
 
 Here we are suggesting that our pattern is *caused* by an Independent Random Process.
 
@@ -461,51 +486,65 @@ Although the default code is set to test against an IRP generated pattern, you d
 
 So if we wanted to test simply whether our pattern was simply *different* to an IRP:
 
--   H~0~: *An Independent Random Process is causing the pattern (e.g. our observation could be just another one of those 1000 runs that made the histogram)*<br> So the number of Observed "white-white" joins (O~WW~) is no different than what you would expect from a pattern caused by an Independent Random Process (E~WW~):<br> O~WW~ = E~WW~.
+**H~0~: An Independent Random Process is causing the pattern: O~WW~ = E~WW~.**
 
-<br>
-
-#### Alternative hypothesis, H~1~ {.unnumbered}
-
-This part is our guess of how our observation might be different. This could be one of three things, depending on the *direction* of our test:
-
--   H~1~ : *Our pattern is **different** than we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test")* <br> So we're saying this pattern is unusual given our guess at the process causing it: : O~WW~ != E~WW~ <br>
-
-(!= means not equal)
-
-or..
-
--   H~1~ :*Our pattern is unusually clustered compared to one caused by an IRP, so the number of Observed "same color" joins (O~White-White~) is **higher** than what you would expect from a pattern caused by an Independent Random Process: O~WW~ \> E~WW~* <br>
-
-or...
-
--   H~1~ :*Our pattern is unusually uniform/dispersed compared to one caused by an IRP, so the number of Observed "same color" joins (O~White-White~) is **less** than what you would expect from a pattern caused by an Independent Random Process: O~WW~ \< E~WW~* <br>
-
-<br> <br>
-
-#### Example
-
-If I wanted to see if my ToyA matrix was simply usual to one compared to an IRP, here are my H~0~ and H~1~:
-
-**H~0~: An Independent Random Process is causing the pattern in ToyA.** <br> The number of Observed "white-white" joins (O~WW~) is no different than what you would expect from a pattern caused by an Independent Random Process (E~WW~):<br> O~WW~ = E~WW~.<br>
-
-**H~1~ : The pattern in ToyA is different** than what we would expect from one caused by an IRP e.g. it's EITHER unusually clustered or uniform ("2 tailed test"): <br> O~WW~ != E~WW~ <br>
-
-<br>
-
-14. **Step 14:**<br> Write your H~0~ and H~1~ to test whether your pattern in ToyB is unusually clustered compared to one caused by an IRP (e.g. does it exhibit unusual levels of positive autocorrelation)
+-   E.g. it would be difficult for us to tell apart our observation (ToyA) and any one of the IRP patterns we created above\>br\>
+-   We know that although there is some statistical randomness, the number of joins should fall somewhere in the histogram we created<br>
+-   So we are assuming that our pattern in ToyA is sampled from an underlying distribution where the average number of "Observed white-white joins" (O~WW~) is identical to the "Expected white-white joins"(E~WW~) if the pattern was caused by an Independent Random Process (E~WW~):<br>
 
 <br><br>
 
-#### Test statistic
+##### **Alternative hypothesis, H~1~** {-}
+
+This part is our guess of how our observation might be different. This could be one of three things, depending on the *direction* of our test:
+
+**H~1~:<br> The observed pattern (ToyA) is _different_ than we would expect from one caused by an IRP:<br> O~WW~ != E~WW~** (!= means not equal)
+
+-   We want to test if ToyA is EITHER unusually clustered OR unusually uniform (a "2 tailed test")\* <br>
+-   So we suggest our pattern in ToyA is sampled from an underlying distribution where the average number of "Observed white-white joins" (O~WW~) is DIFFERENT to the "Expected number of white-white joins"(E~WW~) if the pattern was caused by an Independent Random Process<br>
+
+or..
+
+**H~1~:<br> The pattern is unusually clustered compared to one caused by an IRP<br> O~WW~ \> E~WW~**
+
+-   We wish to test if our pattern has an unusually low number of white-white joins (e.g. there are large patches of white area suggesting clusters)<br>
+-   So we suggest our pattern in ToyA is sampled from an underlying distribution where the average number of "Observed white-white joins" (O~WW~) is HIGHER than the "Expected number of white-white joins"(E~WW~) if the pattern was caused by an Independent Random Process<br>
+
+or...
+
+**H~1~:<br> Our pattern is unusually uniform/dispersed compared to one caused by an IRP:<br> O~WW~ \< E~WW~**
+
+-   We wish to test if our pattern has an unusually low number of white-white joins (e.g. the pattern is more like a chess board)<br>
+-   So we suggest our pattern in ToyA is sampled from an underlying distribution where the average number of "Observed white-white joins" (O~WW~) is LOWER than the "Expected number of white-white joins"(E~WW~) if the pattern was caused by an Independent Random Process<br>
+
+<br> <br>
+
+##### **Putting H~0~ and H~1~ together** {-}
+
+If I wanted to test if my ToyA matrix was likely caused by an independent random process, here are my H~0~ and H~1~:
+
+**H~0~: An Independent Random Process is causing the pattern in ToyA.** <br> The number of Observed "white-white" joins (O~WW~) is no different than what you would expect from a pattern caused by an Independent Random Process (E~WW~):<br> O~WW~ = E~WW~.<br>
+
+**H~1~ : The pattern in ToyA is different than what we would expect from one caused by an IRP** e.g. it's EITHER unusually clustered or uniform ("2 tailed test"): <br> O~WW~ != E~WW~ <br>
+
+<br>
+
+14. **Step 14:**<br> Write your H~0~ and H~1~ to test whether your pattern in ToyB is unusually **clustered** compared to one caused by an IRP (e.g. does it exhibit unusual levels of positive autocorrelation)
+
+<br><br>
+
+##### **Test statistic** {-}
+
 
 We now need a way to formally compare our observed and expected number of white-white borders. The way we are going to do this is to assume that the histogram we made earlier comes from a normal distribution. Then we can simply use a z-score to look at the probability of getting that value (see homework 2).
+
+<br>
 
 R will do all the hard work for us. In the command below, `fx` is the data itself, `listw` is what we count as a "neighbour" (e.g. our spatial weights matrix, what pairs of boundaries to compare) and `alternative` is whether you want to test if something is more clustered ("greater"), more uniform ("less") or simply different ("two.sided").
 
 <br>
 
-For my ToyA_jointest:
+For my ToyA pattern:
 
 ```{r}
 ToyA_jointest <- joincount.test(fx    = as.factor(ToyA_polygon$layer), 
@@ -516,14 +555,18 @@ ToyA_jointest <- joincount.test(fx    = as.factor(ToyA_polygon$layer),
 
 <br>
 
-joincount.test actually does two tests (white-white) and (green-green), so we use double square brackets [[ ]] to show the first and second test separately:
+15. **Step 15:**<br> In the `joincount.test` command, there is an argument, sampling = "nonfree". Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.
+
+<br>
+
+The command `joincount.test()` actually does two tests (white-white) and (green-green), so we use double square brackets [[ ]] to show the first and second test separately.  We just care about the first, white-white test.<br>
 
 ```{r}
 # White-to-white Join counts
 ToyA_jointest[[1]]
 ```
 
-<br>
+
 
 ```{r, include=FALSE}
 toyIRPWW <- function(matrix_input,silent=FALSE){
@@ -572,24 +615,33 @@ for(n in 1:5000){
 }
 ```
 
+
+Here's how this looks on our histogram. The probability/p-value is the proportion of the area of the histogram that is more extreme than our observation (assuming it comes from a normal distribution). So it's the percentage that is to the right of the blue line. <br>
+
 ```{r, echo=FALSE}
 #make a histogram of all the white-white joins
-hist(alloutputWW, br=20, main="The number of WHITE-WHITE joins for 5000 variations of an IRP",
-     xlim=c(10,40))
+hist(alloutputWW, br=20, xlab="The number of WHITE-WHITE joins for 5000 variations of an IRP",
+     xlim=c(10,40),main="")
 abline(v=ToyA_jointest[[1]]$estimate[1],col="blue",lwd=2,add=TRUE)
 abline(v=ToyA_jointest[[1]]$estimate[2], col="red",lwd=2)
 
 ```
 
-Here's how this looks on our histogram. The probability/p-value is the percentage of the histogram that is more extreme than our observation (assuming it comes from a normal distribution). Note, my histogram here looks much wider than the one you made because I ran the IRP 15000 times to capture all the unusual cases.
+<br>
 
-We can see that, with a p-value = 3.262e-05, only 0.003262% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. It's incredibly unusual.
+In the output, the test said the p-value was 3.262e-05 e.g. 0.00003262.  This means that we would expect only ~0.003% of cases from an IRP-generated pattern to have  33 or more white-white joins (1 in 3000). It's incredibly unusual to see this is the IRP was true.<br>
 
--   *If the p-value was 0.041, then it means 4.1% of cases from an IRP-generated pattern would have seen 33 or more white-white joins.*
+<p class="comment">*If the p-value was 0.041, then it means 4.1% of cases from an IRP-generated pattern would have seen 33 or more white-white joins*</p>
 
--   *If the p-value was 0.61, then it means 61% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. So it's very common and there's no evidence at all that this is unusual.*
+<p class="comment">*If the p-value was 0.61, then it means 61% of cases from an IRP-generated pattern would have seen 33 or more white-white joins. So it's very common and there's no evidence at all that this is unusual.*</p>
 
-Often you can choose your level of tolerance in advance (e.g. I'm willing to accept that this is unusual and it might not be from an IRP if my p-value was \< 0.02, e.g. I'm willing to be wrong 2% of the time). The exact number depends on your level of tolerance. 0.05 is nothing special.
+##### **Compare against a critical value** {-}
+
+Often you can choose your level of tolerance in advance (e.g. if you chose your critical p-value is 0.02, it means that you're willing to accept that 2% of the time, you really would see a picture this clustered even if the pattern was caused by an independent random process).  The exact number depends on your level of tolerance - if it was a matter of life or death, you might choose a smaller critical threshold!  0.05 is nothing special.  Nowadays, we often simply state the p-value rather than saying if a test "passes" or not.
+
+<br>
+
+##### **Your turn** {-}
 
 <br>
 
@@ -597,7 +649,7 @@ Often you can choose your level of tolerance in advance (e.g. I'm willing to acc
 
 <br><br>
 
-#### Interpretation
+##### Interpretation
 
 We can see that there are many more white-white joins joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins (), so in this case, most people can can safely reject the null hypothesis.
 
@@ -609,17 +661,19 @@ So finally we can formally conclude:
 
 <br>
 
-16. **Step 16:**<br> Run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.
+16. **Step 16:**<br> Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.
 
-<br> <br>
+<br><br>
 
-### D: Real life Example
+## D: Real life Example
 
-In 2010, Staudt et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio). Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.
+In 2010, Pröhl et al, published a paper on the foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio). 
+
+Twelve male frogs in Hitoy Cerere, Costa Rica, were observed each for a full day. Calling time, feeding attempts and time spent inside and outside the core area of their territories were recorded.
 
 <br>
 
-```{r, L5Fig5, echo=FALSE,fig.cap="The strawberry poison frog"}
+```{r, L5Fig5, echo=FALSE,fig.cap="*The strawberry poison frog*"}
 knitr::include_graphics('pg_364Lab5_tobler_2021_fig5.png')
 ```
 
@@ -637,7 +691,7 @@ knitr::include_graphics('pg_364Lab5_tobler_2021_fig6.png')
 
 <br>
 
-17. **Step 17:**<br> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
+17. **Step 17:** The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
 
 <br>
 
@@ -645,7 +699,7 @@ knitr::include_graphics('pg_364Lab5_tobler_2021_fig6.png')
 knitr::include_graphics('pg_364Lab5_tobler_2021_fig7.png')
 ```
 
-18. **Step 18:**<br> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
+18. **Step 18:** At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
 
 <br><br>
 
@@ -655,8 +709,8 @@ Remember that an A is 93%, so you can ignore this section and still easily get a
 
 **To get the final 4 marks in the lab, you need to show me something new, e.g. you need to go above and beyond the lab questions in some way.**
 
--   You get 2/4 for doing something new in any way (including the Wilks Shapiro or step 24)
--   You get 4/4 for something really impressive or 3+ small things.
+-   You get 2/4 for doing something new in any way 
+-   You get 4/4 for something really impressive or 3+ small things. Making your own function, or a cool if statement counts.  
 
 Please tell us in your R script what you did!
 
@@ -664,11 +718,11 @@ Please tell us in your R script what you did!
 
 ## F. Submitting your Lab
 
-Remember to save your work throughout and to spell check your writing (left of the knit button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 4 folder which includes your answers. If you look at your lab 4 folder, you should see this there - complete with a very recent time-stamp.
+Remember to save your work throughout and to spell check your writing (left of the knit button). Now, press the knit button again. If you have not made any mistakes in the code then R should create a html file in your lab 4 folder which includes your answers. If you look at your lab 5 folder, you should see this there - complete with a very recent time-stamp.
 
 In that folder, double click on the html file. This will open it in your browser. CHECK THAT THIS IS WHAT YOU WANT TO SUBMIT
 
-Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 4.
+Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 5.
 
 <br><br>
 
@@ -699,8 +753,15 @@ knitr::kable(rubric) %>%
   kable_styling(bootstrap_options = c("striped", "hover", "responsive"))
 ```
 
+
+## References
+
+Pröhl, H., Mebs, D., Ospina, S. M., & Staudt, K. (2010). Foraging behaviour and territoriality of the strawberry poison frog (Oophaga pumilio) in dependence of the presence of ants. Amphibia-Reptilia, 31(2), 217-227.
+
+
 ::: {style="margin-bottom:25px;"}
 :::
+
 
 ------------------------------------------------------------------------
 
