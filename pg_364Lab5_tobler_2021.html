@@ -634,7 +634,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 </ol>
 <p><br></p>
 <ol start="7" style="list-style-type: decimal">
-<li><strong>Step 7:</strong><br> Explain why your Queens adjacency plot for the Toy_B data looks identical to my Rooks adjacency plot for the Toy_A data.</li>
+<li><strong>Step 7:</strong><br> Explain why your Queens adjacency plot for the Toy_B data looks different to my Rooks adjacency plot for the Toy_A data.</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -733,7 +733,7 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
 <p><br><br></p>
 <p>Now let’s compare against our data. We can run the same command on our Toy dataset A to see how many white-white joins there are.</p>
 <p><br></p>
-<p>As you can see, the number of white-white boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons, or white polygons touching white polygons.</p>
+<p>As you can see, the number of same color boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons, or white polygons touching white polygons.</p>
 <p><br></p>
 <pre class="r"><code># run the command
  ToyA_jointest &lt;- joincount.test(fx = as.factor(ToyA_polygon$layer), 
@@ -748,7 +748,7 @@ hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variat
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
 <p><br></p>
 <ol start="13" style="list-style-type: decimal">
-<li><strong>Step 13:</strong><br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</li>
+<li><strong>Step 13:</strong><br> Repeat the code above but edit for your matrix (ToyB). Comparing against your histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -871,8 +871,8 @@ ToyA_jointest[[1]]</code></pre>
 <div id="your-turn" class="section level5 unnumbered">
 <h5 class="unnumbered"><strong>Your turn</strong></h5>
 <p><br></p>
-<ol start="15" style="list-style-type: decimal">
-<li><strong>Step 15:</strong><br> In the <code>joincount.test</code> command, there is an argument, sampling = “nonfree”. Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.</li>
+<ol start="16" style="list-style-type: decimal">
+<li><strong>Step 16:</strong><br> In the <code>joincount.test</code> command, there is an argument, sampling = “nonfree”. Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -911,10 +911,10 @@ ToyA_jointest[[1]]</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" /></p>
 <p><br></p>
 <ol start="17" style="list-style-type: decimal">
-<li><strong>Step 17:</strong> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?</li>
+<li><strong>Step 17:</strong> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?</li>
 </ol>
 <p><br></p>
-<p><img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" /></p>
+<p><img src="pg_364Lab5_tobler_2021_fig7.png" width="2700" /></p>
 <ol start="18" style="list-style-type: decimal">
 <li><strong>Step 18:</strong> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?</li>
 </ol>

@@ -290,7 +290,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col='red', lwd=2, add=TRUE)
 
 <br>
 
-7.  **Step 7:**<br> Explain why your Queens adjacency plot for the Toy_B data looks identical to my Rooks adjacency plot for the Toy_A data.
+7.  **Step 7:**<br> Explain why your Queens adjacency plot for the Toy_B data looks different to my Rooks adjacency plot for the Toy_A data.
 
 <br><br>
 
@@ -417,7 +417,7 @@ Now let's compare against our data. We can run the same command on our Toy datas
 
 <br>
 
-As you can see, the number of white-white boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons, or white polygons touching white polygons.
+As you can see, the number of same color boundaries is 48, which would be very unusually high considering histogram of outputs from the Independent Random Process. So this suggests maybe the data is clustered e.g. there are an unusual amount of greens polygons touching green polygons, or white polygons touching white polygons.
 
 <br>
 
@@ -439,7 +439,7 @@ As you can see, the number of white-white boundaries is 48, which would be very 
 
 <br>
 
-13. **Step 13:**<br> Repeat the code above but edit for your matrix (ToyB). Comparing against the histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?
+13. **Step 13:**<br> Repeat the code above but edit for your matrix (ToyB). Comparing against your histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?
 
 <br><br>
 
@@ -609,7 +609,7 @@ Often you can choose your level of tolerance in advance (e.g. if you chose your 
 
 <br>
 
-15. **Step 15:**<br> In the `joincount.test` command, there is an argument, sampling = "nonfree". Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.
+16. **Step 16:**<br> In the `joincount.test` command, there is an argument, sampling = "nonfree". Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.
 
 <br><br>
 
@@ -654,11 +654,11 @@ Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in w
 
 <br>
 
-17. **Step 17:** The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?
+17. **Step 17:** The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?
 
 <br>
 
-<img src="pg_364Lab5_tobler_2021_fig7.png" width="2666" />
+<img src="pg_364Lab5_tobler_2021_fig7.png" width="2700" />
 
 18. **Step 18:** At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
 

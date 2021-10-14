@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="cap6019" />
+
+<meta name="date" content="2021-10-12" />
+
+<title>Lab5</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
+    </li>
+    <li>
+      <a href="pg_364Lab4_Manip_2021.html">Lab 4: Spatial Intermediate</a>
+    </li>
+    <li>
+      <a href="pg_364Lab5_tobler_2021.html">Lab 5: Join Counts</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="pg_364Project1_2021.html">PROJECT LAB</a>
+</li>
+<li>
+  <a href="pg_364Lab3_Spatial_2021_WORKEDANS.html">LAB 3 Worked Answers</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Lab5</h1>
+<h4 class="author">cap6019</h4>
+<h4 class="date">10/12/2021</h4>
+
+</div>
+
+
+<p>#Something New - Creating our own function</p>
+<pre class="r"><code>fahrenheit_to_celsius &lt;- function(temp_F) {
+  temp_C &lt;- (temp_F - 32) * 5 / 9
+  return(temp_C)
+}</code></pre>
+<pre class="r"><code>celsius_to_kelvin &lt;- function(temp_C) {
+  temp_K &lt;- temp_C + 273.15
+  return(temp_K)
+}
+
+# freezing point of water in Kelvin
+celsius_to_kelvin(0)</code></pre>
+<pre><code>## [1] 273.15</code></pre>
+<pre class="r"><code>fahrenheit_to_kelvin &lt;- function(temp_F) {
+  temp_C &lt;- fahrenheit_to_celsius(temp_F)
+  temp_K &lt;- celsius_to_kelvin(temp_C)
+  return(temp_K)
+}
+
+# freezing point of water in Kelvin
+fahrenheit_to_kelvin(32.0)</code></pre>
+<pre><code>## [1] 273.15</code></pre>
+<pre class="r"><code># we don&#39;t use min or max as they are standard R fucntion names
+selectAny &lt;- function(size, mini, maxi) {
+f &lt;- c() # create an empty vector
+for(i in 1:size) { # repeat size times
+f &lt;- rbind(v, sample(mini:maxi, size = 1)) # add a random value to the vector
+} # end loop
+f # output the vector
+} </code></pre>
+<pre class="r"><code>standard.error &lt;- function(x) {
+    v &lt;- var(x)
+    n &lt;- length(x)
+    sqrt(v/n)
+}</code></pre>
+<ul>
+<li>An if statement</li>
+</ul>
+<pre class="r"><code>x &lt;- -20
+if(x &gt; 0){
+print(&quot;Non-negative number&quot;)
+} else {
+print(&quot;Negative number&quot;)
+}</code></pre>
+<pre><code>## [1] &quot;Negative number&quot;</code></pre>
+<pre class="r"><code>x &lt;- 10000
+if (x &lt; 0) {
+print(&quot;Negative number&quot;)
+} else if (x &gt; 0) {
+print(&quot;Positive number&quot;)
+} else
+print(&quot;Zero&quot;)</code></pre>
+<pre><code>## [1] &quot;Positive number&quot;</code></pre>
+<div id="join-counts" class="section level1">
+<h1>Join Counts</h1>
+<p>LLENA ESTO Y PONLO BONITO SE ESPECIFICA</p>
+<p>Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary data (yes/no ; TRUE/FALSE). Feel free to use pictures/examples etc to help you explain it.</p>
+</div>
+<div id="join-counts-coding" class="section level1">
+<h1>Join Counts coding</h1>
+<pre class="r"><code>row.1 &lt;- rep(1,6)  
+row.2 &lt;- c(0,1,1,1,1,1)
+row.3 &lt;- c(rep(0,5),1)
+row.4 &lt;- rep(0,6)
+row.5 &lt;- c(0,0,0,1,0,0)
+row.6 &lt;- rep(0,6)
+
+ToyA_matrix &lt;- matrix(c(row.1, row.2, row.3, row.4, row.5, row.6), 
+                      nrow=6,ncol=6, byrow=TRUE)
+
+ToyA_matrix</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,]    1    1    1    1    1    1
+## [2,]    0    1    1    1    1    1
+## [3,]    0    0    0    0    0    1
+## [4,]    0    0    0    0    0    0
+## [5,]    0    0    0    1    0    0
+## [6,]    0    0    0    0    0    0</code></pre>
+<pre class="r"><code>ToyA_raster &lt;- raster(ToyA_matrix)
+
+plot(ToyA_raster)
+text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
+<ul>
+<li>rep() and c() commands do Explain in your lab answers what the rep() and c() commands do. Feel free to use code examples!</li>
+</ul>
+<pre class="r"><code>row.1 &lt;- rep(1,6)  
+row.2 &lt;- c(1,0,1,0,1,0)
+row.3 &lt;- c(rep(0,5),1)
+row.4 &lt;- rep(0,6)
+row.5 &lt;- c(0,1,0,1,1,1)
+row.6 &lt;- rep(0,6)
+ToyB_matrix &lt;- matrix(c(row.1, row.2, row.3, row.4, row.5, row.6), 
+                      nrow=6,ncol=6, byrow=TRUE)
+
+ToyB_matrix</code></pre>
+<pre><code>##      [,1] [,2] [,3] [,4] [,5] [,6]
+## [1,]    1    1    1    1    1    1
+## [2,]    1    0    1    0    1    0
+## [3,]    0    0    0    0    0    1
+## [4,]    0    0    0    0    0    0
+## [5,]    0    1    0    1    1    1
+## [6,]    0    0    0    0    0    0</code></pre>
+<pre class="r"><code>ToyB_raster &lt;- raster(ToyB_matrix)
+
+plot(ToyB_raster)
+text(coordinates(ToyB_raster), labels=ToyB_raster[], cex=1.5)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-11-1.png" /><!-- --></p>
+<pre class="r"><code># Step 1 - turn to polygon
+ToyA_polygon    &lt;- rasterToPolygons(ToyA_raster, dissolve=FALSE)
+ToyA_spdep      &lt;- SpatialPolygons(ToyA_polygon@polygons)
+
+# Step 2 - Make list of neighbors
+ToyA_nb.rook &lt;- poly2nb(ToyA_spdep, queen = FALSE)
+
+# Step 3 - Create weights matrix
+ToyA_weights.rook &lt;- nb2listw(ToyA_nb.rook, style=&#39;B&#39;)
+
+# Step 4 - plot the neighbors
+plot(ToyA_spdep, border=&#39;blue&#39;)
+plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+<div id="spatial-weights-matrix" class="section level2">
+<h2>Spatial weights matrix</h2>
+<p>Explain what a spatial-weights-matrix is, how adjacency can been used to create one (e.g. what are queens/rooks) or how distance might be used to create one (lecture 8A, Lecture 7B). **</p>
+<p>LLENA</p>
+<pre class="r"><code># Step 1 - turn to polygon
+ToyB_polygon    &lt;- rasterToPolygons(ToyB_raster, dissolve=FALSE)
+ToyB_spdep      &lt;- SpatialPolygons(ToyB_polygon@polygons)
+
+# Step 2 - Make list of neighbors
+ToyB_nb.queen &lt;- poly2nb(ToyB_spdep, queen = TRUE)
+
+# Step 3 - Create weights matrix
+ToyB_weights.queen &lt;- nb2listw(ToyB_nb.queen, style=&#39;B&#39;)
+
+# Step 4 - plot the neighbors
+plot(ToyB_spdep, border=&#39;blue&#39;)
+plot(ToyB_nb.queen, coordinates(ToyB_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
+<p>Explain why your Queens adjacecy plot for the Toy_B data looks different to my Rooks adjacecy plot for the Toy_A data.</p>
+<p>llena</p>
+<p>HLG - THIS WAS THE OLD FUNCTION, THIS IS THE ONE I WAS TALKING ABOUT IN MY CANVAS MESSAGE. I COPY/PASTED THIS FROM THE NEW VERSION OF MY INSTRUCTIONS</p>
+<pre class="r"><code>toyIRP &lt;- function(matrix_input, silent=FALSE){
+
+  # find how big out input matrix is
+  nrows  &lt;- nrow(matrix_input)
+  ncols &lt;- nrow(matrix_input)
+  numberones &lt;- 13
+  # make a list of all the ones and zeros
+  alltheones  &lt;- rep(1,numberones)
+  allthezeros  &lt;- rep(0, ((nrows*ncols) - numberones))
+  # randomise
+  randombinary &lt;- sample(c(alltheones,allthezeros),size=(nrows*ncols),replace=FALSE)
+
+  
+  #---------------------------------------------------------------------------
+  # Turn into a matrix and create the weights etc.
+  #---------------------------------------------------------------------------
+  IRP_matrix   &lt;- matrix(randombinary, nrow=nrows,ncol=ncols, byrow=TRUE)
+  IRP_raster   &lt;- raster(IRP_matrix)
+  IRP_polygon  &lt;- rasterToPolygons(IRP_raster, dissolve=FALSE)
+  IRP_spdep    &lt;- SpatialPolygons(IRP_polygon@polygons)
+  IRP_nb.rook  &lt;- poly2nb(IRP_spdep, queen = FALSE)
+  IRP_weights.rook &lt;- nb2listw(IRP_nb.rook, style=&#39;B&#39;)
+  IRB_jointest &lt;- joincount.test(fx    = as.factor(IRP_polygon$layer), listw = IRP_weights.rook) 
+  
+  ww_gg_joincount &lt;- IRB_jointest[[1]]$estimate[1]+  IRB_jointest[[2]]$estimate[1]
+  
+  # If you want to see the output (e.g. silent=FALSE) then plot
+  if(silent == FALSE){
+    plot(IRP_raster, 
+         main = list(paste(&quot;CSR:Number of same color (WW or GG) boundaries = &quot;,ww_gg_joincount),cex=.9))
+    text(coordinates(IRP_raster), labels=IRP_raster[], cex=1.5)
+  }
+  
+  return(ww_gg_joincount)
+}</code></pre>
+<p>THIS WAS OUT OF DATE AND NEEDED TO BE UPDATED FROM THE NEW VERSION OF THE INSTRUCTIONS</p>
+<pre class="r"><code>output &lt;- toyIRP(ToyA_matrix, silent=FALSE)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-15-1.png" /><!-- --></p>
+<p>On average, if an IRP really did cause the pattern in the matrix, how many white-white joins would you expect to see? Why does the number change each time you run it?</p>
+<p>LLENA</p>
+<pre class="r"><code># Run once
+alloutput &lt;-  toyIRP(ToyA_matrix, silent=TRUE)
+  
+# Repeat 200 times and add in the answer
+for(n in 1:1000){
+  newIRP &lt;- toyIRP(ToyA_matrix, silent=TRUE)
+  alloutput &lt;-  c(alloutput, newIRP)
+}  
+
+#make a histogram of all the white-white joins
+hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variations of an IRP&quot;)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-16-1.png" /><!-- --></p>
+<p>Given this output, what is your new expectation of the number of white-white joins if an IRP caused the process?</p>
+<p>llena</p>
+<p>Using this equation, if you have a 6x6 grid, how many same colour joins would you theoretically expect (hint, it would be the total number of joins minus E_BW)</p>
+<p>llena</p>
+<pre class="r"><code># run the command
+ ToyA_jointest &lt;- joincount.test(fx = as.factor(ToyA_polygon$layer), 
+                                listw = ToyA_weights.rook,        
+                                alternative = &quot;greater&quot;) 
+ numberboundaries &lt;- ToyA_jointest[[1]]$estimate[1]+  ToyA_jointest[[2]]$estimate[1]
+
+
+# and plot
+ plot(ToyA_raster, main = paste(&quot;TOYA: Number of same color boundaries =&quot;,numberboundaries))
+ text(coordinates(ToyA_raster), labels=ToyA_raster[], cex=1.5)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-17-1.png" /><!-- --></p>
+<pre class="r"><code># run the command
+# run the command
+ ToyB_jointest &lt;- joincount.test(fx = as.factor(ToyB_polygon$layer), 
+                                listw = ToyB_weights.queen,        
+                                alternative = &quot;greater&quot;) 
+ numberboundaries &lt;- ToyB_jointest[[1]]$estimate[1]+  ToyB_jointest[[2]]$estimate[1]
+
+
+# and plot
+ plot(ToyB_raster, main = paste(&quot;TOYB: Number of same color boundaries =&quot;,numberboundaries))
+ text(coordinates(ToyB_raster), labels=ToyB_raster[], cex=1.5)</code></pre>
+<p><img src="geog364_lab_5_project_files/figure-html/unnamed-chunk-18-1.png" /><!-- --></p>
+<p>Comparing against the histogram, is the number of white-white boundaries unusually high/low?? Does this suggest your data is unusually clustered/uniform compared to one created by an IRP?</p>
+<p>LLENAAA</p>
+<pre class="r"><code>ToyA_jointest &lt;- joincount.test(fx    = as.factor(ToyA_polygon$layer), 
+                                listw = ToyA_weights.rook,   
+                                sampling = &quot;nonfree&quot;,
+                                alternative = &quot;two.sided&quot;) </code></pre>
+<p>In the joincount.test command, there is an argument, sampling = “nonfree”. Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern. LLENA</p>
+<pre class="r"><code># White-to-white Join counts
+ToyA_jointest[[1]]</code></pre>
+<pre><code>## 
+##  Join count test under nonfree sampling
+## 
+## data:  as.factor(ToyA_polygon$layer) 
+## weights: ToyA_weights.rook 
+## 
+## Std. deviate for 0 = 4.1544, p-value = 3.262e-05
+## alternative hypothesis: two.sided
+## sample estimates:
+## Same colour statistic           Expectation              Variance 
+##             33.000000             24.095238              4.594478</code></pre>
+<p>info to look attt In the output, the test said the p-value was 3.262e-05 e.g. 0.00003262. This means that we would expect only ~0.003% of cases from an IRP-generated pattern to have 33 or more white-white joins (1 in 3000). It’s incredibly unusual to see this is the IRP was true.</p>
+<p>In the joincount.test command, there is an argument, sampling = “nonfree”. Using the textbook pdf to help, explain the difference between free and non-free sampling when making our IRP pattern.</p>
+<p>LLENA ESTOOOOOO</p>
+<p>Interpretation</p>
+<p>We can see that there are many more white-white joins joins than you might expect. In fact, looking at the low p-value, we can see that it is very unusual to see so many same-color joins (), so in this case, most people can can safely reject the null hypothesis.</p>
+<p>So finally we can formally conclude:</p>
+<p>The p-value for our test of white-white joins was 3.262e-05, so only 0.003262% of cases caused by an IRP-generated pattern (non-free sampling) would have seen 33 or more white-white joins.</p>
+<p>I am willing to accept this level of uncertainty in the result. I have enough evidence to reject the null hypothesis and suggest that Toy_A is not caused by an IRP.</p>
+<p>Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.</p>
+<p>LLENA</p>
+<pre class="r"><code>ToyB_jointest &lt;- joincount.test(fx    = as.factor(ToyB_polygon$layer), 
+                                listw = ToyB_weights.queen,   
+                                sampling = &quot;nonfree&quot;,
+                                alternative = &quot;two.sided&quot;) </code></pre>
+<pre class="r"><code>ToyB_jointest[[1]]</code></pre>
+<pre><code>## 
+##  Join count test under nonfree sampling
+## 
+## data:  as.factor(ToyB_polygon$layer) 
+## weights: ToyB_weights.queen 
+## 
+## Std. deviate for 0 = 1.1676, p-value = 0.243
+## alternative hypothesis: two.sided
+## sample estimates:
+## Same colour statistic           Expectation              Variance 
+##              45.00000              40.33333              15.97386</code></pre>
+<p>REAL LIFE EXAMPLE Step 17: The paper did not provide a map of how the territories looked - if you had to choose one of the maps below, which is most likely? Why?</p>
+<p>llenaa</p>
+<p>Step 18: At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?</p>
+<p>llenaa</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+</body>
+</html>
