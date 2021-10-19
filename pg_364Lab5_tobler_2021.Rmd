@@ -382,7 +382,7 @@ output <- toyIRP(ToyA_matrix, silent=FALSE)
 alloutput <-  toyIRP(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
-for(n in 1:1000){
+for(n in 1:200){
   newIRP <- toyIRP(ToyA_matrix, silent=TRUE)
   alloutput <-  c(alloutput, newIRP)
 }  
@@ -609,7 +609,7 @@ toyIRPWW <- function(matrix_input,silent=FALSE){
 alloutputWW <-  toyIRPWW(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
-for(n in 1:5000){
+for(n in 1:1000){
   newIRPWW <- toyIRPWW(ToyA_matrix, silent=TRUE)
   alloutputWW <-  c(alloutputWW, newIRPWW)
 }
@@ -620,7 +620,7 @@ Here's how this looks on our histogram. The probability/p-value is the proportio
 
 ```{r, echo=FALSE}
 #make a histogram of all the white-white joins
-hist(alloutputWW, br=20, xlab="The number of WHITE-WHITE joins for 5000 variations of an IRP",
+hist(alloutputWW, br=20, xlab="The number of WHITE-WHITE joins for 1000 variations of an IRP",
      xlim=c(10,40),main="")
 abline(v=ToyA_jointest[[1]]$estimate[1],col="blue",lwd=2,add=TRUE)
 abline(v=ToyA_jointest[[1]]$estimate[2], col="red",lwd=2)
