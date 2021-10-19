@@ -703,7 +703,7 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
 alloutput &lt;-  toyIRP(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
-for(n in 1:1000){
+for(n in 1:200){
   newIRP &lt;- toyIRP(ToyA_matrix, silent=TRUE)
   alloutput &lt;-  c(alloutput, newIRP)
 }  

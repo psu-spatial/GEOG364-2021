@@ -377,7 +377,7 @@ output <- toyIRP(ToyA_matrix, silent=FALSE)
 alloutput <-  toyIRP(ToyA_matrix, silent=TRUE)
   
 # Repeat 200 times and add in the answer
-for(n in 1:1000){
+for(n in 1:200){
   newIRP <- toyIRP(ToyA_matrix, silent=TRUE)
   alloutput <-  c(alloutput, newIRP)
 }  
