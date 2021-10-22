@@ -737,11 +737,17 @@ Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 5.
 
 **MARKDOWN STYLE - 13 MARKS**
 
- - Your document is neat and easy to read. Answwers are easy to find
- - You have written in full sentences, it is clear what your answers are referring to. 
- - You have used the spell check.
- - You have used YAML code to make your work look professional (themes, tables of contents etc)
- - LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT
+We will start by awarding full marks and dock marks for mistakes.LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT 
+
+TO GET 13/13 : All the below PLUS your equations use the equation format & you use subscripts/superscript as appropriate
+
+TO GET 12/13 - all the below:
+
+  - Your document is neat and easy to read. 
+  - Answers are easy to find and paragraphs are clear (e.g. you left spaces between lines) 
+  - You have written in full sentences, it is clear what your answers are referring to. 
+  - You have used the spell check. 
+  - You have used YAML code to make your work look professional (themes, tables of contents etc) 
 
 **CODING STEPS - 13 MARKS**
 

@@ -156,7 +156,7 @@ There are many inbuilt data-sets in R.  One of the most powerful is that you hav
 
 <br>
 
-Make a new heading called the American Community Online
+Make a new heading called the American Community Survey Online
 
 <br>
 
@@ -600,18 +600,65 @@ Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 6.
 
 **RMD CODE SUBMISSION - 5 marks**
 
-**MARKDOWN/CODE STYLE - 16 MARKS**
+**MARKDOWN STYLE - 10 MARKS**
 
-Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.You have written in full sentences, it is clear what your answers are referring to. YOU HAVE USED THE SPELL CHECK. SPELLING ERRORS LOSE YOU MARKS.
+We will start by awarding full marks and dock marks for mistakes.LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT 
+
+TO GET 13/13 : All the below PLUS your equations use the equation format & you use subscripts/superscript as appropriate
+
+TO GET 12/13 - all the below:
+
+  - Your document is neat and easy to read. 
+  - Answers are easy to find and paragraphs are clear (e.g. you left spaces between lines) 
+  - You have written in full sentences, it is clear what your answers are referring to. 
+  - You have used the spell check. 
+  - You have used YAML code to make your work look professional (themes, tables of contents etc) 
+
+**CODING STYLE - 10 MARKS**
+
+ - Full marks. You have managed to recreate the Toy B code example using a queens spatial weights matrix. Your code is neat, commented and the variable names make sense. You have no spurious printed output from library loads or other code.
+ 
+We grade this by first awarding full marks, then dropping points as mistakes are found or as coding gets messier.
+
+**ACS and POLICY MAP - 10 MARKS**
+
+You have clearly explained what ACS is, how often the data is collected and the sorts of data available. You have defined the population.
+
+You have included an image (properly cropped/presented) of a professional map you made in Policy Map for a state of your choice
+
+You have explained what your chosen variable shows about your chosen state, what patterns are there and whether they show autocorrelation. You have commented on process.
 
 
+**Census MAPS IN R - 10**
+
+You have read in the data, created a percentage column and made a professional looking plot.
 
 
+**SVI Analysis - 46**
+
+You have conducted an SVI analysis for your own state and variable, including
+
+15 marks:  Description
+ 
+ - A description of what the SVI data is and why it’s important (remember the documentation will help). You should include 
+   + the unit of observation, 
+   + why you chose the state that you did.
+   + what map projection you chose and why.
+
+15 marks:  Coding and maps
+
+ - An exploratory analysis of the data with good spatial maps, for example how does the pattern/process compare to the census data you downloaded earlier.
+
+16 marks: Moran's plot
+
+ - A full Moran’s plot and hypothesis test with the results explained clearly in the text. You should clearly explain what Moran’s I is and how to interpret it. You have included all steps, for example YOUR HYPOTHESES IN WORDS as well as maths, plus a full description of outcomes.
 
 **Above and beyond: 4 MARKS**
 
-You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.
+-   You get 2/4 for doing something new in any way 
+-   You get 4/4 for something really impressive
 
+An easy example, try conducting a Moran's analysis for your census data. Bonus marks if you can convert a column to TRUE/FALSE and do a join counts analysis on it!
 [100 marks total]
 
 Overall, here is what your lab should correspond to:
