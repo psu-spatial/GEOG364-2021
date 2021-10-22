@@ -314,7 +314,8 @@ toyIRP <- function(matrix_input, silent=FALSE){
   # find how big out input matrix is
   nrows  <- nrow(matrix_input)
   ncols <- nrow(matrix_input)
-  numberones <- 13
+  numberones <- sum(sum(ToyA_matrix))
+
   # make a list of all the ones and zeros
   alltheones  <- rep(1,numberones)
   allthezeros  <- rep(0, ((nrows*ncols) - numberones))
@@ -390,7 +391,7 @@ hist(alloutput, br=20, main="The number of same color joins for 1001 variations 
 
 <br>
 
-12. **Step 12:**<br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?
+11b. **Step 12:**<br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?
 
 <br>
 
@@ -625,7 +626,7 @@ So finally we can formally conclude:
 
 <br>
 
-16. **Step 16:**<br> Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.
+17. **Step 17:**<br> Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.
 
 <br><br>
 
@@ -654,13 +655,13 @@ Each 4 m2 core area was divided in 100 20 × 20 cm2 grids. B (black) = grid in w
 
 <br>
 
-17. **Step 17:** The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?
+18. **Step 18:** The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?
 
 <br>
 
 <img src="pg_364Lab5_tobler_2021_fig7.png" width="2700" />
 
-18. **Step 18:** At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
+19. **Step 19:** At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?
 
 <br><br>
 
@@ -695,9 +696,64 @@ Now go to Canvas and submit BOTH your html and your .Rmd file in Lab 5.
 
 **RMD CODE SUBMISSION - 5 marks**
 
-**MARKDOWN/CODE STYLE - 16 MARKS**
+**MARKDOWN STYLE - 13 MARKS**
 
-Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.You have written in full sentences, it is clear what your answers are referring to. YOU HAVE USED THE SPELL CHECK. SPELLING ERRORS LOSE YOU MARKS.
+ - Your document is neat and easy to read. Answwers are easy to find
+ - You have written in full sentences, it is clear what your answers are referring to. 
+ - You have used the spell check.
+ - You have used YAML code to make your work look professional (themes, tables of contents etc)
+ - LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT
+
+**CODING STEPS - 13 MARKS**
+
+ - Full marks. You have managed to recreate the Toy B code example using a queens spatial weights matrix. Your code is neat, commented and the variable names make sense. You have no spurious printed output from library loads or other code.
+ 
+We grade this by first awarding full marks, then dropping points as mistakes are found or as coding gets messier.
+
+**STEP 2: EXPLAIN JOINT COUNTS - 10 MARKS**
+
+I'm looking for a: crystal clear explanation of what join counts are, with specific reference to the binary/categorical nature of data (e.g. WW,GG,GW).
+
+ - 10 marks. Good enough to show in class. crystal clear you understand
+ - 8 marks. Meaningful effort.  It's reasonable, but not clear why join counts are specifically the tool for binary data
+ - 6 marks. An attempt, no massive errors 
+ - 4 marks. Writing anything
+ 
+**STEP 5: EXPLAIN SPATIAL WEIGHTS - 10 MARKS**
+
+I'm looking for a: crystal clear explanation of what a spatial weights matrix is, with specific reference to adjacency (rooks/queens) and distance. You explained why a queens adjaceny matrix looks different (and used one in your example)
+
+ - 10 marks. Good enough to show in class. crystal clear you understand. All parts included.
+ - 8 marks. Meaningful effort.  It's reasonable, but some parts missing
+ - 6 marks. An attempt, no massive errors 
+ - 4 marks. Writing anything
+
+**STEP 10 & 11: MONTE CARLO - 5 MARKS**
+
+You gave a reasonable number for the expected joins given your code and example. You provided an reasonable explanation for your attempt.  BONUS FOR NOTICING THE LAB INSTRUCTION ERROR, DOUBLE BONUS FOR FIXING IT
+
+**STEP 12/13: CALCULATION - 10 MARKS**
+
+YOU PROVIDED WORKINGS. It is clear you understood what you were trying to do and arrived at a reasonable number. We do not drop marks for small typos in counting the number of joins, but you WILL drop marks for using rooks not queens contingency.
+
+You interpreted the results correctly within the context of your particular Toy B matrix
+
+
+**STEP 16: FREE/Non-FREE - 5 MARKS**
+
+You explained these clearly
+
+
+**STEP 17: HYPOTHESIS TEST - 10 MARKS**
+
+You provided ALL of the steps:
+e.g. H0 / H1 (clearly explained), your test statistic, your interpretation.  You lose marks for things like spurious interpretation (saying its still uniform even if your p-value is high). You gain bonus marks for putting this in the context of pattern vs process.
+
+
+**FROG EXAMPLE - 10 MARKS**
+
+You thoughtfully and correctly answered the frog questions, providing reasoning for your answers.
+
 
 **Above and beyond: 4 MARKS**
 

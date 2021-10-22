@@ -650,7 +650,8 @@ plot(ToyA_nb.rook, coordinates(ToyA_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)<
   # find how big out input matrix is
   nrows  &lt;- nrow(matrix_input)
   ncols &lt;- nrow(matrix_input)
-  numberones &lt;- 13
+  numberones &lt;- sum(sum(ToyA_matrix))
+
   # make a list of all the ones and zeros
   alltheones  &lt;- rep(1,numberones)
   allthezeros  &lt;- rep(0, ((nrows*ncols) - numberones))
@@ -712,9 +713,7 @@ for(n in 1:200){
 hist(alloutput, br=20, main=&quot;The number of same color joins for 1001 variations of an IRP&quot;)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
 <p><br></p>
-<ol start="12" style="list-style-type: decimal">
-<li><strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?</li>
-</ol>
+<p>11b. <strong>Step 12:</strong><br> Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?</p>
 <p><br></p>
 <p>What we just did above is called a Monte-Carlo process. We repeated something many times and looked to see our range of outcomes. This can be very powerful as it can allow you do deal with things like edge effects.</p>
 <p><br></p>
@@ -885,8 +884,8 @@ ToyA_jointest[[1]]</code></pre>
 <li><p>I am willing to accept this level of uncertainty in the result. I have enough evidence to reject the null hypothesis and suggest that Toy_A is not caused by an IRP.</p></li>
 </ul>
 <p><br></p>
-<ol start="16" style="list-style-type: decimal">
-<li><strong>Step 16:</strong><br> Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.</li>
+<ol start="17" style="list-style-type: decimal">
+<li><strong>Step 17:</strong><br> Use the steps above to run a joincount test for your Toy B hypothesis test (e.g. you are testing if it is unusually clustered) and interpret the output.</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -910,13 +909,13 @@ ToyA_jointest[[1]]</code></pre>
 <p><br></p>
 <p><img src="pg_364Lab5_tobler_2021_fig6.png" width="1076" /></p>
 <p><br></p>
-<ol start="17" style="list-style-type: decimal">
-<li><strong>Step 17:</strong> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?</li>
+<ol start="18" style="list-style-type: decimal">
+<li><strong>Step 18:</strong> The paper did not provide a map of how the territories looked - if you had to choose one of the maps below for frog 1, which is most likely? Why?</li>
 </ol>
 <p><br></p>
 <p><img src="pg_364Lab5_tobler_2021_fig7.png" width="2700" /></p>
-<ol start="18" style="list-style-type: decimal">
-<li><strong>Step 18:</strong> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?</li>
+<ol start="19" style="list-style-type: decimal">
+<li><strong>Step 19:</strong> At a significance value of 0.01, do these results indicate that the frogs preferred hunting prey in specific patches of their core areas? Or is there no evidence to reject the notion that they randomly hunted wherever they hopped?</li>
 </ol>
 <p><br><br></p>
 </div>
@@ -943,8 +942,46 @@ ToyA_jointest[[1]]</code></pre>
 <p><strong>For all answers: Full marks = everything down at a high standard, in full sentences as appropriate with no parts of your answer missing. Imagine it as an example I use in class</strong></p>
 <p><strong>HTML FILE SUBMISSION - 5 marks</strong></p>
 <p><strong>RMD CODE SUBMISSION - 5 marks</strong></p>
-<p><strong>MARKDOWN/CODE STYLE - 16 MARKS</strong></p>
-<p>Your code and document is neat and easy to read. LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT.You have written in full sentences, it is clear what your answers are referring to. YOU HAVE USED THE SPELL CHECK. SPELLING ERRORS LOSE YOU MARKS.</p>
+<p><strong>MARKDOWN STYLE - 13 MARKS</strong></p>
+<ul>
+<li>Your document is neat and easy to read. Answwers are easy to find</li>
+<li>You have written in full sentences, it is clear what your answers are referring to.</li>
+<li>You have used the spell check.</li>
+<li>You have used YAML code to make your work look professional (themes, tables of contents etc)</li>
+<li>LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT</li>
+</ul>
+<p><strong>CODING STEPS - 13 MARKS</strong></p>
+<ul>
+<li>Full marks. You have managed to recreate the Toy B code example using a queens spatial weights matrix. Your code is neat, commented and the variable names make sense. You have no spurious printed output from library loads or other code.</li>
+</ul>
+<p>We grade this by first awarding full marks, then dropping points as mistakes are found or as coding gets messier.</p>
+<p><strong>STEP 2: EXPLAIN JOINT COUNTS - 10 MARKS</strong></p>
+<p>I’m looking for a: crystal clear explanation of what join counts are, with specific reference to the binary/categorical nature of data (e.g. WW,GG,GW).</p>
+<ul>
+<li>10 marks. Good enough to show in class. crystal clear you understand</li>
+<li>8 marks. Meaningful effort. It’s reasonable, but not clear why join counts are specifically the tool for binary data</li>
+<li>6 marks. An attempt, no massive errors</li>
+<li>4 marks. Writing anything</li>
+</ul>
+<p><strong>STEP 5: EXPLAIN SPATIAL WEIGHTS - 10 MARKS</strong></p>
+<p>I’m looking for a: crystal clear explanation of what a spatial weights matrix is, with specific reference to adjacency (rooks/queens) and distance. You explained why a queens adjaceny matrix looks different (and used one in your example)</p>
+<ul>
+<li>10 marks. Good enough to show in class. crystal clear you understand. All parts included.</li>
+<li>8 marks. Meaningful effort. It’s reasonable, but some parts missing</li>
+<li>6 marks. An attempt, no massive errors</li>
+<li>4 marks. Writing anything</li>
+</ul>
+<p><strong>STEP 10 &amp; 11: MONTE CARLO - 5 MARKS</strong></p>
+<p>You gave a reasonable number for the expected joins given your code and example. You provided an reasonable explanation for your attempt. BONUS FOR NOTICING THE LAB INSTRUCTION ERROR, DOUBLE BONUS FOR FIXING IT</p>
+<p><strong>STEP 12/13: CALCULATION - 10 MARKS</strong></p>
+<p>YOU PROVIDED WORKINGS. It is clear you understood what you were trying to do and arrived at a reasonable number. We do not drop marks for small typos in counting the number of joins, but you WILL drop marks for using rooks not queens contingency.</p>
+<p>You interpreted the results correctly within the context of your particular Toy B matrix</p>
+<p><strong>STEP 16: FREE/Non-FREE - 5 MARKS</strong></p>
+<p>You explained these clearly</p>
+<p><strong>STEP 17: HYPOTHESIS TEST - 10 MARKS</strong></p>
+<p>You provided ALL of the steps: e.g. H0 / H1 (clearly explained), your test statistic, your interpretation. You lose marks for things like spurious interpretation (saying its still uniform even if your p-value is high). You gain bonus marks for putting this in the context of pattern vs process.</p>
+<p><strong>FROG EXAMPLE - 10 MARKS</strong></p>
+<p>You thoughtfully and correctly answered the frog questions, providing reasoning for your answers.</p>
 <p><strong>Above and beyond: 4 MARKS</strong></p>
 <p>You get 2/4 for doing something new in any way and 4/4 for something really impressive or multiple small things.</p>
 <p>[100 marks total]</p>
