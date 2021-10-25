@@ -1,5 +1,5 @@
 ---
-title: "Lab 5: Autocorrelation"
+title: "Lab 6: Autocorrelation"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
 output: 
   html_document:
@@ -454,7 +454,8 @@ We can then assign weights to each one based on whether it is a neighbour or not
 
 ```{r}
 # calculate the spatial weights
-weights.rook <- nb2listw(spatial.matrix.rook, style='B')
+weights.rook <- nb2listw(spatial.matrix.rook, style='B',
+            zero.policy = T)
 ```
 
 
@@ -480,7 +481,8 @@ Here is our attempt: In a county with a high population, surrounded by counties 
 moran.plot(SVI.sp.utm$E_TOTPOP, weights.rook,
            xlab = "Population",
            ylab = "Neighbors Population",
-           labels=SVI.sp.utm$COUNTY)
+           labels=SVI.sp.utm$COUNTY,
+            zero.policy = T)
 ```
 
 Here we can see that high population counties tend to be clustered together, but that there is not a perfect relationship.  Miami Dade in particular is maybe skewing the relationship a little. (In join counts all our data was either TRUE or FALSE, so this scatterplot wouldn't make sense)
@@ -511,7 +513,8 @@ We can now test whether our data is significantly clustered/dispersed, using a M
 The easiest way to see this in R is to use the Moran.test command, which also assesses the significance of your result:
 
 ```{r}
-moran.test(SVI.sp.utm$E_TOTPOP, weights.rook)    
+moran.test(SVI.sp.utm$E_TOTPOP, weights.rook,
+            zero.policy = T)    
 ```
 
 <br>

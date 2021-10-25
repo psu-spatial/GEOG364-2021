@@ -281,14 +281,19 @@ st_crs(frost.sf)
 ##         BBOX[-90,-180,90,180]],
 ##     ID["EPSG",4326]]
 ```
+<br>
+
 
 ```r
-crs(frost.sf)
+# written like this to force the projection command specifically from the raster package
+raster::projection(frost.sf)
 ```
 
 ```
-## CRS arguments: +proj=longlat +datum=WGS84 +no_defs
+## [1] "+proj=longlat +datum=WGS84 +no_defs"
 ```
+
+
 
 Here we can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.
 
@@ -337,11 +342,11 @@ Let's see what we did
 
 
 ```r
-crs(frost.sf.lonlat)
+raster::projection(frost.sf.lonlat)
 ```
 
 ```
-## CRS arguments: +proj=longlat +datum=WGS84 +no_defs
+## [1] "+proj=longlat +datum=WGS84 +no_defs"
 ```
 
 

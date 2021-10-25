@@ -505,7 +505,7 @@ Some important notes
 ```{r,results=FALSE}
 # Download PA ACS data at county level for some chosen variables, using tidycensus
 # see the helpfile for get_acs for more options
-PA.Census.sf <- get_acs(geography = "county", 
+PA_NY.ACS.sf <- get_acs(geography = "county", 
                 year = 2017,
                 variables = c(total.population = "B05012_001", # total population
                             total.house      = "B25001_001", # total housing units	
@@ -538,79 +538,156 @@ PA.Census.sf <- get_acs(geography = "county",
 ```
 
 <br>
-<br>
 
+SEE HERE FOR A FULL TUTORIAL: https://walker-data.com/tidycensus/articles/basic-usage.html
+
+In the above code, we specified the following arguments.
+
+ - **geography:** The level of geography we want the data in; in our case, the county. Other geographic options can be found here: https://walker-data.com/tidycensus/articles/basic-usage.html<br>
+ - **year:** The end year of the data (because we want 2013-2017, we use 2017).<br>
+ - **variables:** The variables we want to bring in as specified in a vector you create using the function c(). Note that we created variable names of our own (e.g. “topop”) and we put the ACS IDs in quotes (“B03002_003”). Had we not done this, the variable names will come in as they are named in the ACS, which are not very descriptive.<br>
+ - **state:** We can filter the counties to those in a specific state. Here it is c(“PA”, "NY") for Pennsylvania and New York. If we don’t specify this, we get all counties in the United States -  this is a HUGE download. When we cover Census tracts in the next lab, a county filter will also be available.<br>
+ - **survey:** The specific Census survey were extracting data from. We want data from the 5-year American Community Survey, so we specify “acs5”. The ACS comes in 1-, 3-, and 5-year varieties.<br>
+ - **geometry:** If geometry is set to FALSE, it just brings in a standard table.  If it's set to true, it makes it an sf file.<br>
+ - **wide:** This makes on column for each variable, setting it to false would make one single column for all the estimates and one for the margin of error. We normally want wide=TRUE<br>
+ 
+ 
+<br>
+<br>
 
 ### 6E.c Working with the data {#Tut6Ec_Work}
 
-If you click on the name PA.Census.sf, you should now see that it has downloaded each one of your variables for every county in New York and PA.  In fact, for every one, it has downloaded the ESTIMATE, but also has included the MARGIN-OF-ERROR, the 90% confidence interval on our result (90% of the time our result should be within this margin of error)
+#### Estimate vs margin of error {-}
+
+If you click on the name PA_NY.ACS.sf, you should now see that it has downloaded each one of your variables for every county in New York and PA.  In fact, for every one, it has downloaded the ESTIMATE, but also has included the MARGIN-OF-ERROR, the 90% confidence interval on our result (90% of the time our result should be within this margin of error)
 
 <br>
-
 
 
 ```{r, TmpFig5, echo=FALSE}
 knitr::include_graphics('TmpTutorial_fig5.png')
 ```
  
-<br>
+<br><br>
+
+#### Calculate rates and densities {-}
 
 Finally, we currently have the TOTAL number of people/houses/beds/things in each county, but it is also useful to have the percentage. To calculate these we simply use the mutate command. If mutate doesn't make sense, see this tutorial: https://crd150.github.io/lab2.html#Creating_new_variables
 
 <br>
 
 
-
 ```{r}
 # Use the mutate functions, divide each total by the population and make a new column
-PA.Census.sf <- mutate(PA.Census.sf, percent.income.gt75E = income.gt75E      / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.for.bornE    = for.bornE         / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.nativeE      = identity.nativeE  / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.hispE        = identity.hispE    / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.CentralAE    = identity.CentralAE/ total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.SouthAE      = identity.SouthAE  / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.whiteE       = identity.whiteE   / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.blackE       = identity.blackE   / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.workhomeE    = total.workhomeE    / total.populationE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.bachdegreeE  = total.bachdegreeE  / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.income.gt75E = income.gt75E      / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.for.bornE    = for.bornE         / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.nativeE      = identity.nativeE  / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.hispE        = identity.hispE    / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.CentralAE    = identity.CentralAE/ total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.SouthAE      = identity.SouthAE  / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.whiteE       = identity.whiteE   / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.blackE       = identity.blackE   / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.workhomeE    = total.workhomeE    / total.populationE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.bachdegreeE  = total.bachdegreeE  / total.populationE)
 
 
 
 # or the mutate functions, divide each total by the number of houses and make a new column
-PA.Census.sf <- mutate(PA.Census.sf, percent.owneroccupiedE  = owneroccupiedE  / total.houseE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.broadbandE      = broadbandE        / total.houseE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.mobilehomesallE = mobilehomesallE   / total.houseE)
-PA.Census.sf <- mutate(PA.Census.sf, percent.lackingplumbingE  = lackingplumbingE  / total.houseE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.owneroccupiedE  = owneroccupiedE  / total.houseE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.broadbandE      = broadbandE        / total.houseE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.mobilehomesallE = mobilehomesallE   / total.houseE)
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, percent.lackingplumbingE  = lackingplumbingE  / total.houseE)
 
 ```
 
 <br>
 
+**We can also work out the population density per unit area**
 
-As this is simply an sf file, we can do things like change the map projection, or any of the filters/joins you have learned:
+First we need the spatial area of each census tract. We can do this using the `st_area()` command, then use mutate again to add the population density column
+
+```{r}
+#Finding the area of each county
+area.m2 <- st_area(PA_NY.ACS.sf)
+
+# This is in metres^2. Convert to Km sq
+area.km2 <- set_units(area.m2, "km^2")
+area.km2 <- as.numeric(area.km2)
+```
+
+<br>
+
+Calculate the population density and the housing density per county:
+
+```{r}
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, pop.densityE = total.populationE/area.km2)
+
+# and the housing density
+PA_NY.ACS.sf <- mutate(PA_NY.ACS.sf, house.densityE = total.houseE/area.km2)
+```
+
+<br>
+
+#### Change projections {-}
+
+Let's check the map projections.
+
+```{r}
+raster::projection(PA_NY.ACS.sf)
+```
+
+
+OK it appears to be in long/lat.   As this is simply an sf file, we can do things like change the map projection, or any of the filters/joins you have learned in previous labs.  
+
+Often for census data it is good to use Tutorial 11 to transform your data to the UTM projection, which is what I have done here:
 
 <br>
 
 
 ```{r}
-
 # NEED A BETTER PROJECTION 
-PA.Census.sf <- st_transform(PA.Census.sf,26916)
+PA_NY.ACS.sf <- st_transform(PA_NY.ACS.sf,26916)
 ```
 
 <br>
 
+Now with everything you learned about tmap (https://mgimond.github.io/Spatial/mapping-data-in-r.html#tmap), you will allow you to make some cool plots.  
 
-
-Finally, everything you learned about tmap will allow you to make some cool plots.  Here's simply one example that matches what we were looking at online
+Here's simply one example:
 
 <br>
+
+```{r}
+
+# create map 1
+map1 <- tm_shape(PA_NY.ACS.sf,  unit = "mi") +                      
+  tm_polygons(col="total.populationE",    
+              style="pretty", legend.hist = TRUE,  
+              palette="Reds")   +
+  tm_layout(main.title = "Population per county in NY and PA",  main.title.size = 0.75, frame = FALSE) +
+  tm_layout(legend.outside = TRUE) 
+  
+
+map2 <- tm_shape(PA_NY.ACS.sf,  unit = "mi") +                      
+  tm_polygons(col="pop.densityE",    
+              style="pretty", legend.hist = TRUE,  
+              palette="YlGnBu")   +
+  tm_layout(main.title = "Population density per county in NY and PA (ppl per km2)",  main.title.size = 0.75, frame = FALSE) +
+  tm_layout(legend.outside = TRUE)
+
+tmap_options(check.and.fix = TRUE)
+
+
+tmap_arrange(map1,map2)
+
+```
+
 
 
 ```{r}
 
 # create map 1
-map1 <- tm_shape(PA.Census.sf,  unit = "mi") +                      
+map3 <- tm_shape(PA_NY.ACS.sf,  unit = "mi") +                      
   tm_polygons(col="percent.bachdegreeE",    
               style="pretty", legend.hist = TRUE,  
               palette="Blues")   +
@@ -618,23 +695,23 @@ map1 <- tm_shape(PA.Census.sf,  unit = "mi") +
   tm_layout(legend.outside = TRUE) 
   
 
-map2 <- tm_shape(PA.Census.sf,  unit = "mi") +                      
+map4 <- tm_shape(PA_NY.ACS.sf,  unit = "mi") +                      
   tm_polygons(col="percent.lackingplumbingE",    
               style="pretty", legend.hist = TRUE,  
               palette="YlGnBu")   +
   tm_layout(main.title = "Percentage of houses without plumbing",  main.title.size = 0.95, frame = FALSE) +
-  tm_layout(legend.outside = TRUE) 
+  tm_layout(legend.outside = TRUE)
 
-tmap_arrange(map1,map2)
+tmap_options(check.and.fix = TRUE)
+
+
+tmap_arrange(map3,map4)
 
 ```
 
 <br>
 
 There are a load more ideas here: http://zevross.com/blog/2018/10/02/creating-beautiful-demographic-maps-in-r-with-the-tidycensus-and-tmap-packages/
-
-
-<br>
 
 <br>
 <br>

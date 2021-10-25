@@ -311,9 +311,14 @@ There are a LOAD of ways to check the map projection of your data.  Perhaps the 
 ```{r}
 st_crs(frost.sf)
 ```
+<br>
+
 ```{r}
-crs(frost.sf)
+# written like this to force the projection command specifically from the raster package
+raster::projection(frost.sf)
 ```
+
+
 
 Here we can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.
 
@@ -360,7 +365,7 @@ frost.sf.polar <- st_transform(frost.sf, 3995)
 Let's see what we did
 
 ```{r}
-crs(frost.sf.lonlat)
+raster::projection(frost.sf.lonlat)
 ```
 
 ```{r}

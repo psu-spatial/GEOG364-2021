@@ -397,6 +397,9 @@ div.tocify {
 <li>
   <a href="pg_364Project1_2021.html">PROJECT LAB</a>
 </li>
+<li>
+  <a href="pg_364Lab7_Regression_2021.html">IGNORE test page</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -625,8 +628,10 @@ Zone 12N: <a href="https://epsg.io/32612" class="uri">https://epsg.io/32612</a>
 ##         AREA[&quot;World.&quot;],
 ##         BBOX[-90,-180,90,180]],
 ##     ID[&quot;EPSG&quot;,4326]]</code></pre>
-<pre class="r"><code>crs(frost.sf)</code></pre>
-<pre><code>## CRS arguments: +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<p><br></p>
+<pre class="r"><code># written like this to force the projection command specifically from the raster package
+raster::projection(frost.sf)</code></pre>
+<pre><code>## [1] &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</code></pre>
 <p>Here we can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.</p>
 <p>You can use this command on any sf data to check.</p>
 <p><br></p>
@@ -661,8 +666,8 @@ frost.sf.utm &lt;- st_transform(frost.sf, 32618)
 frost.sf.polar &lt;- st_transform(frost.sf, 3995)</code></pre>
 <p><br></p>
 <p>Let’s see what we did</p>
-<pre class="r"><code>crs(frost.sf.lonlat)</code></pre>
-<pre><code>## CRS arguments: +proj=longlat +datum=WGS84 +no_defs</code></pre>
+<pre class="r"><code>raster::projection(frost.sf.lonlat)</code></pre>
+<pre><code>## [1] &quot;+proj=longlat +datum=WGS84 +no_defs&quot;</code></pre>
 <pre class="r"><code># YOU CAN SEE THE MAP UNITS ARE IN METRES!
 crs(frost.sf.utm)</code></pre>
 <pre><code>## CRS arguments:
