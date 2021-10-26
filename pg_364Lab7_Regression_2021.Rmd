@@ -923,7 +923,9 @@ I am using a real messy example so that you can see things like outlier removal.
 
 
 
-### Basic regression
+### Model 1: Simple Linear Regression
+
+Here we just look to see if our respoonse (people who make over $75000) can be predicted by a SINGLE variable with no reference to geography: Simple Linear Regression.
 
 We can make a basic scatterplot using the plot command.  Alternatively, we can make an interactive plot using ggplot. 
 
@@ -1052,13 +1054,88 @@ tmap_arrange(maplm1,maplm2)
 <br>
 <br>
 
-### Multiple regression
+#### Looking for Spatial autocorrelation in residuals
 
-Our model isn't very good.
+One of the 4 assumptions around regression is that your data should be independent.  
+
+If that is true then our *residuals* (what is left over) should not have any influence or knowledge of each other.  We know that census data is highly geographic, so let's look at a MAP of the residuals (e.g. the distance from each point to the model line of best fit, high means the model underestimated the data, negative means the model overestimated the data).  
+
+To do, this we first add the residuals to our table
+
+```{r}
+Chicago.Census.sf$Fit1.Residuals <- residuals(fit1.lm)
+```
+
+Now let's have a look!  If we have fully explained all the data and the data is spatially independent then there should be no pattern.
+
+We can look at the residuals directly:
+
+```{r}
+# subset the illinois census data with the Chicago city limits
+tm_shape(Chicago.Census.sf, unit = "mi") + 
+           tm_polygons(col = "Fit1.Residuals", style = "quantile",
+                       palette = "-RdBu", border.alpha = 0, 
+                       title = "Fit 1 residuals")+
+    tm_shape(Chicago.city.sf) +
+           tm_borders()+
+    tm_layout(legend.outside = TRUE) 
+```
+
+
+Ouch - but maybe they are not significantly different and we just got unlucky with our colour scale. Let's look at the extreme residuals by converting to standard deviations.
+
+```{r}
+Chicago.Census.sf$sd_breaks <- scale(Chicago.Census.sf$Fit1.Residuals)[,1]
+# because scale is made for matrices, we just need to get the first column using [,1]
+
+my_breaks <- c(-14,-3,-2,-1,1,2,3,14)
+
+tm_shape(Chicago.Census.sf) + 
+  tm_fill("sd_breaks", title = "Residuals", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
+  tm_borders(alpha = 0.1) +
+  tm_layout(main.title = "Fit 1 Residuals (Standard Deviation away from 0)", main.title.size = 0.7 ,
+            legend.position = c("right", "bottom"), legend.title.size = 0.8)+
+      tm_layout(legend.outside = TRUE) 
+
+```
 
 <br>
 
-Now, lets see if adding a second predictor variable makes the fit better.  I'm guessing that census tracts where there are more people earning over $75K might also be more likely to own their own home.
+To see if we are "seeing pictures in clouds" or there really is a spatial pattern, we can look at a Moran's scatterplot with a queen's spatial matrix. The test confirms highly significant autocorrelation.  Our p-values and regression model coefficients cannot be trusted. 
+
+<br>
+
+```{r}
+spatial.matrix.queen <-poly2nb(Chicago.Census.sf, queen=T)
+
+weights.queen <- nb2listw(spatial.matrix.queen, style='B',zero.policy=TRUE)
+
+moran.plot(Chicago.Census.sf$Fit1.Residuals, weights.queen,
+           xlab = "Model 1 residuals",
+           ylab = "Neighbors residuals",zero.policy=TRUE)
+
+moran.test(Chicago.Census.sf$Fit1.Residuals, weights.queen,zero.policy=TRUE)
+```
+
+
+We have a problem!  Our residuals definitely do not look like independent random noise - in fact there is a HUGE clusters of high residuals near the centre and other residuals around the edge.   
+
+The real life interpretation is that in downtown Chicago, the model is underestimating the percentage of people making more than $75K - and in the suburbs it is underestimating.
+
+Let's try a better model:
+
+<br>
+<br>
+
+
+
+### Model 2: Multiple regression
+
+Our model isn't very good. Let's try mulitple predictors - so this is Mulitple Linear Regression. I'm going to hope that my spatial dependence can be removed by including some confounding variables.
+
+<br>
+
+So, now lets see if adding a second predictor variable makes the fit better.  I'm guessing that census tracts where there are more people earning over $75K might also be more likely to own their own home.
 
 ```{r}
 # Make an interactive plot
@@ -1073,14 +1150,29 @@ p <- Chicago.Census.sf %>%
 ggplotly(p)
 ```
 
-There seems to be some relationship. Let's add this to the model and take a look.  We now explain a little more..
+<br>
+
+There seems to be some relationship. Let's ADD this to the model and take a look.  We now explain a little more..
 
 ```{r}
 # using the OLS package
 fit2.lm <- lm(per.income.gt75E ~ pop.densityE + per.owneroccupiedE, data = Chicago.Census.sf)
+```
 
+
+We can see the model equation here, it's harder to see on a scatterplot
+
+```{r}
+fit2.lm
+```
+
+Look at the summary
+
+```{r}
 ols_regress(fit2.lm)
 ```
+
+and examine our prediction
 
 ```{r}
 Chicago.Census.sf$Fit2.lm.Prediction <- predict(fit2.lm)
@@ -1107,42 +1199,19 @@ tmap_arrange(maplm1,maplm2)
 ```
 
 
-We can see the model equation here:
 
-```{r}
-fit2.lm
-```
-
-So now the model is:<br>
+So from the above, the is now:<br>
 
 per.income.gt75E = -0.021 + 8.161e-06 x pop.densityE + 0.008xper.owneroccupiedE<br>
 
-The model improved!  A little!  We can see that the R^2^ went up to 0.188 .  
-
-#### Comparing two models
-
-But is this enough to be significant or meaningful? (it might be if there is enough data).  One way to check is to compare the two models using ANOVA. 
-
-his conducts a significance test to assess whether there is additional value to adding a new variable.  In this case, the p-value is very low - so it would be very unusual to see this much benefit by chance if per.owneroccupiedE wasn't useful.  E.g, it might be good to keep per.owneroccupiedE.
-
-```{r}
-anova(fit1.lm,fit2.lm)
-```
-
-<br>
-
-We can also use AIC, where the LOWER number is typically the better fit (taking into account overfitting).  In this case, we can see that it thinks per.owneroccupiedE is a useful variable to keep even if it has limited influence.  
-
-```{r}
-AIC(fit1.lm,fit2.lm)
-```
+And also, the model improved!  A little!  We can see that the R^2^ went up to 0.188.
 
 
-#### Looking for Spatial autocorrelation in residuals
+#### Looking for Spatial autocorrelation in Model 2 residuals
 
-One of the 4 assumptions around regression is that your data should be independent.  We don't want the residuals to have any influence or knowledge of each other.  We know that census data is highly geographic, so let's look at a MAP of the residuals (e.g. the distance from each point to the model line of best fit, high means the model underestimated the data, negative means the model overestimated the data).  
+How about the spatial autocorrelation?
 
-To do, this we first add the residuals to our table
+To do, this we first add the  new residuals to our table
 
 ```{r}
 Chicago.Census.sf$Fit2.Residuals <- residuals(fit2.lm)
@@ -1175,16 +1244,39 @@ my_breaks <- c(-14,-3,-2,-1,1,2,3,14)
 tm_shape(Chicago.Census.sf) + 
   tm_fill("sd_breaks", title = "Residuals", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
   tm_borders(alpha = 0.1) +
-  tm_layout(main.title = "Residuals (Standard Deviation away from 0)", main.title.size = 0.7 ,
+  tm_layout(main.title = "Fit 2 Residuals (Standard Deviation away from 0)", main.title.size = 0.7 ,
             legend.position = c("right", "bottom"), legend.title.size = 0.8)+
       tm_layout(legend.outside = TRUE) 
 
 ```
 
-We have a problem!  It is definitely not independent random noise - in fact there is a HUGE clusters of high residuals near the centre and other residuals around the edge.   E.g. in downtown Chicago, the model is underestimating the percentage of people making more than $75K - and in the suburbs it is underestimating.
+We still have a problem!  It is definitely not independent random noise - there are still HUGE clusters of high residuals near the centre and other residuals around the edge.   E.g. in downtown Chicago, the model is underestimating the percentage of people making more than $75K - and in the suburbs it is underestimating.
 
 
 To see if we are "seeing pictures in clouds" or there really is a spatial pattern, we can look at a Moran's scatterplot with a queen's spatial matrix. The test confirms highly significant autocorrelation.  Our p-values and regression model coefficients cannot be trusted. 
+
+
+
+#### Comparing two models
+
+But is this enough to be significant or meaningful? (it might be if there is enough data).  One way to check is to compare the two models using ANOVA. 
+
+his conducts a significance test to assess whether there is additional value to adding a new variable.  In this case, the p-value is very low - so it would be very unusual to see this much benefit by chance if per.owneroccupiedE wasn't useful.  E.g, it might be good to keep per.owneroccupiedE.
+
+```{r}
+anova(fit1.lm,fit2.lm)
+```
+
+<br>
+
+We can also use AIC, where the LOWER number is typically the better fit (taking into account overfitting).  In this case, we can see that it thinks per.owneroccupiedE is a useful variable to keep even if it has limited influence.  
+
+```{r}
+AIC(fit1.lm,fit2.lm)
+```
+
+
+
 
 <br>
 
