@@ -86,7 +86,7 @@ The aim of this lab is to continue work on autocorrelation and to start regressi
 
 In this lab, I want to assess the relationship between the number of people who earn over $75000 dollars and population density in Chicago. Your job is to create a different regression analysis for your own data.
 
-We will practice two new techniques, LISA (local auto-regression) to see if each variable is autocorrelated with itself, then actual regression - to understand the relationship between the two.
+We will practice two new techniques, LISA (local auto-regression) to see if each variable is auto-correlated with itself, then actual regression - to understand the relationship between the two.
 
 Now you are getting more experienced in R, I will provide a worked example then get you to do something similar on your own data. As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before, so this lab will be much harder if you have not finished Lab 6.
 
@@ -201,7 +201,7 @@ I chose to download these variables. There are more variables than I need, but i
 
 
 ```{r,include=FALSE,echo=FALSE,results=FALSE}
-# Download illinois ACS data at census tract level for my chosen variables, using tidycensus
+# Download Illinois ACS data at census tract level for my chosen variables, using tidycensus
 IL.Census.sf <- get_acs(geography = "tract", 
                 year = 2017,
                 variables = c(housevalue       = "B25075_001",  # house value
@@ -225,7 +225,7 @@ IL.Census.sf <- get_acs(geography = "tract",
 
 <br>
 
-You can see the data summarised here.  Each column ending in E means the *estimate* of the value in each census tract and the column ending in M means the *margin of error*. 
+You can see the data summarized here.  Each column ending in E means the *estimate* of the value in each census tract and the column ending in M means the *margin of error*. 
 
 <br>
 
@@ -522,7 +522,7 @@ Instead of a box, we might better want to crop to administrative boundaries.  We
 
 <br>
 
-Tigris has *thousands* of boundary datasets that you can explore.  For a tutorial, see here [https://crd150.github.io/lab4.html#tigris_package] and here [https://github.com/walkerke/tigris]
+Tigris has *thousands* of boundary data-sets that you can explore.  For a tutorial, see here [https://crd150.github.io/lab4.html#tigris_package] and here [https://github.com/walkerke/tigris]
 
 <br>
 
@@ -547,7 +547,7 @@ Or... we can look at the city limits
 # Choose all the places in Illinois
 pl           <- places(state = "IL", cb = TRUE, year=2017)
 
-# and find the ones called chicago
+# and find the ones called Chicago
 Chicago.city.sf <- filter(pl, NAME == "Chicago")
 
 # and set the projection to be identical to the census data
@@ -797,13 +797,13 @@ moran.test(Chicago.Census.sf$per.income.gt75E,
 
 ### LISA , Local Moran's I
 
-Moran's I is just a global statistic, it would be useful to know *where* the data was clustered or not.  LISA is a local version of Moran's I.  I don't know why, but this is the one thing that noone has made a pretty function for. You get the "show me something new" if you can do it for your data:
+Moran's I is just a global statistic, it would be useful to know *where* the data was clustered or not.  LISA is a local version of Moran's I.  I don't know why, but this is the one thing that no-one has made a pretty function for. You get the "show me something new" if you can do it for your data:
 
 ```{r}
 Chicago.Census.sp <- as(Chicago.Census.sf,"Spatial")
 
 
-#Calculate the local moran's I
+#Calculate the local Moran's I
 lmoran<- cbind(Chicago.Census.sp@data, 
                localmoran(Chicago.Census.sp$per.income.gt75E, 
                           chicago.weights.queen, p.adjust.method="none", 
@@ -925,7 +925,7 @@ I am using a real messy example so that you can see things like outlier removal.
 
 ### Model 1: Simple Linear Regression
 
-Here we just look to see if our respoonse (people who make over $75000) can be predicted by a SINGLE variable with no reference to geography: Simple Linear Regression.
+Here we just look to see if our response (people who make over $75000) can be predicted by a SINGLE variable with no reference to geography: Simple Linear Regression.
 
 We can make a basic scatterplot using the plot command.  Alternatively, we can make an interactive plot using ggplot. 
 
@@ -1008,8 +1008,29 @@ Now let's make a linear fit using the OLS package.  We can see that this has an 
 ```{r}
 # and using base R
 fit1.lm <- lm(per.income.gt75E ~ pop.densityE, data = Chicago.Census.sf,na.action="na.exclude")
+fit1.lm
+```
 
+```{r, include=FALSE, results=FALSE}
+equatiomatic::extract_eq(fit1.lm,use_coefs=TRUE)
+```
+
+
+So from the above, our model is now:<br>
+
+$$
+\operatorname{\widehat{per.income.gt75E}} = 0.06508 + 0.000006320(\operatorname{pop.densityE})
+$$
+#### Is our model any good?
+
+Let's look at the summary:
+
+<br>
+
+
+```{r}
 ols_regress(fit1.lm)
+#OR summary(fit1.lm)
 ```
 
 Our model is now:
@@ -1025,31 +1046,44 @@ abline(fit1.lm)
 
 #### Plotting the results
 
-So we have a model! Let's look at the results spatially.
+So we have a model! Let's look at the results spatially. I'm switching tmap mode to plot to save computer power, just switch it back to view for interactive maps.
+
+
+```{r}
+tmap_mode("plot")
+```
+
+
+```{r}
+map_actual<- tm_shape(Chicago.Census.sf, unit = "mi") + 
+  tm_polygons(col = "per.income.gt75E", style = "quantile",
+              palette = "-Spectral", border.alpha = 0, 
+              title = "ACTUAL: %ppl making > $75K")+
+  tm_shape(Chicago.city.sf) +
+  tm_borders()+
+  tm_layout(legend.outside = TRUE)
+
+map_actual
+```
+
 
 ```{r}
 Chicago.Census.sf$Fit1.lm.Prediction <- predict(fit1.lm)
 
-# subset the illinois census data with the Chicago city limits
+# subset the Illinois census data with the Chicago city limits
 maplm1 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
   tm_polygons(col = "Fit1.lm.Prediction", style = "quantile",
               palette = "-Spectral", border.alpha = 0, 
-              title = "MODEL 1: Prediction of the percentage of people making > $75K")+
+              title = "MODEL1 prediction: %ppl making > $75K")+
   tm_shape(Chicago.city.sf) +
   tm_borders()+
   tm_layout(legend.outside = TRUE) 
 
-maplm2 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
-  tm_polygons(col = "per.income.gt75E", style = "quantile",
-              palette = "-Spectral", border.alpha = 0, 
-              title = "ACTUAL percentage of people making > $75K")+
-  tm_shape(Chicago.city.sf) +
-  tm_borders()+
-  tm_layout(legend.outside = TRUE) 
-
-tmap_arrange(maplm1,maplm2)
-
+maplm1
 ```
+
+
+There is some indication of pattern, but it's not great.
 
 <br>
 <br>
@@ -1068,17 +1102,20 @@ Chicago.Census.sf$Fit1.Residuals <- residuals(fit1.lm)
 
 Now let's have a look!  If we have fully explained all the data and the data is spatially independent then there should be no pattern.
 
-We can look at the residuals directly:
-
+We can look at the residuals directly. 
 ```{r}
-# subset the illinois census data with the Chicago city limits
+# subset the Illinois census data with the Chicago city limits
+
+
 tm_shape(Chicago.Census.sf, unit = "mi") + 
            tm_polygons(col = "Fit1.Residuals", style = "quantile",
                        palette = "-RdBu", border.alpha = 0, 
-                       title = "Fit 1 residuals")+
+                       title = "Fit 1 residuals.Raw")+
     tm_shape(Chicago.city.sf) +
            tm_borders()+
     tm_layout(legend.outside = TRUE) 
+
+
 ```
 
 
@@ -1090,14 +1127,17 @@ Chicago.Census.sf$sd_breaks <- scale(Chicago.Census.sf$Fit1.Residuals)[,1]
 
 my_breaks <- c(-14,-3,-2,-1,1,2,3,14)
 
+
 tm_shape(Chicago.Census.sf) + 
-  tm_fill("sd_breaks", title = "Residuals", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
+  tm_fill("sd_breaks", title = "Fit1 Residuals (StandardDev)", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
   tm_borders(alpha = 0.1) +
-  tm_layout(main.title = "Fit 1 Residuals (Standard Deviation away from 0)", main.title.size = 0.7 ,
+  tm_layout(main.title = "Fit1 Residuals - units = standard deviations from 0", main.title.size = 0.7 ,
             legend.position = c("right", "bottom"), legend.title.size = 0.8)+
       tm_layout(legend.outside = TRUE) 
 
 ```
+
+A good model should have very few residuals that are more than 2 standard deviations from zero and no patterns.  This doesn't look good...
 
 <br>
 
@@ -1113,12 +1153,15 @@ weights.queen <- nb2listw(spatial.matrix.queen, style='B',zero.policy=TRUE)
 moran.plot(Chicago.Census.sf$Fit1.Residuals, weights.queen,
            xlab = "Model 1 residuals",
            ylab = "Neighbors residuals",zero.policy=TRUE)
+```
 
+
+```{r}
 moran.test(Chicago.Census.sf$Fit1.Residuals, weights.queen,zero.policy=TRUE)
 ```
 
 
-We have a problem!  Our residuals definitely do not look like independent random noise - in fact there is a HUGE clusters of high residuals near the centre and other residuals around the edge.   
+We have a problem!  Our residuals definitely do not look like independent random noise - in fact there is a HUGE cluster of high residuals near the centre and other residuals around the edge.   They also look highly significant.
 
 The real life interpretation is that in downtown Chicago, the model is underestimating the percentage of people making more than $75K - and in the suburbs it is underestimating.
 
@@ -1131,7 +1174,7 @@ Let's try a better model:
 
 ### Model 2: Multiple regression
 
-Our model isn't very good. Let's try mulitple predictors - so this is Mulitple Linear Regression. I'm going to hope that my spatial dependence can be removed by including some confounding variables.
+Our model isn't very good. Let's try multiple predictors - so this is Multiple Linear Regression. I'm going to hope that my spatial dependence can be removed by including some confounding variables.
 
 <br>
 
@@ -1166,6 +1209,21 @@ We can see the model equation here, it's harder to see on a scatterplot
 fit2.lm
 ```
 
+```{r, include=FALSE, results=FALSE}
+equatiomatic::extract_eq(fit2.lm,use_coefs=TRUE)
+```
+
+
+So from the above, our model is now:<br>
+
+$$
+\operatorname{\widehat{per.income.gt75E}} = -0.02129 + 0.000008161(\operatorname{pop.densityE}) + 0.1896(\operatorname{per.owneroccupiedE})
+$$
+<br>
+<br>
+
+#### Is model 2 any good?
+
 Look at the summary
 
 ```{r}
@@ -1174,38 +1232,32 @@ ols_regress(fit2.lm)
 
 and examine our prediction
 
+
+
 ```{r}
 Chicago.Census.sf$Fit2.lm.Prediction <- predict(fit2.lm)
 
-# subset the illinois census data with the Chicago city limits
-maplm1 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+# subset the Illinois census data with the Chicago city limits
+maplm2 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
   tm_polygons(col = "Fit2.lm.Prediction", style = "quantile",
               palette = "-Spectral", border.alpha = 0, 
-              title = "MODEL 2: Prediction of the percentage of people making > $75K")+
+              title = "MODEL2 prediction: %ppl making > $75K")+
   tm_shape(Chicago.city.sf) +
   tm_borders()+
   tm_layout(legend.outside = TRUE) 
+```
 
-maplm2 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
-  tm_polygons(col = "per.income.gt75E", style = "quantile",
-              palette = "-Spectral", border.alpha = 0, 
-              title = "ACTUAL percentage of people making > $75K")+
-  tm_shape(Chicago.city.sf) +
-  tm_borders()+
-  tm_layout(legend.outside = TRUE) 
+```{r, message=FALSE,warning=FALSE}
+map_actual
 
-tmap_arrange(maplm1,maplm2)
-
+maplm2
 ```
 
 
 
-So from the above, the is now:<br>
+Also, the model improved!  A little!  We can see that the R^2^ went up to 0.188.  But it's still pretty rubbish.
 
-per.income.gt75E = -0.021 + 8.161e-06 x pop.densityE + 0.008xper.owneroccupiedE<br>
-
-And also, the model improved!  A little!  We can see that the R^2^ went up to 0.188.
-
+<br><br>
 
 #### Looking for Spatial autocorrelation in Model 2 residuals
 
@@ -1222,11 +1274,11 @@ Now let's have a look!  If we have fully explained all the data and the data is 
 We can look at the residuals directly:
 
 ```{r}
-# subset the illinois census data with the Chicago city limits
+# subset the Illinois census data with the Chicago city limits
 tm_shape(Chicago.Census.sf, unit = "mi") + 
            tm_polygons(col = "Fit2.Residuals", style = "quantile",
                        palette = "-RdBu", border.alpha = 0, 
-                       title = "Fit 2 residuals")+
+                       title = "Fit 2 residuals: Raw values")+
     tm_shape(Chicago.city.sf) +
            tm_borders()+
     tm_layout(legend.outside = TRUE) 
@@ -1242,13 +1294,16 @@ Chicago.Census.sf$sd_breaks <- scale(Chicago.Census.sf$Fit2.Residuals)[,1]
 my_breaks <- c(-14,-3,-2,-1,1,2,3,14)
 
 tm_shape(Chicago.Census.sf) + 
-  tm_fill("sd_breaks", title = "Residuals", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
+  tm_fill("sd_breaks", title = "Fit2 Residuals (StandardDev)", style = "fixed", breaks = my_breaks, palette = "-RdBu") +
   tm_borders(alpha = 0.1) +
   tm_layout(main.title = "Fit 2 Residuals (Standard Deviation away from 0)", main.title.size = 0.7 ,
             legend.position = c("right", "bottom"), legend.title.size = 0.8)+
       tm_layout(legend.outside = TRUE) 
 
 ```
+
+
+<br>
 
 We still have a problem!  It is definitely not independent random noise - there are still HUGE clusters of high residuals near the centre and other residuals around the edge.   E.g. in downtown Chicago, the model is underestimating the percentage of people making more than $75K - and in the suburbs it is underestimating.
 
@@ -1265,10 +1320,14 @@ weights.queen <- nb2listw(spatial.matrix.queen, style='B',zero.policy=TRUE)
 moran.plot(Chicago.Census.sf$Fit2.Residuals, weights.queen,
            xlab = "Model residuals",
            ylab = "Neighbors residuals",zero.policy=TRUE)
+```
 
+
+```{r}
 moran.test(Chicago.Census.sf$Fit2.Residuals, weights.queen,zero.policy=TRUE)
 ```
 
+So there is still highly significant spatial autocorrelation.
 
 
 
@@ -1286,7 +1345,7 @@ anova(fit1.lm,fit2.lm)
 
 <br>
 
-We can also use AIC a  non parametric statistic, where the LOWER number is typically the better fit (taking into account overfitting).  In this case, we can see that it thinks per.owneroccupiedE is a useful variable to keep even if it has limited influence.  
+We can also use AIC a  non parametric statistic, where the LOWER number is typically the better fit (taking into account over-fitting).  In this case, we can see that it thinks per.owneroccupiedE is a useful variable to keep even if it has limited influence.  
 
 ```{r}
 AIC(fit1.lm,fit2.lm)
@@ -1343,23 +1402,24 @@ fit_2_lag <- lagsarlm(per.income.gt75E ~  pop.densityE + per.owneroccupiedE, dat
 fit_2_lag
 ```
 
-
 <br>
 
-This is now going beyond the scope of this course, instead of a simple linear model, we are running a generalised additive model (GAM), which is mathematically more complex:
+This is now going beyond the scope of this course, instead of a simple linear model, we are running a generalized additive model (GAM), which is mathematically more complex:
 
-percentage.workfromhome = rho(WEIGHTS*percentage.workfromhome) + b0 + b1xper.income.gt75 + b2xper.broadband e.g.
+per.income.gt75 = rho(SPATIAL.WEIGHTS*per.income.gt75) + b0 + b1xpop.densityE + b2xper.owneroccupiedE  e.g.
 
-percentage.workfromhome = 0.051(WEIGHTS*percentage.workfromhome) + 0.002 + 0.0846xper.income.gt75 + 0.004xper.broadband 
-
-
-<br>
-
-You will notice that there is a new term Rho. What is this? This is our spatial lag. It is a variable that measures the percentage working from home in the census tracts SURROUNDING each tract of interest in our spatial weight matrix. We are simply using this variable as an additional explanatory variable to our model, so that we can appropriately take into account the spatial clustering detected by our Moran’s I test. You will notice that the estimated coefficient for this term is both positive and statistically significant. In other words, when the percentage working from home in surrounding areas increases, so does the percentage working from home in each country, even when we adjust for the other explanatory variables in our model. 
+per.income.gt75 = 0.11255(SPATIAL.WEIGHTS*per.income.gt75) + -0.0358 + 0.0000026054xpop.densityE + 0.121449xper.owneroccupiedE  
 
 
 <br>
 
+You will notice that there is a new term Rho. What is this? This is our spatial lag. It is a variable that measures the percentage working from home in the census tracts SURROUNDING each tract of interest in our spatial weight matrix. 
+
+<br>
+
+We are simply using this variable as an additional explanatory variable to our model, so that we can appropriately take into account the spatial clustering detected by our Moran’s I test. You will notice that the estimated coefficient for this term is both positive and statistically significant. In other words, when the percentage working from home in surrounding areas increases, so does the percentage working from home in each country, even when we adjust for the other explanatory variables in our model. 
+
+<br>
 <br>
 
 #### Compare model fit
@@ -1370,15 +1430,13 @@ Let's use AIC to compare all 3 models (ANOVA is inappropriate for a GAM)
 AIC(fit1.lm,fit2.lm,fit_2_lag)
 ```
 
-We see that our new lagged version has the lowest AIC and so is likely to be the best model for predicting the percentage of people who work from home in each census tract.
-
+We see that our new lagged version has the lowest AIC and so is likely to be the best model (so far) for predicting the percentage of people who work from home in each census tract.
 
 <br>
 
 #### Check autocorrelation
 
 Now, if we have fully taken into account the spatial autocorrelation of our data, the spatial residuals should show less pattern and less autocorrelation.  Let's take a look,
-
 
 <br>
 
@@ -1392,7 +1450,7 @@ Chicago.Census.sf$sd_breaks.lagged <- scale(Chicago.Census.sf$Fit2.LaggedResidua
 #plot standard deviations
 my_breaks <- c(-14,-3,-2,-1,1,2,3,14)
 tm_shape(Chicago.Census.sf) + 
-  tm_fill("sd_breaks", title = "sd_breaks.lagged", style = "fixed", breaks = my_breaks, palette = "-RdBu",midpoint=0) +
+  tm_fill("sd_breaks", title = "Fit2Lag Residuals (StandardDev)", style = "fixed", breaks = my_breaks, palette = "-RdBu",midpoint=0) +
   tm_borders(alpha = 0.1) +
   tm_layout(main.title = "Residuals for lagged model (Standard Deviation away from 0)", main.title.size = 0.7 ,
             legend.position = c("right", "bottom"), legend.title.size = 0.8)+
@@ -1405,14 +1463,17 @@ tm_shape(Chicago.Census.sf) +
 moran.plot(Chicago.Census.sf$Fit2.LaggedResiduals, weights.queen,
            xlab = "Model residuals",
            ylab = "Neighbors residuals",zero.policy=TRUE)
+```
 
+
+```{r}
 moran.test(Chicago.Census.sf$Fit2.LaggedResiduals, weights.queen,zero.policy=TRUE)
 
 
 ```
 
 
-Well... we have improvement, but there is still spatial variability left in the model. This suggests that I guessed completely the wrong process for what influences the percentage of people making over $75K in a census tract.  In this case, I would go away and think then come back with a new model (amount of green space? proximity to schools or the metro?).
+Well... we have improvement, but there is still significant spatial variability left in the model. This suggests that I guessed completely the wrong process for what influences the percentage of people making over $75K in a census tract.  In this case, I would go away and think then come back with a new model (amount of green space? proximity to schools or the metro?).
 
 We could also consider adjusting our spatial weights matrix (maybe a "neighbor" is a 2nd order queens, or the census tracks within 50km..).
 
@@ -1425,36 +1486,36 @@ But even so, we have successfully included location in our model.
 
 So we have a model!
 
-Finally, we went to all the trouble to create a model predicting the percentage of people who make more than $75K - let's look at the results.
+Finally, we went to all the trouble to create a model predicting the percentage of people who make more than $75K - let's look at all the results together:
+
 
 
 ```{r}
 Chicago.Census.sf$Fit2.Lagged.Prediction <- predict(fit_2_lag)
 
-# subset the illinois census data with the Chicago city limits
-map8 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+# subset the Illinois census data with the Chicago city limits
+maplm2LAG <- tm_shape(Chicago.Census.sf, unit = "mi") + 
   tm_polygons(col = "Fit2.Lagged.Prediction", style = "quantile",
               palette = "-Spectral", border.alpha = 0, 
-              title = "Prediction of the percentage of people making > $75K")+
+              title = "MODEL2LAG prediction: %ppl making > $75K")+
   tm_shape(Chicago.city.sf) +
   tm_borders()+
   tm_layout(legend.outside = TRUE) 
+```
 
-map9 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
-  tm_polygons(col = "per.income.gt75E", style = "quantile",
-              palette = "-Spectral", border.alpha = 0, 
-              title = "ACTUAL percentage of people making > $75K")+
-  tm_shape(Chicago.city.sf) +
-  tm_borders()+
-  tm_layout(legend.outside = TRUE) 
+```{r, message=FALSE,warning=FALSE}
 
-tmap_arrange(map8,map9)
+tmap_arrange(map_actual,maplm1,maplm2,maplm2LAG)
 
 ```
 
-Still not great, but better.... and we could continue to improve.  This topic is the centre of an entire course I teach on regression if anyone is interested in the topic: https://online.stat.psu.edu/stat462/
 
 
+Still not great, but better.... and we could continue to improve given that this model is missing something that pushes down numbers in the suburbs (maybe distance to facilities?).  
+
+<br>
+
+This process is the centre of an entire course I teach on regression if anyone is interested in the topic: https://online.stat.psu.edu/stat462/
 
 
 
@@ -1463,7 +1524,7 @@ Still not great, but better.... and we could continue to improve.  This topic is
 8. **Step 8:** <br> OPTIONAL.  Make a new sub-heading called Regression.  Below, answer these questions. As in the previous challenges, make sure they are clearly marked to make it easy to find and grade them. NOTE these will be covered in later lectures (see here also: )
 
  a. What are the 4 assumptions underpinning linear regression?  (https://www.statology.org/linear-regression-assumptions/)<br>
- b. If the data is spatially autocorrelated, which assumption is broken?<br>
+ b. If the data is spatially auto-correlated, which assumption is broken?<br>
  c. What is the ecological fallacy and why is it important when looking at census data <br>
  d. If I tested 3 models using AIC and saw the values (Model1: -2403, Model2: -2746, Model3:-3102), which model would I be likely to choose? <br>
  
