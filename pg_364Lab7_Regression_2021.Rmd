@@ -74,49 +74,33 @@ firefly <- readxl::read_excel("pg_364Data_3Firefly.xlsx")
 ozone   <- read.csv("pg_364Data_4Ozone.csv")
 ```
 
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
 
 ## Welcome to Lab 7!
 
 <br>
 
-The aim of this lab is to continue work on autocorrelation, especially Moran's I. By the end of the lab you will be able to:
+The aim of this lab is to continue work on autocorrelation and to start regression. By the end of the lab you will be able to:
 
 1.  Load data from shapefiles??
-2.  The aim of this lab is to explore local spatial autocorrelation and spatial regression.
+2.  Explore local spatial autocorrelation and spatial regression.
 
-Assignment 6 is due by midnight the night before your next lab on Canvas. Your job is to submit the requirements on this page.
+In this lab, I want to assess the relationship between the number of people who earn over $75000 dollars and population density in Chicago. Your job is to create a different regression analysis for your own data.
 
-**This is a hard/long lab. You have 2 weeks. I will consider awarding exceptional labs course credit at my discression**
+We will practice two new techniques, LISA (local auto-regression) to see if each variable is autocorrelated with itself, then actual regression - to understand the relationship between the two.
+
+Now you are getting more experienced in R, I will provide a worked example then get you to do something similar on your own data. As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before, so this lab will be much harder if you have not finished Lab 6.
+
+**This is a longer lab. You have 2 weeks. I will consider awarding exceptional labs course credit at my discretion**
 
 <br>
 
-See [**your canvas assignment here**](https://psu.instructure.com/courses/2120046/assignments/13274838).
+See [**your canvas assignment here**](https://psu.instructure.com/courses/2120046/assignments/13274841).
 
-<p class="comment">**Need help?** Add a screenshot/question to the discussion board here: [**LAB 6 DISCUSSION BOARD**](https://psu.instructure.com/courses/2120046/discussion_topics/14125718)</p>
+<p class="comment">**Need help?** Add a screenshot/question to the discussion board here: [**LAB 7 DISCUSSION BOARD**](https://psu.instructure.com/courses/2120046/discussion_topics/14125719)</p>
 
 <br><br>
 
-## A: Set up the lab
+## A: Set up the lab **NEW**
 
 <br>
 
@@ -181,20 +165,25 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig1.png')
 
 <br><br>
 
-## B: Spatial Data Wrangling
+## B: Spatial Data Wrangling (repeating lab 6)
 
-In this lab, I want to assess the relationship between the number of people who earn over $75000 dollars and population density in Chicago.
+<br>
 
-We will practice two new techniques, LISA (local auto-regression) to see if each variable is autocorrelated with itself, then actual regression - to understand the relationship between the two.
+Here is a worked example then in the challenge, you do something similar on your own data. As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before.
 
-*Now you are getting more experienced in R, I will provide a worked example then get you to do something similar on your own data. As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before.  This lab will be much harder if you have not finished Lab 6.*
+<br>
 
+<p class="comment">**DO NOT INCLUDE THE TUTORIAL EXAMPLE IN YOUR FINAL REPORT!  Make a separate markdown file if you want to keep it. You will be marked down if it is there.</p>
+
+<br>
+
+ 
 
 #### Download the data from ACS
 
-First, I *edited* the commands in [**Tutorial 6Eb Census:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) to download American Community Survey data for Illinois at a [**census tract spatial scale**]{.ul}.  
+First, I __*edited*__ the commands in [**Tutorial 6Eb Census:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) to download American Community Survey data for Illinois at a [**census tract spatial scale**]{.ul}.  
 
-I chose to download these variables. There are more than I need, but including so you can see some more census codes.
+I chose to download these variables. There are more variables than I need, but including so you can see some more census codes.
 
  - housevalue ("B25075_001") :  **house value**
  - totp ("B05012_001") :  **total population**
@@ -236,7 +225,9 @@ IL.Census.sf <- get_acs(geography = "tract",
 
 <br>
 
-You can see the data summarised here.  Each column ending in E means the *estimate* of the value in each census tract and the column ending in M means the *margin of error*. The unit of observation is a census tract in Illinois
+You can see the data summarised here.  Each column ending in E means the *estimate* of the value in each census tract and the column ending in M means the *margin of error*. 
+
+<br>
 
 ```{r}
 head(IL.Census.sf)
@@ -250,6 +241,7 @@ I then use the same tutorial and the mutate function to create
  - the percentage of people who work from home (workhomeE / totpE)<br>
  - the percentage of houses that are owner occupied (owneroccupiedE / tothouseE)<br>
 
+<br>
 
 ```{r,include=FALSE,echo=FALSE,results=FALSE}
 #make a percentage of high earners column
@@ -283,11 +275,13 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig2.png')
 
 Now.. one quirk of R is that it **hates* empty polygons and if you look at the screenshot above there are two of them here.  IF YOU GET ERRORS PLOTTING, I BET THIS IS WHAT IS HAPPENING.
 
-In our case,  empty polygons means emoty census tracts. These might be census tracts where no-one lives, or more likely, a quirk of the data collection process.  Let's take a look at them.
+In our case,  empty polygons means empty census tracts. These might be census tracts where no-one lives, or more likely, a quirk of the data collection process.  Let's take a look at them.
 
 <br>
 
- We can check this with the `st_is_empty()` command:
+We can check this with the `st_is_empty()` command:
+
+<br>
 
 ```{r}
 which_tracts_empty <- st_is_empty(IL.Census.sf)
@@ -301,6 +295,8 @@ empty_tracts
 
 OK so it's tracts 9900 in Cook county and lake county Illinois.  Let's google that... and the results suddenly make sense!
 
+<br>
+
 ```{r, L7Fig3, echo=FALSE, fig.cap="*https://censusreporter.org/profiles/14000US17031990000-census-tract-9900-cook-il/*"}
 knitr::include_graphics('pg_364Lab7_Regression_2021_fig3.png')
 ```
@@ -309,19 +305,23 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig3.png')
 
 I feel satisfied that removing these polygons won't mess up my study. So I'm going to go ahead and remove them and overwrite the results.  E.g. I apply the filter command to IL.Census.sf, asking it to only choose rows where which_tracts_empty is FALSE, then save the result to IL.Census.sf.
 
-**Note, here I use the special spatial subset command, it messes up the geography**
+**Note, here I use the [ ] way of subsetting - filter messes up the spatial formatting **
 
 <br>
 
 ```{r}
-which_tracts_empty <- st_is_empty(IL.Census.sf)
+tracts_empty <- st_is_empty(IL.Census.sf)
 
-# using subset NOT filter
-IL.Census.sf <- subset(IL.Census.sf, which_tracts_empty==FALSE)
+# ALL columns but only rows where they are NOT empty
+IL.Census.sf <- IL.Census.sf[which(tracts_empty==FALSE), ] 
 
 ```
 
+<br>
+
 Now.. let's try again.  Yep, we have removed the empty fields.
+
+<br>
 
 ```{r}
 IL.Census.sf
@@ -334,6 +334,7 @@ IL.Census.sf
 
 I now check the map projection.  Here I can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.
 
+<br>
 
 ```{r}
 raster::projection(IL.Census.sf)
@@ -345,20 +346,30 @@ I want to make sure that this is a more appropriate map projection, knowing that
 
 <br>
 
-I convert it to UTM, using the same method you used in Lab 6 and in [**Tutorial 11b projections in R:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut11_spatial101.html#Step_2:_Check_what_map_projections_your_x_and_y_coordinates_are_stored_in).  Now we have set our projection to UTM zone 16.
+I convert it to UTM, using the same method you used in Lab 6 and in [**Tutorial 11b projections in R:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut11_spatial101.html#Step_2:_Check_what_map_projections_your_x_and_y_coordinates_are_stored_in).  I'm not including the code as you have done this before and its in the tutorials/lab 6.
 
+<br>
 
 ```{r,include=FALSE,echo=FALSE}
 # And set an appropriate UTM map projection. I found the EPSG code literally by googling Chicago UTM projection
 IL.Census.sf <- st_transform(IL.Census.sf,26916)
 ```
 
+<br>
+
+Now you can see we have set our projection to UTM zone 16.
+
+<br>
+
 ```{r}
 raster::projection(IL.Census.sf)
 ```
 
+<br>
+
 I then had a quick look at the data in tmap to make sure it looked good, using the tutorials here (and in tutorial 11b) https://mgimond.github.io/Spatial/mapping-data-in-r.html#tmap. 
 
+<br>
 
 ```{r,echo=FALSE}
 # create map 1
@@ -389,10 +400,14 @@ tmap_mode("plot")
 tmap_arrange(map1,map2)
 ```
 
+<br>
+<br>
 
 #### Calculate the population density per unit area**
 
-As updated in tutorial 6,  we can also calculate the spatial area of each census tract using the `st_area()` command. 
+Newly updated in tutorial 6,  we can also calculate the spatial area of each census tract using the `st_area()` command. 
+
+<br>
 
 ```{r}
 #Finding the area of each county
@@ -415,9 +430,9 @@ IL.Census.sf <- mutate(IL.Census.sf, pop.densityE = totpE/IL.tract.area.km2)
 IL.Census.sf <- mutate(IL.Census.sf, house.densityE = tothouseE/IL.tract.area.km2)
 ```
 
+<br>
 
-
-and let's use tmap to take a look.  Note if you see this error, you have mistyped a column name - I forgot to put in the totpE.
+Let's use tmap to take a look.  Note if you see this error, you have mistyped a column name - I forgot to put in the totpE.
 
 ```{r, L7Fig4, echo=FALSE, fig.cap="*You have asked it to plot a column that doesn't exist*"}
 knitr::include_graphics('pg_364Lab7_Regression_2021_fig4.png')
@@ -461,8 +476,12 @@ tmap_arrange(map3,map4)
 ```
 
 
+<br>
+<br>
 
 ### Zooming in
+
+<br>
 
 This map looks at all of Illinois.  But we want to look at the area just around Chicago. There are two ways we could do this.  
 
@@ -495,14 +514,19 @@ tm_shape(IL.Census.sf.BOX, unit = "mi") +
 
 ```
 
-#### Loading city boundary data
+<br>
+ 
+#### Loading city boundary data (do this)
 
 Instead of a box, we might better want to crop to administrative boundaries.  We can download these using the **Tigris package**.
 
+<br>
+
 Tigris has *thousands* of boundary datasets that you can explore.  For a tutorial, see here [https://crd150.github.io/lab4.html#tigris_package] and here [https://github.com/walkerke/tigris]
 
+<br>
 
-For now, lets download the Chicago metropolitan area data then select Chicago.
+For now, lets download the Chicago metropolitan area data then select Chicago
 
 ```{r, results=FALSE}
 
@@ -514,6 +538,8 @@ Chicago.metro.sf <- st_transform(Chicago.metro.sf,crs=st_crs(IL.Census.sf))
 
 
 ```
+
+<br>
 
 Or... we can look at the city limits
 
@@ -528,6 +554,8 @@ Chicago.city.sf <- filter(pl, NAME == "Chicago")
 Chicago.city.sf <- st_transform(Chicago.city.sf,crs=st_crs(IL.Census.sf))
 ```
 
+<br>
+
 and, just so you can see what I have done..
 
 ```{r,results=FALSE}
@@ -540,7 +568,8 @@ tmap_arrange(map.metro,map.city)
 
 ```
 
-
+<br>
+<br>
 
 We can now crop our census data to this specific area using the `ms_clip` function. 
 
@@ -552,7 +581,7 @@ Chicago.Census.sf <- ms_clip(target = IL.Census.sf,
                              remove_slivers = TRUE)
 ```
 
-and let's remake that plot, remember to play with the style option if your color scale isn't useful
+Let's remake that map, remember to play with the style option if your color scale isn't useful
 
 <br>
 
@@ -590,11 +619,15 @@ tmap_options(check.and.fix = TRUE)
 tmap_arrange(map7,map8)
 ```
 
+<br>
+<br>
 
 
 ## Challenge B1: 
 
-1.  **Step 1:** <br> Set up your lab script to look good. I'm going to give you less advice on structure, so remember - this is how we grade formatting (see tutorial 4 for reminders on how to do this):<br>
+<br>
+
+1.  **Step 1:** <br> Set up your lab script to look good. I'm going to give you less advice on structure, so remember - this is how we grade formatting (see tutorial 4 for reminders on how to do this):<br><br>
       + We will start by awarding full marks and dock marks for mistakes.LOOK AT YOUR HTML FILE IN YOUR WEB-BROWSER BEFORE YOU SUBMIT  <br>
       + TO GET 13/13 : All the below PLUS your mathematical equations use the formal latex equation format () & [you use subscripts/superscript as appropriate (2.14)](https://ulyngs.github.io/oxforddown/rmd-basics.html) for your H~0~ and H~1~s () <br>
       + TO GET 11/13 : all of these:<br>
@@ -605,8 +638,9 @@ tmap_arrange(map7,map8)
           + You have used the spell check. <br>
           + You have used YAML code to make your work look professional (themes, tables of contents etc) <br>
           + You have explained what you are doing in your code in the text below/above.<br>
+          + You do not have the tutorial example in your writeup.
 
-
+<br>
 <br>
 
 
@@ -628,13 +662,16 @@ tmap_arrange(map7,map8)
  - Any other variables you are interested in (optional)<br>
  
 <br>
+<br>
 
 3.  **Step 3:** <br> Calculate the *percentage* of people who work from home, the percentage of people with access to broadband, the housing density per per km^2^ in each census tract and the population density per km^2^ in each census tract - and save them as new columns (same as my example) <br>
 
 <br>
+<br>
 
 4.  **Step 4:** <br> Remember to set your data to an appropriate map projection, then choose a major city in your State.<br>Following the tutorial above, subset your data to its borders.
 
+<br>
 <br>
 
 5.  **Step 5:** <br> Explore the data - have a look at some maps, and in your final report include one or two high quality maps of interesting variables.<br>In your report, talk about some interesting patterns and relationships that you see and relate it to the real life city. If you don't know the city well, google it!  Make sure the data make sense.
@@ -648,11 +685,19 @@ tmap_arrange(map7,map8)
 
 I'm now going to see if one of my variables is auto-correlated - the percentage of people earning over $75K.  I'm doing this here as well as the last lab because census data can throw up errors and I want you to see them.
 
+<br>
+
 First, following on from Lab 6, I calculate the spatial weights matrix (I chose Queens). As described in https://crd150.github.io/lab6.html#Spatial_data_wrangling, I have first established who our neighbors are by creating an nb object using `poly2nb()`. 
+
+<br>
 
 The next step is to assign weights to each neighbor relationship. The weight determines how much each neighbor counts, where I need to employ the `nb2listw()` command from the spdep package, which will give me a spatial weights object. 
 
+<br>
+
 In the command, I first put in your neighbor nb object (Chicago.matrix.rook) and then define the weights style = "W". Here, style = "W" indicates that the weights for each spatial unit are standardized to sum to 1 (this is known as row standardization). For example, if census tract 1 has 3 neighbors, each of the neighbors will have a weight of 1/3. This allows for comparability between areas with different numbers of neighbors.
+
+<br>
 
 The zero.policy = TRUE argument tells R to ignore cases that have no neighbors. How can this occur? See [this website](https://crd150.github.io/lab6.html#Spatial_data_wrangling) for an example. It shows tracts in Los Angeles county. You’ll notice two tracts that are not geographically adjacent to other tracts - they are literally islands (Catalina and San Clemente). So, if you specify queen adjacency, these islands would have no neighbors. If you conduct a spatial analysis of Los Angeles county tracts in R, most functions will spit out an error indicating that you have polygons with no neighbors. To avoid that, specify zero.policy = TRUE, which will ignore all cases without neighbors.  In Chicago, I don't care so much, but it's here in case your city needs it.
 
@@ -697,11 +742,15 @@ Let me check:
 summary(Chicago.Census.sf$per.income.gt75E)
 ```
 
+<br>
+
 Yes - three polygons didn't calculate properly. Let's take a look:
 
 ```{r}
 Chicago.Census.sf[is.na(Chicago.Census.sf$per.income.gt75E)==TRUE,]
 ```
+
+<br>
 
 Hmm.. when we subset to our city borders, it appears we've put those lake tracts back in. Let's remove AGAIN - and redo our weights matrix. This time I'm just going to remove any census tract with zero population:
 
@@ -710,6 +759,7 @@ Hmm.. when we subset to our city borders, it appears we've put those lake tracts
 Chicago.Census.sf <- Chicago.Census.sf[Chicago.Census.sf$totpE >  0 , ]
 ```
 
+<br>
 
 and let's remake our matrix
 
@@ -731,6 +781,8 @@ moran.plot(Chicago.Census.sf$per.income.gt75E,
            zero.policy = T)
 ```
 
+<br>
+
 It looks clustered.. (which agrees with the map I made). Let's do a test.  I'll let you interpret it!
 
 ```{r}
@@ -741,10 +793,11 @@ moran.test(Chicago.Census.sf$per.income.gt75E,
 
 
 <br>
+<br>
 
-### LISA 
+### LISA , Local Moran's I
 
-Moran;s I is just a global statistic, it would be useful to know *where* the data was clustered or not.  LISA is a local version of Moran's I.  I don't know why, but this is the one thing that noone has made a pretty function for. You get the "show me something new" if you can do it for your data:
+Moran's I is just a global statistic, it would be useful to know *where* the data was clustered or not.  LISA is a local version of Moran's I.  I don't know why, but this is the one thing that noone has made a pretty function for. You get the "show me something new" if you can do it for your data:
 
 ```{r}
 Chicago.Census.sp <- as(Chicago.Census.sf,"Spatial")
@@ -846,6 +899,7 @@ plot(Chicago.Census.sf$med.incomeE,Chicago.Census.sf$per.income.gt75E)
 ```
 
 
+<br>
 
 In fact, the cor command can go even further and check the correlation between _many_  variables in our dataset that we care about:
 
@@ -858,6 +912,15 @@ corr<-cor(st_drop_geometry(Chicago.Census.sf[,c("housevalueE","pop.densityE","ho
 # Now we can make a cool plot of this, check out other method
 corrplot(corr,method="number",number.cex=.5)
 ```
+
+<br>
+
+### Three regression models
+
+We are now going to look at THREE versions of a model to assess whether people who make over $75000 are more likely to live in places with higher population density e.g. "downtown".  We are also going to look to see if the residuals (what is left over) from our model has spatial autocorrelation (bad).
+
+I am using a real messy example so that you can see things like outlier removal.
+
 
 
 ### Basic regression
@@ -888,6 +951,8 @@ p <- Chicago.Census.sf %>%
 
 ggplotly(p)
 ```
+
+<br>
 
 OK our results are dominated by one huge outlier.. census tract 307.02!  (mouse over it).  Let's take a look
 
@@ -932,15 +997,17 @@ ggplotly(p)
 ```
 
 
-OK, we can see that there appears to be a positive relationship between the two, but a lot of spread. Now let's make a linear fit using the OLS package.  We can see that this has an R^2^ of 0.497 e.g. the model can only explain ~8% of the variance (spread) seen in the data.
+OK, we can see that there appears to be a positive relationship between the two, but a lot of spread. 
+
+#### Making the model with lm and checking fit
+
+Now let's make a linear fit using the OLS package.  We can see that this has an R^2^ of 0.497 e.g. the model can only explain ~8% of the variance (spread) seen in the data.
 
 ```{r}
-# using the OLS package. Pretty output but some other functions don't work.
-fit1.ols <- ols_regress (per.income.gt75E ~ pop.densityE, data = Chicago.Census.sf)
 # and using base R
 fit1.lm <- lm(per.income.gt75E ~ pop.densityE, data = Chicago.Census.sf,na.action="na.exclude")
 
-fit1.ols
+ols_regress(fit1.lm)
 ```
 
 Our model is now:
@@ -954,7 +1021,44 @@ abline(fit1.lm)
 ```
 
 
-Now, lets see if adding a second variable makes the fit better.  I'm guessing that census tracts where there are more people earning over $75K might also be more likely to own their own home.
+#### Plotting the results
+
+So we have a model! Let's look at the results spatially.
+
+```{r}
+Chicago.Census.sf$Fit1.lm.Prediction <- predict(fit1.lm)
+
+# subset the illinois census data with the Chicago city limits
+maplm1 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+  tm_polygons(col = "Fit1.lm.Prediction", style = "quantile",
+              palette = "-Spectral", border.alpha = 0, 
+              title = "MODEL 1: Prediction of the percentage of people making > $75K")+
+  tm_shape(Chicago.city.sf) +
+  tm_borders()+
+  tm_layout(legend.outside = TRUE) 
+
+maplm2 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+  tm_polygons(col = "per.income.gt75E", style = "quantile",
+              palette = "-Spectral", border.alpha = 0, 
+              title = "ACTUAL percentage of people making > $75K")+
+  tm_shape(Chicago.city.sf) +
+  tm_borders()+
+  tm_layout(legend.outside = TRUE) 
+
+tmap_arrange(maplm1,maplm2)
+
+```
+
+<br>
+<br>
+
+### Multiple regression
+
+Our model isn't very good.
+
+<br>
+
+Now, lets see if adding a second predictor variable makes the fit better.  I'm guessing that census tracts where there are more people earning over $75K might also be more likely to own their own home.
 
 ```{r}
 # Make an interactive plot
@@ -978,6 +1082,31 @@ fit2.lm <- lm(per.income.gt75E ~ pop.densityE + per.owneroccupiedE, data = Chica
 ols_regress(fit2.lm)
 ```
 
+```{r}
+Chicago.Census.sf$Fit2.lm.Prediction <- predict(fit2.lm)
+
+# subset the illinois census data with the Chicago city limits
+maplm1 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+  tm_polygons(col = "Fit2.lm.Prediction", style = "quantile",
+              palette = "-Spectral", border.alpha = 0, 
+              title = "MODEL 2: Prediction of the percentage of people making > $75K")+
+  tm_shape(Chicago.city.sf) +
+  tm_borders()+
+  tm_layout(legend.outside = TRUE) 
+
+maplm2 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+  tm_polygons(col = "per.income.gt75E", style = "quantile",
+              palette = "-Spectral", border.alpha = 0, 
+              title = "ACTUAL percentage of people making > $75K")+
+  tm_shape(Chicago.city.sf) +
+  tm_borders()+
+  tm_layout(legend.outside = TRUE) 
+
+tmap_arrange(maplm1,maplm2)
+
+```
+
+
 We can see the model equation here:
 
 ```{r}
@@ -988,7 +1117,11 @@ So now the model is:<br>
 
 per.income.gt75E = -0.021 + 8.161e-06 x pop.densityE + 0.008xper.owneroccupiedE<br>
 
-The model improved!  A little!  We can see that the R^2^ went up to 0.188 .  But is this enough to be significant or meaningful? (it might be if there is enough data).  One way to check is to compare the two models using ANOVA.  T
+The model improved!  A little!  We can see that the R^2^ went up to 0.188 .  
+
+#### Comparing two models
+
+But is this enough to be significant or meaningful? (it might be if there is enough data).  One way to check is to compare the two models using ANOVA. 
 
 his conducts a significance test to assess whether there is additional value to adding a new variable.  In this case, the p-value is very low - so it would be very unusual to see this much benefit by chance if per.owneroccupiedE wasn't useful.  E.g, it might be good to keep per.owneroccupiedE.
 
@@ -1005,8 +1138,7 @@ AIC(fit1.lm,fit2.lm)
 ```
 
 
-
-### Spatial residuals
+#### Looking for Spatial autocorrelation in residuals
 
 One of the 4 assumptions around regression is that your data should be independent.  We don't want the residuals to have any influence or knowledge of each other.  We know that census data is highly geographic, so let's look at a MAP of the residuals (e.g. the distance from each point to the model line of best fit, high means the model underestimated the data, negative means the model overestimated the data).  
 
@@ -1155,7 +1287,7 @@ But even so, we have successfully included location in our model.
 <br>
 
 
-### Plotting the results
+#### Plotting the results
 
 So we have a model!
 
@@ -1163,7 +1295,7 @@ Finally, we went to all the trouble to create a model predicting the percentage 
 
 
 ```{r}
-Chicago.Census.sf$Fit2.Lagged.Prediction <- predict(fit2.lm)
+Chicago.Census.sf$Fit2.Lagged.Prediction <- predict(fit_2_lag)
 
 # subset the illinois census data with the Chicago city limits
 map8 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
