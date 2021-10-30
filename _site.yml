@@ -47,6 +47,8 @@ navbar:
           href: pg_364Lab6_moran_2021.html 
         - text: "Lab 7: LISA and Regression"
           href: pg_364Lab7_Regression_2021.html
+    - text: "Lab 4 worked answers"
+      href: pg_364Lab4_Manip_2021_WORKEDANS.html 
     - text: "PROJECT LAB"
       href: pg_364Project1_2021.html 
 output:
