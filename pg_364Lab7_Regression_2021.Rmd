@@ -1,5 +1,5 @@
 ---
-title: "Lab 7: test"
+title: "Lab 7: LISA regression"
 subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
 output: 
   html_document:
@@ -40,30 +40,31 @@ h2.title {
 </style>
 
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
 
-# invisible data read
-
-pacman::p_load(sf, sp, spdep, raster, tidyverse, tidycensus, VIM,
-               skimr, readxl,tmap, USAboundaries, viridis, rnaturalearth,
-               corrplot, hrbrthemes,olsrr, plotly, 
-               rmapshaper,spatialreg,spatialEco, tigris, units, 
-               install=TRUE)
-
-library(tidyverse)
-library(sp)
-library(sf)
+library(corrplot)
+library(hrbrthemes)
+library(kableExtra)
+library(olsrr)
+library(plotly)
+library(raster)
 library(readxl)
+library(rnaturalearth)
+library(rmapshaper)
+library(sf)
+library(sp)
 library(skimr)
+library(spatialreg)
+library(spatialEco)
+library(spdep)
+library(tidyverse)
+library(tidycensus)
+library(tigris)
 library(tmap)
+library(units)
 library(USAboundaries)
 library(viridis)
-library(rnaturalearth)
-library(kableExtra)
-library(spdep)
-library(raster)
-library(tidycensus)
 library(VIM)
 
 
@@ -137,25 +138,46 @@ Follow the instructions in Labs 1-4 to create your project file and a blank mark
     -   Remember you can edit your lab in the "editor" mode by clicking on the A at the top right<br><br>
 
 
-5.  **STEP 5 NEW!! READ THIS**  I just discovered a package that makes library loading MUCH easier.<br>Go to your package menu, click install and download/install the `pacman` package.<br><br>Now instead of our normal load/install library commands, we can simply use the `pacman::p_load()` command. This has three advantages:<br>
-+ It is silent. No more annoying loading text<br>
-+ It allows you to load multiple packages in one command<br>
-+ If you put install=TRUE, it will *automatically* install missing packages.<br><br>
+5.  **STEP 5 UPDATE 2 - PACMAN IS RUBBISH**  
 
+It turns out that pacman doesn't work for some people when you press knit. MASSIVE THANKS to Zach, Riley and Fin for figuring this out.  OK!  Let's go back to our old system.  If pacman works for you - nice!  This is here in case you need it.
 
-6.  Now we have pacman, edit your top code chunk so it contains this text, making sure that include=FALSE is in the code chunk option. When you run (if you are online), it should both load AND install any packages needed.<br>
+<br><br>
+
+**Set your TOP CODE CHUNK TO BE THE SAME AS LAB 4/5/6 WITH THESE LIBRARIES**. You will need to install any libraries you are missing.  See  [**Tutorial 2b Packages:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#How_to_downloadinstall_packages) if you can't remember how.
+
+<br><br>
 
    ```{r, eval=FALSE}
 
-     knitr::opts_chunk$set(echo = TRUE)
+     knitr::opts_chunk$set(echo = TRUE,
+                           message=FALSE,warning=FALSE)
 
-     pacman::p_load(sf, sp, spdep, raster, tidyverse, tidycensus, VIM,
-               skimr, readxl,tmap, USAboundaries, viridis, rnaturalearth,
-               corrplot, hrbrthemes,olsrr, plotly, 
-               rmapshaper,spatialreg,spatialEco, tigris, units, 
-               install=TRUE)
- 
+     # YOU MIGHT NEED TO INSTALL SOME OF THESE - RUN A FEW TIMES AND SEE WHAT HAPPENS
+     library(corrplot)
+     library(hrbrthemes)
+     library(olsrr)
+     library(plotly)
+     library(raster)
+     library(readxl)
+     library(rnaturalearth)
+     library(rmapshaper)
+     library(sf)
+     library(sp)
+     library(skimr)
+     library(spatialreg)
+     library(spatialEco)
+     library(spdep)
+     library(tidyverse)
+     library(tidycensus)
+     library(tigris)
+     library(tmap)
+     library(units)
+     library(USAboundaries)
+     library(viridis)
+     library(VIM)
    ```
+   
 <br>
 
 
@@ -165,11 +187,19 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig1.png')
 
 <br><br>
 
+Run the code chunk a few times and check there are no errors.
+
+<br><br>
+
 ## B: Spatial Data Wrangling (repeating lab 6)
 
 <br>
 
-Here is a worked example then in the challenge, you do something similar on your own data. As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before.
+First I am showing you a worked example. Save a copy of your R script as something like Lab 7 tutorial and getting the tutorial running on the example data for Chicago, adding in any code that I didn't put in.  As much as possible I will refer to the tutorials, but remember they are there and remember that you also have your previous labs.  I am purposefully not showing the code for the parts that you have done before, but I have written down exactly how I worked each part out.
+
+<br>
+
+THEN in the challenge, you will do something similar on your own data - so you can make a copy of your tutorial file - and then start slowly changing things to match your own city.  
 
 <br>
 
@@ -181,7 +211,9 @@ Here is a worked example then in the challenge, you do something similar on your
 
 #### Download the data from ACS
 
-First, I __*edited*__ the commands in [**Tutorial 6Eb Census:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) to download American Community Survey data for Illinois at a [**census tract spatial scale**]{.ul}.  
+First, I used [**Tutorial 6Ec get_ACS:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) __*edit*__ the get_acs command to download American Community Survey data for Illinois at a [**census tract spatial scale**]{.ul}. A census tract is similar to a zip code, a much finer spatial scale than a county. 
+
+THE ONLY WAY YOU WILL KNOW HOW TO DO THIS IS TO LOOK AT TUTORIAL 6Ec. 
 
 I chose to download these variables. There are more variables than I need, but including so you can see some more census codes.
 
@@ -591,8 +623,7 @@ map7 <- tm_shape(Chicago.Census.sf,  unit = "mi") +
            tm_polygons(col="pop.densityE",    
                        style="quantile",    
                        border.col = NULL, title="", 
-                       palette="viridis",
-                       alpha=.5)   +
+                       palette="viridis")   +
   tm_layout(title = "Population Density",  title.size = 0.95, frame = FALSE)+
   tm_shape(Chicago.city.sf) +
   tm_borders()+
@@ -601,13 +632,11 @@ map7 <- tm_shape(Chicago.Census.sf,  unit = "mi") +
 # create map 1
 map8 <- tm_shape(Chicago.Census.sf, unit = "mi") + 
            tm_polygons(col = "per.income.gt75E", 
-                       style = "quantile",
-                       palette = "Blues", 
+                       style = "pretty",
+                       palette = "YlGnBu", 
                        border.alpha = 0, 
-                       title = "",
-                       alpha=.5) +  # using the more sophisticated tm_layout command
+                       title = "") +  # using the more sophisticated tm_layout command
   tm_scale_bar(breaks = c(0, 10, 20)) +
-  tm_compass(type = "4star", position = c("left", "bottom")) + 
   tm_layout(frame = FALSE, title = "Percentage making over $75K",  main.title.size = 0.95)+
   tm_shape(Chicago.city.sf) +
   tm_borders()+
@@ -616,7 +645,7 @@ map8 <- tm_shape(Chicago.Census.sf, unit = "mi") +
 tmap_options(check.and.fix = TRUE)
 
 # and print
-tmap_arrange(map7,map8)
+suppressMessages(tmap_arrange(map7,map8))
 ```
 
 <br>
@@ -644,7 +673,7 @@ tmap_arrange(map7,map8)
 <br>
 
 
-2.  **Step 2:** <br> Choose a US State of your choice (NOT New York).  Using the tutorials above, tutorial 6 and and your lab 6 to download the following ACS survey data for the 5 year 2017 ACS survey. Remember to name your variables usefully. <br><br>
+2.  **Step 2:** <br> Choose a US State of your choice (NOT New York).  *Use the tutorials above*,  [**Tutorial 6Ec get_ACS:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) and and your lab 6 to download the following ACS survey data for the 5 year 2017 ACS survey. Remember to name your variables usefully. <br><br>
  - housevalue ("B25075_001") :  **house value**<br>
  - totp ("B05012_001") :  **total population**<br>
  - tothouse ("B25001_001") :  **total housing units**	<br>
@@ -799,62 +828,148 @@ moran.test(Chicago.Census.sf$per.income.gt75E,
 
 Moran's I is just a global statistic, it would be useful to know *where* the data was clustered or not.  LISA is a local version of Moran's I.  I don't know why, but this is the one thing that no-one has made a pretty function for. You get the "show me something new" if you can do it for your data:
 
+First, let's create all the local moran values
+
 ```{r}
+#---------------------------------------------------
+# First, we need an sp version of our data
+#---------------------------------------------------
 Chicago.Census.sp <- as(Chicago.Census.sf,"Spatial")
 
 
-#Calculate the local Moran's I
-lmoran<- cbind(Chicago.Census.sp@data, 
-               localmoran(Chicago.Census.sp$per.income.gt75E, 
-                          chicago.weights.queen, p.adjust.method="none", 
-                          adjust.x=TRUE,zero.policy = T))
+#---------------------------------------------------
+# We can either create the Raw LISA values using the theoretical approach or Monte Carlo
+# 
+#  - Padjust allows us to account for mulitple testing issues.
+#  - adjust.x allows us to omit polygons with no neighbours as needed
+#  - zero.policy allows us to keep but ignore polygons with no neighbours
+#  - nsim: number of simulations, If this crashes the cloud try reducing to say 50
+#---------------------------------------------------
+LocalMoran_Output <- localmoran_perm(x = Chicago.Census.sp$per.income.gt75E, 
+                                  listw = chicago.weights.queen, 
+                                  nsim=499,
+                                  p.adjust.method = "none", 
+                                  adjust.x = TRUE,
+                                  zero.policy = T)
+
+#---------------------------------------------------
+# The column names are less intuitive to newbies, so let's rename them 
+# (to see the originals, type ?localmoran into the console)
+# The skew and kurtosis are because the histogram of IRP I might not look normal
+# To do this I force the output to be a standard dataframe
+#---------------------------------------------------
+LocalMoran_Table <- as.data.frame(LocalMoran_Output)
+names(LocalMoran_Table) <- c("Observed_LocalI", "IRP_estimate_LocalI",   "Variance_I",
+                       "ZScore_I",  "PValue_Theoretical",  "PValue_MonteCarlo",
+                       "Skew_I","Kurtosis_I")
+
+#---------------------------------------------------
+# Merge with our data
+#---------------------------------------------------
+Chicago.Census.sp <- cbind(Chicago.Census.sp,LocalMoran_Table)
 
 
-# centers the local Moran's around the mean
-lmoran$Ii                   <- lmoran$Ii - mean(lmoran$Ii, na.rm = TRUE) 
-
-lmoran$lag.per.income.gt75E <-  lag.listw(chicago.weights.queen,
-                                          lmoran$per.income.gt75E, NAOK = TRUE)
-
-# centers the variable of interest around its mean
-
-lmoran$per.income.gt75E_s   <- lmoran$per.income.gt75E - mean(lmoran$per.income.gt75E, na.rm = TRUE) 
-lmoran$lag.per.income.gt75E <- lmoran$lag.per.income.gt75E - mean(lmoran$lag.per.income.gt75E, na.rm = TRUE) 
-
-signif <- 0.05
-#lmoran
+#---------------------------------------------------
+# It turns out that the quadrants are secretly stored in the output, 
+# so we don't even have to manually calculate them
+#---------------------------------------------------
+Chicago.Census.sp$LISA_Quadrant <- attr(LocalMoran_Output,"quadr")$mean
 
 
-lmoran <- lmoran%>% 
-  mutate(quadrant= ifelse(per.income.gt75E_s>0 & lag.per.income.gt75E > 0, 1, 0)) %>% 
-  mutate(quadrant= ifelse(per.income.gt75E_s<0 & lag.per.income.gt75E < 0, 2, quadrant)) %>% 
-  mutate(quadrant= ifelse(per.income.gt75E_s<0 & lag.per.income.gt75E > 0, 3, quadrant)) %>% 
-  mutate(quadrant= ifelse(per.income.gt75E_s>0 & lag.per.income.gt75E < 0, 4, quadrant)) %>%   
-  mutate(quadrant= ifelse(lmoran$`Pr(z > 0)` > signif, 0, quadrant))
-
-Chicago.Census.sp.new <- merge(Chicago.Census.sp, lmoran, by.x=names(Chicago.Census.sp), 
-                               by.y=names(Chicago.Census.sp))
+#---------------------------------------------------
+# and add transparency as a proxy for p=value [WORK IN PROGRESS - IGNORE]
+#Chicago.Census.sp$pvalue_transparency <- 0.9
+#Chicago.Census.sp$pvalue_transparency[Chicago.Census.sp$PValue_MonteCarlo < 0.05] <- 0.5
+#Chicago.Census.sp$pvalue_transparency[Chicago.Census.sp$PValue_MonteCarlo >= 0.01] <- 0.2
+#Chicago.Census.sp$pvalue_transparency[Chicago.Census.sp$PValue_MonteCarlo >= 0.005] <- 0
+#---------------------------------------------------
 
 
-tm_shape(Chicago.Census.sp.new) +
-  tm_fill( "quadrant",id="NAME",
-          breaks = c(0, 1, 2, 3, 4, 5) , alpha=.5,
-          palette=  c("white","#ca0020","#0571b0","#f4a582","#92c5de"), 
-          labels = c("p-value<0.05", "High-High","Low-Low","High-Low","Low-High"), title="") +
+#---------------------------------------------------
+# Remove polygons that are unlikely to be significant
+# YOU GET TO CHOOSE THE THRESHOLD HERE
+#---------------------------------------------------
+critical_threshold <- 0.05
+
+
+#---------------------------------------------------
+# Find the rows where your p-value is > your threshold
+#---------------------------------------------------
+RowsOverThreshold <- which(Chicago.Census.sp$PValue_MonteCarlo >critical_threshold) 
+
+#---------------------------------------------------
+# Make the column a character to make life easy
+# Then rename the quadrant in those rows p>0.05, or 
+# whatever your threshold is
+#---------------------------------------------------
+Chicago.Census.sp$LISA_Quadrant_Plot <- as.character(Chicago.Census.sp$LISA_Quadrant)
+Chicago.Census.sp$LISA_Quadrant_Plot[RowsOverThreshold] <- paste("P>",critical_threshold,sep="")
+
+#---------------------------------------------------
+# Make a factor again
+#---------------------------------------------------
+Chicago.Census.sp$LISA_Quadrant_Plot <- factor(Chicago.Census.sp$LISA_Quadrant_Plot,
+                                                  levels= c("High-High",  
+                                                            "High-Low",
+                                                            "Low-High",
+                                                            "Low-Low", paste("P>",critical_threshold,sep="")))
+
+#---------------------------------------------------
+# and finally change our data back to sf
+#---------------------------------------------------
+Chicago.Census.sf <- st_as_sf(Chicago.Census.sp)
+
+```
+
+
+Now let's make a pretty plot:
+
+
+
+```{r}
+
+#---------------------------------------------------
+# And make a plot
+#---------------------------------------------------
+mapLISA <- tm_shape(Chicago.Census.sf) +
+  tm_fill( "LISA_Quadrant_Plot",id="NAME",  alpha=.6,
+           palette=  c("#ca0020","#f4a582","#92c5de","#0571b0","white"), title="") +
   tm_legend(text.size = 1)  +
   tm_borders(alpha=.5) +
-  tm_layout( frame = FALSE,  title = "LISA map of % making more than $75, with p-values ")
+  tm_layout( frame = FALSE,  title = paste("LISA: % earning>$75K,sig= ",critical_threshold))
+
+#---------------------------------------------------
+# plot against the raw values 
+#---------------------------------------------------
+mapRaw <- tm_shape(Chicago.Census.sf, unit = "mi") + 
+           tm_polygons(col = "per.income.gt75E", 
+                       style = "pretty",
+                       palette = "YlGnBu", 
+                       border.alpha = 0, 
+                       title = "",alpha=.6) +  
+  tm_layout(frame = FALSE, title = "Percentage making over $75K",  main.title.size = 0.95)+
+  tm_borders(alpha=.5)+
+  tm_layout(legend.outside = TRUE) 
+
+
+tmap_options(check.and.fix = TRUE)
+tmap_mode("view")
+tmap_arrange(mapRaw,mapLISA)
+tmap_mode("plot")
 
 ```
 
 
-Here, we can see that there are many census tracts with lots of people making over $ 75K, surrounded by *neighbours* that make the same.  Equally there are many clusters in Chicago where there are few "high earning" residents.  So this shows that yes, there is absolutely clustering **overall** in Chicago in this variable, but this gives us some more insight into where...
+Here, we can see that there are many census tracts with lots of people making over $ 75K, surrounded by *neighbours* that make the same.  Equally there are many neighbourhoods in Chicago where there are few "high earning" residents.  So this shows that yes, there is absolutely clustering **overall** in Chicago in this variable, but this gives us some more insight into where...
 
-It also allows us to examine outliers.  For example, quadrant 4 turns out to be over the docks which might be skewing the results
+It also allows us to examine outliers.  For example, this low-high area
 
 ```{r, L7Fig6, echo=FALSE}
-knitr::include_graphics('pg_364Lab7_Regression_2021_fig6.png')
+knitr::include_graphics('pg_364Lab7_Regression_2021_fig6a.png')
 ```
+
+
+The stark difference here makes me want to explore this further for process.  Maybe there is an industrial area here - maybe this is a legacy of Chicago's massive legacy of redlining and housing discrimination (https://www.bloomberg.com/news/articles/2020-09-30/mapping-the-disparities-of-chicago-s-unequal-pandemic).  Maybe there is a single luxury housing block next door.  But it is definitely interesting!  This is where your projects could really shine.
 
 <br>
 <br>
@@ -1018,9 +1133,14 @@ equatiomatic::extract_eq(fit1.lm,use_coefs=TRUE)
 
 So from the above, our model is now:<br>
 
-$$
-\operatorname{\widehat{per.income.gt75E}} = 0.06508 + 0.000006320(\operatorname{pop.densityE})
-$$
+
+
+```{r, L7Eqn1, echo=FALSE}
+knitr::include_graphics('pg_364Lab7_Regression_2021_eqn1.png')
+```
+
+
+
 #### Is our model any good?
 
 Let's look at the summary:
@@ -1216,9 +1336,11 @@ equatiomatic::extract_eq(fit2.lm,use_coefs=TRUE)
 
 So from the above, our model is now:<br>
 
-$$
-\operatorname{\widehat{per.income.gt75E}} = -0.02129 + 0.000008161(\operatorname{pop.densityE}) + 0.1896(\operatorname{per.owneroccupiedE})
-$$
+
+```{r, L7Eqn2, echo=FALSE}
+knitr::include_graphics('pg_364Lab7_Regression_2021_eqn2.png')
+```
+
 <br>
 <br>
 

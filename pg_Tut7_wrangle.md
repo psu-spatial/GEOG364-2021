@@ -128,11 +128,11 @@ frost.summary.type
 
 ```
 ## # A tibble: 3 × 4
-##   by                            `mean(Latitude)` `max(Latitude)` `min(Dist_to_Co…
-##   <chr>                                    <dbl>           <dbl>            <dbl>
-## 1 Agricultural_Research_Station             33.7            36.3             4.95
-## 2 Airport                                   34.4            37.3            45.4 
-## 3 City                                      33.7            36.5             1.15
+##   by                        `mean(Latitude)` `max(Latitude)` `min(Dist_to_Coast…
+##   <chr>                                <dbl>           <dbl>               <dbl>
+## 1 Agricultural_Research_St…             33.7            36.3                4.95
+## 2 Airport                               34.4            37.3               45.4 
+## 3 City                                  33.7            36.5                1.15
 ```
 
 Here, my code is:

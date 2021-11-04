@@ -299,16 +299,16 @@ ozone.sf <- st_as_sf(ozone,coords=c("LONGITUDE","LATITUDE"),crs=4326)
 <br>   
 
 ```{r,include=FALSE}
-   ca_congress.sf <- us_boundaries(states="CA", type = "congressional")
-   ca_counties.sf <- us_boundaries(states="CA", type = "county")
+   ca_congress.sf <- us_congressional(states="CA")
+   ca_counties.sf <- us_counties(states="CA")
 ```
 
 
 18. **Step 18: Download county borders**<br>Make a new code chunk<br>Use this code to download county borders for California and plot to check (ignore the warnings). Luckily for us they are in the same map projection. you should see something like this:
 
    ```{r}  
-   ca_counties.sf <- us_boundaries(states="CA", type = "county")
-   
+   ca_counties.sf <- us_counties(states="CA")
+     
    plot(st_geometry(ca_counties.sf))
    plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
    ```
@@ -316,7 +316,7 @@ ozone.sf <- st_as_sf(ozone,coords=c("LONGITUDE","LATITUDE"),crs=4326)
 19. **Step 19: Download congressional borders**<br>Make a new code chunk<br>Use this code to download congressional borders for California and plot to check (ignore the warnings). Luckily for us they are in the same map projection. you should see something like this:
 
    ```{r}  
-   ca_congress.sf <- us_boundaries(states="CA", type = "congressional")
+   ca_congress.sf <- us_congressional(states="CA")
    
    plot(st_geometry(ca_congress.sf))
    plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
@@ -387,7 +387,7 @@ head(ozone.sf)
 # Now look at the ca_congress.sf column names, 
 # You can see there are a load of random columns
 # From googling, I worked out that the congressional 
-#   district column is cd115fp
+#   district column is cd116fp
 #-----------------------------------------------------------
 head(ca_congress.sf)
 ```
@@ -458,25 +458,25 @@ joineddata  <- st_join(ozone.sf, ca_congress.sf)
 
 # How many observations in each congressional district
 number.obs    <-  joineddata %>%  
-                   dplyr::group_by(cd115fp) %>% 
-                   dplyr::summarize(number.obs = length(cd115fp)) %>% 
+                   dplyr::group_by(cd116fp) %>% 
+                   dplyr::summarize(number.obs = length(cd116fp)) %>% 
                    dplyr::select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
-                             dplyr::group_by(cd115fp) %>% 
+                             dplyr::group_by(cd116fp) %>% 
                              dplyr::summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
                              dplyr::select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
-                             dplyr::group_by(cd115fp) %>% 
+                             dplyr::group_by(cd116fp) %>% 
                              dplyr::summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
                              dplyr::select(max_POPULATION_DENSITY)
 
 # Max population density in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
-                           dplyr::group_by(cd115fp) %>% 
+                           dplyr::group_by(cd116fp) %>% 
                            dplyr::summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
                            dplyr::select(mean_OZONE_1000PPB)
 
@@ -526,7 +526,7 @@ head(ca_congress.data.sf)
 23. **Step 23:Do the same for the county polygons**<br>Copy/paste the code you just got running into a new code chunk.<br>In THAT ONE, edit the code so that it runs for county borders rather than for the congressional districts and save the result as `ca_counties.data.sf`.<br>
     + *How to do it:* 
     +  *The county data is stored as `ca_counties.sf`, so replace all your `ca_congress.data.sf` with `ca_counties.sf`* 
-    + *The unique column name is `geoid`, so replace all your `cd115fp` with `geoid`* 
+    + *The unique column name is `geoid`, so replace all your `cd116fp` with `geoid`* 
     + *The output sf variable is `ca_county.data.sf`. so replace all your `ca_congress.data.sf` with `ca_county.data.sf`*<br>
     
 <p class="comment">**Hint for fast copy/paste**  Double click on the variable name you want to copy, it should highlight it. Press command-c (or ctrl-c on a windows).  Double click on the variable you want to replace and press command-v | ctrl-v </p>

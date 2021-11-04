@@ -27,6 +27,8 @@ library(skimr)
 library(rnaturalearth)
 library(readxl) 
 library(USAboundaries)
+library(rnaturalearth)
+
 ```
 
 # Markdown
@@ -245,7 +247,7 @@ There is also a theory that specific pollutants from vehicle help to dissipate g
 ***Add county borders***
 
 ```{r}
-ca_counties.sf <- us_boundaries(states="CA", type = "county")
+ca_counties.sf <- us_counties(states="CA")
 
 plot(st_geometry(ca_counties.sf))
 plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
@@ -254,7 +256,7 @@ plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
 ***Add congressional borders***
 
 ```{r}
-ca_congress.sf <- us_boundaries(states="CA", type = "congressional")
+ca_congress.sf <- us_congressional(states="CA")
 
 plot(st_geometry(ca_congress.sf))
 plot(st_geometry(ozone.sf),add=TRUE,col="red",pch=16,cex=.5)
@@ -285,7 +287,7 @@ head(ozone.sf)
 ***Exploring the columns: Congressional districts***
 
 ```{r}
-#the congressional district column is cd115fp
+#the congressional district column is cd116fp
 head(ca_congress.sf)
 ```
 
@@ -304,25 +306,25 @@ joineddata  <- st_join(ozone.sf, ca_congress.sf)
 
 # How many observations in each congressional district
 number.obs    <-  joineddata %>%  
-                   group_by(cd115fp) %>% 
-                   summarize(number.obs = length(cd115fp)) %>% 
+                   group_by(cd116fp) %>% 
+                   summarize(number.obs = length(cd116fp)) %>% 
                    select(number.obs)
 
 # Mean population density in each congressional district
 mean_POPULATION_DENSITY <-   joineddata %>%  
-                             group_by(cd115fp) %>% 
+                             group_by(cd116fp) %>% 
                              summarize(mean_POPULATION_DENSITY = mean(POPULATION_DENSITY)) %>% 
                              select(mean_POPULATION_DENSITY)
                    
 # Max population density in each congressional district
 max_POPULATION_DENSITY <-    joineddata %>%  
-                             group_by(cd115fp) %>% 
+                             group_by(cd116fp) %>% 
                              summarize(max_POPULATION_DENSITY = max(POPULATION_DENSITY)) %>% 
                              select(max_POPULATION_DENSITY)
 
 # Mean ozone levels in each congressional district
 mean_OZONE_1000PPB    <-   joineddata %>%  
-                           group_by(cd115fp) %>% 
+                           group_by(cd116fp) %>% 
                            summarize(mean_OZONE_1000PPB = mean(OZONE_1000PPB)) %>% 
                            select(mean_OZONE_1000PPB)
 

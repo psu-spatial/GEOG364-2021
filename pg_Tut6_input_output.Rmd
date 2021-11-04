@@ -485,21 +485,43 @@ Alternatively, I found the codes on this website: https://www.socialexplorer.com
 <br>
 
 
-#### The actual download {-}
+### 6E.c The get_acs command  {#Tut6Ec_acs} {-}
 
+Now we have the ID for those commands, we want to download the data itself. 
 
-Now we have the ID for those commands, we want to download the data itself. The command/function for downloading American Community Survey (ACS) Census data is `get_acs()`. The command for downloading decennial Census data is `get_decennial()`.
-
+ - The command/function for downloading American Community Survey (ACS) Census data is `get_acs()`. 
+ - The command for downloading decennial Census data is `get_decennial()`. 
+ 
+They have similar arguments
 
 <br>
 
+#### Some important notes - **READ THESE FOR LAB 7** {-}
 
-Some important notes
+<br><br>
 
- - THIS COMMAND CAN TAKE A MINUTE TO EVEN START RUNNING <br>
+ - This command can take a minute to start running <br><br>
  
- - WHEN YOU RUN THIS, I STRONGLY SUGGEST PUTTING results=FALSE in the code chunk option to stop all the "processing" text in your final report. <br>
+ - I strongly suggest results=FALSE in the code chunk option at the top to stop all the "processing" text in your final report (AKA in the place you put message=FALSE, warning=FALSE or add a figure caption) <br><br>
  
+ - **SEE HERE FOR A FULL TUTORIAL: https://walker-data.com/tidycensus/articles/basic-usage.html - this tells you how to edit the parameters.**
+ 
+ - If you add new variables, make sure they are inside the parentheses for the variable argument!  A common error is to add them as a new line, not adding to the list of variables.
+
+ - In the code below, we specified the following arguments. <br><br>
+
+    + **geography:** The level of geography we want the data in; in our case, the county. Other geographic options can be found here: https://walker-data.com/tidycensus/articles/basic-usage.html<br>
+    + **year:** The end year of the data (because we want 2013-2017, we use 2017).<br>
+    + **variables:** The variables we want to bring in as specified in a vector you create using the function c(). Note that we created variable names of our own (e.g. “topop”) and we put the ACS IDs in quotes (“B03002_003”). Had we not done this, the variable names will come in as they are named in the ACS, which are not very descriptive.<br>
+    + **state:** We can filter the counties to those in a specific state. Here it is c(“PA”, "NY") for Pennsylvania and New York. If we don’t specify this, we get all counties in the United States -  this is a HUGE download. When we cover Census tracts in the next lab, a county filter will also be available.<br>
+    + **survey:** The specific Census survey were extracting data from. We want data from the 5-year American Community Survey, so we specify “acs5”. The ACS comes in 1-, 3-, and 5-year varieties.<br>
+    + **geometry:** If geometry is set to FALSE, it just brings in a standard table.  If it's set to true, it makes it an sf file.<br>
+    + **wide:** This makes on column for each variable, setting it to false would make one single column for all the estimates and one for the margin of error. We normally want wide=TRUE<br>
+ 
+ <br>
+
+ Here is an example:
+
  <br>
 
 ```{r,results=FALSE}
@@ -530,7 +552,9 @@ PA_NY.ACS.sf <- get_acs(geography = "county",
                             completeplumbing = "B25047_002", # all mobile homes -           
                             mobilehomesall   = "B25024_010", # native mobile homes
                             mobilehomenative = "B25032E_010",# total with complete plumbing
-                            total.bachdegree = "B15012_001"), # total with at least a bachelors degree
+                            total.bachdegree = "B15012_001" )  , # total with at least a bachelors degree 
+                                                                 # SEE I ENDED THE VARIABLE LIST PARENTHESES
+                                                                 # AND USE THE COMMA TO MOVE ONTO THE OTHER VARS
               state = c("PA","NY"),
               survey = "acs5",
               geometry = TRUE,
@@ -538,24 +562,9 @@ PA_NY.ACS.sf <- get_acs(geography = "county",
 ```
 
 <br>
-
-SEE HERE FOR A FULL TUTORIAL: https://walker-data.com/tidycensus/articles/basic-usage.html
-
-In the above code, we specified the following arguments.
-
- - **geography:** The level of geography we want the data in; in our case, the county. Other geographic options can be found here: https://walker-data.com/tidycensus/articles/basic-usage.html<br>
- - **year:** The end year of the data (because we want 2013-2017, we use 2017).<br>
- - **variables:** The variables we want to bring in as specified in a vector you create using the function c(). Note that we created variable names of our own (e.g. “topop”) and we put the ACS IDs in quotes (“B03002_003”). Had we not done this, the variable names will come in as they are named in the ACS, which are not very descriptive.<br>
- - **state:** We can filter the counties to those in a specific state. Here it is c(“PA”, "NY") for Pennsylvania and New York. If we don’t specify this, we get all counties in the United States -  this is a HUGE download. When we cover Census tracts in the next lab, a county filter will also be available.<br>
- - **survey:** The specific Census survey were extracting data from. We want data from the 5-year American Community Survey, so we specify “acs5”. The ACS comes in 1-, 3-, and 5-year varieties.<br>
- - **geometry:** If geometry is set to FALSE, it just brings in a standard table.  If it's set to true, it makes it an sf file.<br>
- - **wide:** This makes on column for each variable, setting it to false would make one single column for all the estimates and one for the margin of error. We normally want wide=TRUE<br>
- 
- 
-<br>
 <br>
 
-### 6E.c Working with the data {#Tut6Ec_Work}
+### 6E.d Understanding the ACS command output {#Tut6Ed_Work}
 
 #### Estimate vs margin of error {-}
 
