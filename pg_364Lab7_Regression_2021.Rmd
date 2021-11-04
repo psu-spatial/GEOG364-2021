@@ -138,7 +138,7 @@ Follow the instructions in Labs 1-4 to create your project file and a blank mark
     -   Remember you can edit your lab in the "editor" mode by clicking on the A at the top right<br><br>
 
 
-5.  **STEP 5 UPDATE 2 - PACMAN IS RUBBISH**  
+####  **STEP 5 UPDATE 2 - PACMAN IS RUBBISH**  
 
 It turns out that pacman doesn't work for some people when you press knit. MASSIVE THANKS to Zach, Riley and Fin for figuring this out.  OK!  Let's go back to our old system.  If pacman works for you - nice!  This is here in case you need it.
 
@@ -189,7 +189,10 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig1.png')
 
 Run the code chunk a few times and check there are no errors.
 
-<br><br>
+<br>
+<br>
+
+
 
 ## B: Spatial Data Wrangling (repeating lab 6)
 
@@ -209,7 +212,7 @@ THEN in the challenge, you will do something similar on your own data - so you c
 
  
 
-#### Download the data from ACS
+### Download the data from ACS
 
 First, I used [**Tutorial 6Ec get_ACS:**](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) __*edit*__ the get_acs command to download American Community Survey data for Illinois at a [**census tract spatial scale**]{.ul}. A census tract is similar to a zip code, a much finer spatial scale than a county. 
 
@@ -303,7 +306,7 @@ knitr::include_graphics('pg_364Lab7_Regression_2021_fig2.png')
 <br>
 <br>
 
-#### Dealing with empty polygons
+### Dealing with empty polygons
 
 Now.. one quirk of R is that it **hates* empty polygons and if you look at the screenshot above there are two of them here.  IF YOU GET ERRORS PLOTTING, I BET THIS IS WHAT IS HAPPENING.
 
@@ -362,7 +365,7 @@ IL.Census.sf
 
 <br>
 
-#### Check/change the map projection
+### Check/change the map projection
 
 I now check the map projection.  Here I can see that we assigned our data to be in Lat/Long, with a datum (the shape of the world) of WGS 84 and EPSG/CRS code 4326.
 
@@ -435,7 +438,7 @@ tmap_arrange(map1,map2)
 <br>
 <br>
 
-#### Calculate the population density per unit area**
+### Calculate the population density per unit area**
 
 Newly updated in tutorial 6,  we can also calculate the spatial area of each census tract using the `st_area()` command. 
 
