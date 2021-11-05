@@ -833,6 +833,9 @@ Moran's I is just a global statistic, it would be useful to know *where* the dat
 
 First, let's create all the local moran values
 
+<p class="comment">**FOR THIS TO WORK YOU NEED TO UPDATE THE SPDEP PACKAGE TO VERSION 1.11.**  The easiest way is to reinstall it - go to the package menu, then click install and find spdep and say yes to the questions. THEN RESTART R STUDIO AND RERUN YOUR CODE FROM THE BEGINNING</p>
+
+
 ```{r}
 #---------------------------------------------------
 # First, we need an sp version of our data
