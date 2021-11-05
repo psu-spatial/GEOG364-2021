@@ -619,9 +619,13 @@ TO GET 12/13 - all the below:
 
 **CODING STYLE - 10 MARKS**
 
- - Full marks. You have managed to recreate the Toy B code example using a queens spatial weights matrix. Your code is neat, commented and the variable names make sense. You have no spurious printed output from library loads or other code.
+ - You have managed to create all relevant code. <br>
+ - Your code is neat & commented <br>
+ - Variable names make sense. 
+ - You have no spurious printed output from library loads or other code.<br>
  
 We grade this by first awarding full marks, then dropping points as mistakes are found or as coding gets messier.
+
 
 **ACS and POLICY MAP - 10 MARKS**
 
