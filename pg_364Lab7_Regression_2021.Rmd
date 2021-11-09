@@ -701,7 +701,7 @@ suppressMessages(tmap_arrange(map7,map8))
 <br>
 <br>
 
-4.  **Step 4:** <br> Remember to set your data to an appropriate map projection, then choose a major city in your State.<br>Following the tutorial above, subset your data to its borders.
+4.  **Step 4:** <br> Remember to set your data to an appropriate map projection, then choose a major city in your State.<br>Following the tutorial above, subset your data to its borders.  YOUR NEW DATASET SHOULD HAVE AT LEAST 20 POINTS/ROWS. IF NOT, CHOOSE A BIGGER CITY.
 
 <br>
 <br>
