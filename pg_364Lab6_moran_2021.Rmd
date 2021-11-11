@@ -164,7 +164,7 @@ Make a new heading called the American Community Survey Online
 
 <br>
 
-2. **Step 2:**<br> Follow Tutorial 6Ec on policy map.  Explore what variables are available and see how the maps look (for those with US projects, think about whether there are variables that might be useful).
+2. **Step 2:**<br> Follow [Tutorial 6Ea](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Ea_Finding_data_online:_Policy_Map) on policy map.  Explore what variables are available and see how the maps look (for those with US projects, think about whether there are variables that might be useful).
 
 <br> 
 
@@ -181,7 +181,7 @@ We will now download and explore some census data in R.
 
 <br>
 
-4. **Step 4:**<br> Use Tutorial 6Eb to download the following data into R, save it as something sensible <br>
+4. **Step 4:**<br> Use [Tutorial 6Eb](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Eb_Loading_Census_data_in_R) and [Tutorial 6Ec](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Ec_The_get_acs_command) to download the following data into R, save it as something sensible <br>
    + State: Iowa
    + Survey: ACS 5 year collected in 2017
    + Scale: County
@@ -189,11 +189,11 @@ We will now download and explore some census data in R.
   
 <br>
 
-5. **Step 5:**<br> Use Tutorial 6Ec to create a column with the percentage of people making more than $750000.
+5. **Step 5:**<br> Use [Tutorial 6Ed](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Ed_Understanding_the_ACS_command_output) to create a column with the percentage of people making more than $750000.
 
 <br>
 
-5. **Step 6:**<br>Use Tutorial 6Ec and  the tmap tutorial from Lab 4 to make a professional plot of this 
+5. **Step 6:**<br>Use [Tutorial 6Ed - scroll down](https://psu-spatial.github.io/Geog364-2021/pg_Tut6_input_output.html#6Ed_Understanding_the_ACS_command_output) and  the tmap tutorial from Lab 4 to make a professional plot of this 
   
 <br>
 
@@ -256,7 +256,7 @@ knitr::include_graphics('Fig_6_03_Fileloc.png')
 
 ### Read the data into R
 
-I used Tutorial 6B to read the shapefile into R. 
+I used  to read the shapefile into R. 
 
 
 ```{r}

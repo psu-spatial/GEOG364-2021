@@ -485,7 +485,8 @@ Alternatively, I found the codes on this website: https://www.socialexplorer.com
 <br>
 
 
-### 6E.c The get_acs command  {#Tut6Ec_acs} {-}
+### 6E.c The get_acs command {#Tut6Ec_acs}
+
 
 Now we have the ID for those commands, we want to download the data itself. 
 
