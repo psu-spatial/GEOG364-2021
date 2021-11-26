@@ -255,7 +255,10 @@ IL.Census.sf <- get_acs(geography = "tract",
               state = "IL",
               survey = "acs5",
               geometry = TRUE,
-              output="wide")
+              output="wide",
+              cache_table = FALSE)
+
+
 ```
 
 <br>

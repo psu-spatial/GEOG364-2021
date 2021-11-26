@@ -356,8 +356,48 @@ crs(frost.sf.utm)
 ```
 
 ```
-## CRS arguments:
-##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs
+## Coordinate Reference System:
+## Deprecated Proj.4 representation:
+##  +proj=utm +zone=18 +datum=WGS84 +units=m +no_defs 
+## WKT2 2019 representation:
+## PROJCRS["WGS 84 / UTM zone 18N",
+##     BASEGEOGCRS["WGS 84",
+##         DATUM["World Geodetic System 1984",
+##             ELLIPSOID["WGS 84",6378137,298.257223563,
+##                 LENGTHUNIT["metre",1]]],
+##         PRIMEM["Greenwich",0,
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         ID["EPSG",4326]],
+##     CONVERSION["UTM zone 18N",
+##         METHOD["Transverse Mercator",
+##             ID["EPSG",9807]],
+##         PARAMETER["Latitude of natural origin",0,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8801]],
+##         PARAMETER["Longitude of natural origin",-75,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8802]],
+##         PARAMETER["Scale factor at natural origin",0.9996,
+##             SCALEUNIT["unity",1],
+##             ID["EPSG",8805]],
+##         PARAMETER["False easting",500000,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8806]],
+##         PARAMETER["False northing",0,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8807]]],
+##     CS[Cartesian,2],
+##         AXIS["(E)",east,
+##             ORDER[1],
+##             LENGTHUNIT["metre",1]],
+##         AXIS["(N)",north,
+##             ORDER[2],
+##             LENGTHUNIT["metre",1]],
+##     USAGE[
+##         SCOPE["Engineering survey, topographic mapping."],
+##         AREA["Between 78°W and 72°W, northern hemisphere between equator and 84°N, onshore and offshore. Bahamas. Canada - Nunavut; Ontario; Quebec. Colombia. Cuba. Ecuador. Greenland. Haiti. Jamica. Panama. Turks and Caicos Islands. United States (USA). Venezuela."],
+##         BBOX[0,-78,84,-72]],
+##     ID["EPSG",32618]]
 ```
 
 
@@ -366,9 +406,50 @@ crs(frost.sf.polar)
 ```
 
 ```
-## CRS arguments:
+## Coordinate Reference System:
+## Deprecated Proj.4 representation:
 ##  +proj=stere +lat_0=90 +lat_ts=71 +lon_0=0 +x_0=0 +y_0=0 +datum=WGS84
-## +units=m +no_defs
+## +units=m +no_defs 
+## WKT2 2019 representation:
+## PROJCRS["WGS 84 / Arctic Polar Stereographic",
+##     BASEGEOGCRS["WGS 84",
+##         DATUM["World Geodetic System 1984",
+##             ELLIPSOID["WGS 84",6378137,298.257223563,
+##                 LENGTHUNIT["metre",1]]],
+##         PRIMEM["Greenwich",0,
+##             ANGLEUNIT["degree",0.0174532925199433]],
+##         ID["EPSG",4326]],
+##     CONVERSION["Arctic Polar Stereographic",
+##         METHOD["Polar Stereographic (variant B)",
+##             ID["EPSG",9829]],
+##         PARAMETER["Latitude of standard parallel",71,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8832]],
+##         PARAMETER["Longitude of origin",0,
+##             ANGLEUNIT["degree",0.0174532925199433],
+##             ID["EPSG",8833]],
+##         PARAMETER["False easting",0,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8806]],
+##         PARAMETER["False northing",0,
+##             LENGTHUNIT["metre",1],
+##             ID["EPSG",8807]]],
+##     CS[Cartesian,2],
+##         AXIS["easting (X)",south,
+##             MERIDIAN[90,
+##                 ANGLEUNIT["degree",0.0174532925199433]],
+##             ORDER[1],
+##             LENGTHUNIT["metre",1]],
+##         AXIS["northing (Y)",south,
+##             MERIDIAN[180,
+##                 ANGLEUNIT["degree",0.0174532925199433]],
+##             ORDER[2],
+##             LENGTHUNIT["metre",1]],
+##     USAGE[
+##         SCOPE["Polar research."],
+##         AREA["Northern hemisphere - north of 60°N onshore and offshore, including Arctic."],
+##         BBOX[60,-180,90,180]],
+##     ID["EPSG",3995]]
 ```
 
 ![](pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-1.svg)<!-- -->![](pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-2.svg)<!-- -->![](pg_Tut11_spatial101_files/figure-html/unnamed-chunk-13-3.svg)<!-- -->
