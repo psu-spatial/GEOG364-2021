@@ -1,0 +1,471 @@
+---
+title: "Project: Dealing with Polygon Data"
+subtitle: <h4 style="font-style:normal">GEOG-364 - Spatial Analysis</h4>
+output: 
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    theme: flatly
+---
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+
+
+<style type="text/css">
+#TOC {
+  font-size: 11px;
+  font-family: Arial;
+}
+</style>
+
+
+```{r, results=FALSE,warning=FALSE,message=FALSE, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
+
+
+```{r,message=FALSE,warning=FALSE,results=FALSE,include=FALSE}
+library(sp)
+library(sf)
+library(elevatr)
+library(USAboundaries)
+library(raster)
+library(tidycensus)
+library(rnaturalearth)
+library(tmap)
+library(exactextractr)
+library(units)
+library(tigris)
+library(rmapshaper)
+library(FedData)
+```
+
+
+```{r setup, include=FALSE,message=FALSE,warning=FALSE,results=FALSE}
+
+# SVI shapefile data
+SVI_county.sf <- st_read("SVI2018_IOWA_county.shp")
+SVI_county.sf <- st_transform(SVI_county.sf,32614)
+
+# Census data
+ACS_county.sf <- get_acs(geography = "county", 
+                         year = 2019,
+                         variables = c(housevalue       = "B25075_001",  # house value
+                                       total_pop        = "B05012_001",  # total population
+                                       total_house      = "B25001_001",  # total housing units  
+                                       med.income       = "B19013_001"), # median income  
+                         state = c("IA"),
+                         survey = "acs5",geometry=TRUE,
+                         output = "wide")
+
+ACS_county.sf  <- st_transform(ACS_county.sf,4326)
+
+ACS_county.sf$County.areaE <- st_area(ACS_county.sf)
+ACS_county.sf$County.areaE <- set_units(ACS_county.sf$County.areaE,"km^2")
+ACS_county.sf$PopulationDensityE  <- ACS_county.sf$total_popE /  ACS_county.sf$County.areaE
+ACS_county.sf$Log_PopulationDensityE <- log(ACS_county.sf$PopulationDensityE)
+
+border.county.IA.sf <- us_counties(states="Iowa")
+elevation.raster_IA <- elevatr::get_elev_raster(border.county.IA.sf, z = 5,clip="locations")
+IA_Landcover <- raster('IA_Landcover.tif')
+
+
+```
+
+## Cropping data/zooming in
+
+### Required libraries
+
+```{r,message=FALSE,warning=FALSE,results=FALSE,eval=FALSE}
+library(sp)
+library(sf)
+library(elevatr)
+library(USAboundaries)
+library(raster)
+library(tidycensus)
+library(rnaturalearth)
+library(tmap)
+library(exactextractr)
+library(units)
+library(tigris)
+library(rmapshaper)
+library(FedData)
+```
+
+### Filtering point data sf
+
+I am basing my examples on Iowan SVI data, SVI_county.sf
+
+```{r}
+tmap_mode("plot")
+
+tm_shape(SVI_county.sf)+
+  tm_polygons("E_MOBILE",title="Estimate Living in a Mobile home/county",palette="RdPu")+
+    tm_layout(legend.outside=TRUE)
+
+
+```
+
+Make sure your data is in sf format!   Now there are a few options. You could filter to one of the columns and crop that way. For my data I have these columns
+
+```{r}
+names(SVI_county.sf)
+```
+
+So for example
+
+```{r}
+#or
+SVI_county.UIOWA.sf <- dplyr::filter(SVI_county.sf, COUNTY %in% c("Linn","Johnson"))
+
+map1 <- tm_shape(SVI_county.sf)+
+  tm_polygons("E_MOBILE",title="Estimate Living in a Mobile home/county",palette="Reds")+
+    tm_layout(legend.outside=TRUE)
+
+
+map2 <- qtm(st_geometry(SVI_county.sf))+
+           tm_shape(SVI_county.UIOWA.sf)+
+             tm_polygons("E_MOBILE",title="Estimate Living in a Mobile home/county",palette="Reds")+
+           tm_layout(legend.outside=TRUE)
+
+
+map3 <- tm_shape(SVI_county.UIOWA.sf)+
+  tm_polygons("E_MOBILE",title="Estimate Living in a Mobile home/county",palette="Reds")+
+    tm_layout(legend.outside=TRUE)
+
+tmap_arrange(map1,map2,map3)
+rm(map1);rm(map2); rm(map3)
+
+                                                  
+```
+
+### Cropping to a lon/lat box
+
+Ocean folks, this one is for you!
+
+```{r}
+
+# Make sure your sf data is in lon/lat
+SVI_county.sf  <-  st_transform(SVI_county.sf,4326)
+
+# Turn it into sp data
+SVI_county.sp <- as(SVI_county.sf,"Spatial")
+
+# My new region from https://www.geoplaner.com/
+Crop.Region <- as(extent(-94,-92,41,42), "SpatialPolygons")
+
+# Subset the polygons to my new region
+SVI_county.BOX.sp <- crop(SVI_county.sp, Crop.Region, byid=TRUE)
+
+# and convert back to sf and your other map projection
+SVI_county.BOX.sf <- st_as_sf(SVI_county.BOX.sp)
+
+SVI_county.sf  <-  st_transform(SVI_county.sf,3744)
+SVI_county.BOX.sf  <-  st_transform(SVI_county.BOX.sf,3744)
+
+
+# and plot -
+
+map1 <- tm_shape(SVI_county.sf)+
+             tm_polygons("E_TOTPOP",title="Estimate of the total population",
+                         palette="Blues",style="log10_pretty")+
+        tm_layout(legend.outside=TRUE)
+
+map2 <- tm_shape(SVI_county.sf)+tm_borders()+
+        tm_shape(SVI_county.BOX.sf)+
+             tm_polygons("E_TOTPOP",title="Estimate of the total population",
+                         palette="Blues",style="log10_pretty")+
+        tm_layout(legend.outside=TRUE)
+
+map3 <- tm_shape(SVI_county.BOX.sf)+
+             tm_polygons("E_TOTPOP",title="Estimate of the total population",
+                         palette="Blues",style="log10_pretty")+
+        tm_layout(legend.outside=TRUE)
+
+tmap_arrange(map2,map1,map3)
+rm(map1);rm(map2);rm(map3)
+
+```
+
+### Cropping to a state/shapefile
+
+Sometimes we want to crop to a state/shapefile.  For example imagine we want to crop to a city metropoliton area (see Lab 7)
+
+```{r}
+
+# This could be any sf boundary you want to crop to.
+# it doesn't have to be a city - here i look for Des Moines
+pl <- places(state = "IA", cb = TRUE, year=2017)
+DesMoines.borders.sf <- dplyr::filter(pl, NAME == "Des Moines")
+
+# make sure they are the same map projection
+SVI_county.sf  <-  st_transform(SVI_county.sf,4326)
+DesMoines.borders.sf  <-  st_transform(DesMoines.borders.sf,4326)
+
+# and crop and save to a new thing
+DesMoines.SVI.sf <- ms_clip(target = SVI_county.sf, clip = DesMoines.borders.sf, remove_slivers = TRUE)
+
+# change the map projection back
+SVI_county.sf  <-  st_transform(SVI_county.sf,3744)
+DesMoines.borders.sf  <-  st_transform(DesMoines.borders.sf,3744)
+DesMoines.SVI.sf  <-  st_transform(DesMoines.SVI.sf,3744)
+
+
+# and plot
+
+map1 <- qtm(st_geometry(border.county.IA.sf),fill="white")+
+        tm_shape(DesMoines.SVI.sf)+
+             tm_polygons("E_AGE65",title="Estimate of over 65s",
+                         palette="Blues",style="log10_pretty")+
+        tm_shape(DesMoines.borders.sf)+tm_borders()
+
+
+map2 <- tm_shape(DesMoines.SVI.sf)+
+             tm_polygons("E_AGE65",title="Estimate of over 65s",
+                         palette="Blues",style="log10_pretty")+
+        tm_shape(DesMoines.borders.sf)+tm_borders()
+
+tmap_arrange(map1,map2)
+rm(map1);rm(map2)
+```
+
+
+## Adding in secondary data
+
+### Required libraries
+
+```{r,message=FALSE,warning=FALSE,results=FALSE,eval=FALSE}
+library(sp)
+library(sf)
+library(elevatr)
+library(USAboundaries)
+library(raster)
+library(tidycensus)
+library(rnaturalearth)
+library(tmap)
+library(exactextractr)
+library(units)
+library(tigris)
+library(rmapshaper)
+library(FedData)
+```
+
+
+### Averaging point values over polygons
+
+There is a great tutorial here: 
+
+This is very easy using the `st_join()` command from the `sf` package. To add my census data (or any sf polygon data) to my Iowa SVI data
+
+```{r}
+#--------------------------------------------------------------
+# Transform all to lon/lat crs=4326 - just in case
+#--------------------------------------------------------------
+ACS_county.sf        <-  st_transform(ACS_county.sf,4326)
+SVI_county.sf  <-  st_transform(SVI_county.sf,4326)
+
+#--------------------------------------------------------------
+# MAKE SURE THE POINT DATA GOES FIRST
+# I'm calling it something new so I dont accidentally overwrite
+#--------------------------------------------------------------
+SVI_county.sf.all <- st_join(SVI_county.sf,ACS_county.sf)
+
+#--------------------------------------------------------------
+# Transform back
+#--------------------------------------------------------------
+ACS_county.sf        <-  st_transform(ACS_county.sf,3744)
+SVI_county.sf  <-  st_transform(SVI_county.sf,3744)
+SVI_county.sf.all <- st_transform(SVI_county.sf.all,3744)
+
+#--------------------------------------------------------------
+# and plot
+#--------------------------------------------------------------
+tmap_mode("plot")
+
+map1 <- tm_shape(SVI_county.sf.all)+
+             tm_polygons("E_AGE65",title="Estimate of over 65s",
+                         palette="Blues",style="log10_pretty")
+
+
+map2 <- tm_shape(SVI_county.sf.all)+
+             tm_polygons("housevalueE",title="Estimate of house value",
+                         palette="Spectral",style="log10_pretty")
+
+tmap_arrange(map1,map2,ncol=2)
+
+# clean up your workspace, optional but good practice unless you later need this map
+rm(map2); rm(map1)
+```
+
+
+### Extracting polygon values from rasters/fields
+
+A raster is a field like elevation or land cover.
+
+```{r,include=FALSE}
+
+tmap_mode("plot")
+
+map_elev     <- qtm(elevation.raster_IA,title="Elevation")+
+        tm_shape(IA_farmers_census.sf)+tm_dots(size=.1)+
+        tm_shape(border.county.IA.sf)+tm_polygons(alpha=0)+
+        tm_layout(legend.outside = TRUE,legend.outside.position	 = "bottom")
+
+map_land <- qtm(IA_Landcover,title="Land Cover")+
+        tm_shape(IA_farmers_census.sf)+tm_dots(size=.1)+
+        tm_shape(border.county.IA.sf)+tm_polygons(alpha=0)+
+        tm_layout(legend.outside = TRUE,legend.outside.position	 = "right")
+
+tmap_arrange(map_elev,map_land,ncol=2)
+
+# clean up your workspace, optional but good practice unless you later need this map
+rm(map_elev); rm(map_land)
+```
+
+Here the elevation data is numeric whilst the land cover is categorical.
+
+#### Extracting polygon values from numeric rasters 
+
+This is very easy using the `exact_extract()` command from the `exactextractr` package. To extract my elevation data 
+
+For point data, we choose simply the extract function.  Remember to put results=FALSE
+
+```{r, results=FALSE,warning=FALSE}
+#--------------------------------------------------------------
+# Turn everything to the same map projection
+#--------------------------------------------------------------
+SVI_county.sf  <-  st_transform(SVI_county.sf,crs(elevation.raster_IA))
+
+#--------------------------------------------------------------
+# add to polygon data
+#--------------------------------------------------------------
+SVI_county.sf$ElevationMean <- exact_extract(elevation.raster_IA,SVI_county.sf,"mean")
+SVI_county.sf$ElevationMax <- exact_extract(elevation.raster_IA,SVI_county.sf,"max")
+SVI_county.sf$ElevationMin <- exact_extract(elevation.raster_IA,SVI_county.sf,"min")
+
+#--------------------------------------------------------------
+# Turn everything to the final map projection
+#--------------------------------------------------------------
+SVI_county.sf <-  st_transform(SVI_county.sf,3744)
+```
+
+
+```{r, warning=FALSE}
+#--------------------------------------------------------------
+# And plot
+# see here for more colours: https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html
+#--------------------------------------------------------------
+tmap_mode("plot")
+
+map_elev     <- tm_shape(border.county.IA.sf)+
+                    tm_polygons(alpha=0)+
+                tm_shape(elevation.raster_IA)+
+                     tm_raster(title="Elevation",
+                               palette="Spectral",style="cont",breaks=seq(100,600,100))+
+               tm_shape(border.county.IA.sf)+
+                    tm_polygons(alpha=0)+
+                tm_layout(legend.outside = TRUE,legend.outside.position	 = "bottom")
+                
+map2 <- tm_shape(SVI_county.sf)+
+             tm_polygons("ElevationMean",title="Mean Elevation in each county",
+                         palette="Spectral",style="cont",breaks=seq(100,600,100))+
+        tm_layout(legend.outside=TRUE,legend.outside.position	 = "bottom")
+
+
+map3 <- tm_shape(SVI_county.sf)+
+             tm_polygons("ElevationMax",title="Max Elevation in each county",
+                         palette="Spectral",style="cont",breaks=seq(100,600,100))+
+        tm_layout(legend.outside=TRUE,legend.outside.position	 = "bottom")
+
+map4 <- tm_shape(SVI_county.sf)+
+             tm_polygons("ElevationMin",title="Min Elevation in each county",
+                         palette="Spectral",style="cont",breaks=seq(100,600,100))+
+        tm_layout(legend.outside=TRUE,legend.outside.position	 = "bottom")
+
+tmap_arrange(map_elev,map2,map3,map4,ncol=2)
+rm(map_elev); rm(map2);rm(map3);rm(map4)
+```
+
+#### Extracting point values from categorical rasters
+
+This is exactly the same but we use the "majority" function
+
+```{r, results=FALSE,warning=FALSE}
+#--------------------------------------------------------------
+# Turn everything to the same map projection
+#--------------------------------------------------------------
+SVI_county.sf         <-  st_transform(SVI_county.sf,crs(IA_Landcover))
+
+#--------------------------------------------------------------
+# add to polygon data
+#--------------------------------------------------------------
+SVI_county.sf$LandcoverNumber <- exact_extract(IA_Landcover,SVI_county.sf,"majority")
+
+#--------------------------------------------------------------
+# for the landcover data specifically, this might be better
+#--------------------------------------------------------------
+key <- nlcd_colors()[,c("ID","Class")]
+names(key) <- c("LandcoverNumber","LandcoverClass")
+
+SVI_county.sf <- merge(SVI_county.sf ,key,by="LandcoverNumber",all.x=TRUE,all.y=FALSE)
+
+SVI_county.sf$LandcoverNumber <- as.factor(SVI_county.sf$LandcoverNumber )
+SVI_county.sf$LandcoverClass <- as.factor(SVI_county.sf$LandcoverClass )
+
+#--------------------------------------------------------------
+# Turn everything to the final map projection
+#--------------------------------------------------------------
+SVI_county.sf <-  st_transform(SVI_county.sf,3744)
+
+#--------------------------------------------------------------
+# And plot
+# see here for more colours: https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html
+#--------------------------------------------------------------
+tmap_mode("plot")
+
+map_lc1     <- tm_shape(border.county.IA.sf)+
+                    tm_polygons(alpha=0)+
+                tm_shape(IA_Landcover)+
+                     tm_raster(title="Landcover")+
+               tm_shape(border.county.IA.sf)+
+                    tm_polygons(alpha=0)+
+                tm_layout(legend.outside = TRUE,legend.outside.position	 = "bottom")
+                
+map_lc2 <- tm_shape(SVI_county.sf)+
+             tm_polygons("LandcoverNumber",title="Majority Land cover code")+
+        tm_layout(legend.outside=TRUE,legend.outside.position	 = "bottom")
+
+                
+map_lc3 <- tm_shape(SVI_county.sf)+
+             tm_polygons("LandcoverClass",title="Majority Land cover class")+
+        tm_layout(legend.outside=TRUE,legend.outside.position	 = "bottom")
+
+
+
+tmap_arrange(map_lc1,map_lc2,map_lc3,ncol=3)
+rm(map_lc1); rm(map_lc1); rm(map_lc3)
+```
+
+
+

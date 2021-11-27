@@ -49,10 +49,18 @@ navbar:
           href: pg_364Lab7_Regression_2021.html
     - text: "Worked answers"
       menu:
-        - text: "Lab 4"
-          href: pg_364Lab4_Manip_2021_WORKEDANS.html 
-    - text: "PROJECT DATASETS"
-      href: 364Data_TutorialDownload.html 
+        - text: "Lab 5"
+          href: pg_364Lab5_tobler_2021_WORKED.html 
+        - text: "Lab 6"
+          href: pg_364Lab6_moran_2021_WORKED.html           
+    - text: "PROJECT"
+      menu:
+        - text: "Downloading Secondary datasets"
+          href: 364Data_TutorialDownload.html
+        - text: "Dealing with Point Data"
+          href: 364Data_TutorialWranglePoint.html                           
+        - text: "Dealing with Polygon Data"
+          href: 364Data_TutorialWranglePolygon.html 
 output:
   html_document:
     theme: flatly

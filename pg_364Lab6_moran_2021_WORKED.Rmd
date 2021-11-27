@@ -1,0 +1,331 @@
+---
+title: "GEOG-364 - Lab 6"
+author: "TA WORKED ANSWERS"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: yes
+    number_sections: yes
+    theme: sandstone
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+rm(list=ls())
+
+knitr::opts_chunk$set(echo = TRUE,
+                      message=FALSE,
+                      warning=FALSE)
+```
+
+
+```{r, results=FALSE,warning=FALSE,message=FALSE}
+library(knitr)
+library(tidyverse)
+library(raster)
+library(VIM)
+library(tidycensus)
+library(spdep)
+library(sf)
+library(sp)
+library(tmap)
+library(skimr)
+library(rnaturalearth)
+library(readxl)
+library(USAboundaries)
+
+```
+
+# Playing with census data
+
+## Census data online
+
+1.  **Google the ACS and explain what it is, how often the data is collected and the sorts of data available. What is the population of this dataset?**
+
+ACS stands for American Community Survey. ACS is a demographic survey program by the U.S. Census Bureau. The program collects data every year from all the 50 U.S. States in the contiguous U.S.A., DC and Puerto Rico.
+
+The survey is administered at household level to a random sample of households distributed to all the states.
+
+It collects demographic information such as income, employment, housing characteristics, etc. The data is then aggregated at census tract level and availed to public. 
+
+The population of this dataset is therefore census tracts in the contiguous U.S.A., DC, and Puerto Rico.
+
+3.  **For a US State of your choice, make a professional looking map of a census/ACS variable of your choice. Either save/export the map (you might need legacy mode) or take a good looking screenshot. Then include the picture here in your report.**
+
+This one is up to you!
+
+a.  **What this variable shows about your chosen state.**
+
+My map shows the estimated proportion of people who have attained at least a bachelors degree between 2015 and 2019 in Alabama.
+
+b.  **What patterns are there and are they dependent on your unit/scale of observation (e.g. autocorrelation)**
+
+There appears to be positive spatial autocorrelation whereby counties with high levels of bachelors degree attainment are close together and those with low levels are close together in clusters.
+
+c.  **What process might have caused those patterns**
+
+It seems that those counties with high levels of bachelors degree attainment are in or near urban areas. This pattern may have been caused by several processes.
+
+-   Migration of people to cities. Educated people may be migrating more to cities in search of jobs.
+
+-   People in rural areas are mostly engaged in a profession that does not require attainment of a bachelors degree.It is therefore likely that they generally do not seek that level of education.
+
+## Census data in R
+
+4.  **Use Tutorial 6Eb to download the following data into R, save it as something sensible**
+
+-   State: Iowa
+-   Survey: ACS 5 year collected in 2017
+-   Scale: County
+-   Variables: med.income ("B19013_001) ; total.population ("B05012_001"); income.gt75 ("B06010_011")
+
+Let us see which variables are available.
+
+```{r}
+#tidycensus package
+Variables_2017 <- load_variables(2017, "acs5", cache = TRUE)
+```
+
+Now downloading variables of interest
+
+```{r, results=FALSE}
+IA.Census.sf <- get_acs(geography = "county", 
+                year = 2017,
+                variables = c(med.income = "B19013_001", # total population
+                            total.population      = "B05012_001", # total housing units  
+                            income.gt75      = "B06010_011"),  # house value
+              state = c("IA"),
+              survey = "acs5",
+              geometry = TRUE,
+              output="wide")
+```
+
+5.  **Use Tutorial 6Ec to create a column with the percentage of people making more than \$750000.**
+
+```{r}
+IA.Census.sf <- mutate(IA.Census.sf, percent.income.gt75 = (income.gt75E / total.populationE)*100)
+```
+
+6.  **Use Tutorial 6Ec and the tmap tutorial from Lab 4 to make a professional plot of this.**
+
+Change the map projection:
+
+```{r}
+IA.Census.sf <- st_transform(IA.Census.sf,3744)
+```
+
+```{r}
+map1 <- tm_shape(IA.Census.sf,  unit = "mi") +                      
+  tm_polygons(col="percent.income.gt75",    
+              style="pretty", legend.hist = TRUE,  
+              palette="Greens", title='% of people')   +
+  tm_layout(main.title = "Percentage of people making more than $750,000",  main.title.size = 0.95, frame = FALSE) +
+  tm_layout(legend.outside = TRUE) 
+map1
+```
+
+There appears to be some spatial autocorrelation of the percentage of people making more that \$750,000. Counties with highest proportions are close together and those with lowest proportions are close together. It is likely that the level of aggregation is affecting the patterns we are able to observe. However, if these are actual patterns, census tract level data would still indicate autocorrelation. Based on a simple comparison with Google maps, I found out that the counties with high proportions are actually located in urban areas.
+
+# SVI
+
+Download and read in Centers for Disease Control and Prevention Social Vulnerability Index (SVI) data for a State of choice. I choose Alabama.
+
+```{r}
+SVI  <-  st_read(dsn="SVI2018_ALABAMA_county.shp")
+```
+
+Use the us_states command from the USAboundaries package to download the border of Alabama.
+
+```{r,warning=FALSE,message=FALSE}
+State.border <- us_counties(states="AL")
+#plot(st_geometry(State.border))
+```
+
+Check and change projections if necessary to match between SVI data and the county boundary data
+
+```{r}
+projection(SVI)
+
+```
+
+```{r}
+projection(State.border)
+```
+
+Change projection of the state borders to UTM to match SVI data projection.
+
+```{r, warning=FALSE,message=FALSE}
+SVI <- st_transform(SVI,crs=3746)
+State.border <- st_transform(State.border,crs=3746)
+```
+
+Plot of the variables
+
+```{r}
+#Lets plot percentage under poverty level. In the file, this variable is saved as text. Lets convert to numeric.
+SVI$EP_POV  <- as.numeric(SVI$EP_POV )
+
+```
+
+Now plot. Lets visualize several variables that might help explain the pattern in percent below poverty.
+
+```{r}
+tmap_mode("view")
+```
+
+```{r}
+Map1 <- tm_basemap("OpenStreetMap.Mapnik") + # Set the watercolor basemap
+        tm_shape(SVI) +                   # plot the SVI data
+           tm_polygons(col="EP_POV",      # name of the column I am plotting
+                       style="pretty",      # do i want color breaks, or continous color bar?
+                       border.col = NULL,   # no outlines
+                       palette="YlOrBr",  #color palette
+                       title="% below poverty", #plot title
+                       alpha = .7,
+                       n=10) +        #slightly transparent
+        tm_shape(State.border) +          # Plot the State.border data
+            tm_borders()                    #plot it as borders/lines
+tmap_options(check.and.fix = TRUE)
+
+# remember to convert any new numeric variables into numbers
+SVI$EP_NOHSDP <- as.numeric(SVI$EP_NOHSDP)
+
+# create map 2
+Map2 <-  tm_basemap("OpenStreetMap.Mapnik") +
+         tm_shape(SVI) +
+           tm_polygons(col="EP_NOHSDP",style="pretty",
+                       border.col = NULL,
+                       palette="YlOrBr",
+                       title="% with no high school diploma",
+                       alpha = .7,
+                       n=5) +
+         tm_shape(State.border) +
+            tm_borders()
+tmap_options(check.and.fix = TRUE)
+#-----------------------------------------------
+SVI$EP_MINRTY <- as.numeric(SVI$EP_MINRTY)
+
+# create map 2
+Map3 <-  tm_basemap("OpenStreetMap.Mapnik") +
+         tm_shape(SVI) +
+           tm_polygons(col="EP_MINRTY",style="pretty",
+                       border.col = NULL,
+                       palette="YlOrBr",
+                       title="% Minority",
+                       alpha = .7,
+                       n=5) +
+         tm_shape(State.border) +
+            tm_borders()
+tmap_options(check.and.fix = TRUE)
+
+#-----------------------------------------------
+SVI$E_UNEMP <- as.numeric(SVI$E_UNEMP)
+SVI <- mutate(SVI,per_enempl = (E_UNEMP/E_TOTPOP)*100)
+
+# create map 2
+Map4 <-  tm_basemap("OpenStreetMap.Mapnik") +
+         tm_shape(SVI) +
+           tm_polygons(col="per_enempl",style="pretty",
+                       border.col = NULL,
+                       palette="YlOrBr",
+                       title="% Unemployed",
+                       alpha = .7,
+                       n=5) +
+         tm_shape(State.border) +
+            tm_borders()
+tmap_options(check.and.fix = TRUE)
+# plot them both
+tmap_arrange(Map1,Map2, Map3,Map4 )
+```
+
+In these maps I am visualizing 3 variables that I suspected may correspond to the patterns in percentage of people under poverty level.
+
+First, there appears to be some spatial autocorrelation of people under poverty where counties with high proportions are clustered together, and those with low proportions cluster together.
+
+Comparing the pattern with that of high school diploma attainment levels, I do not see a clear relationship between the two. Although some counties with high poverty levels correspond to counties with low high school attainment, there is no obvious clustering to explain the patterns.
+
+Counties with highest proportions of people under poverty appear to strongly correspond to those with highest proportions of minority groups.
+
+Looking at the pattern of unemployment rates, again there is no clear pattern to relate unemployment to poverty levels. We see counties with not so low unemployment rates having very high proportions of people living under poverty.
+
+### Investigating clustering in percentage of people living below poverty.
+
+First we need to calculate the spatial weights matrix which defines:
+
+-   What counts as its neighbor (connectivity)
+-   How much does each neighbor matter? (spatial weights)
+
+```{r}
+# calculate the spatial weights matrix
+SVI.sp.utm <- as(SVI, 'Spatial')
+spatial.matrix.rook <-poly2nb(SVI.sp.utm, queen=F)
+
+plot(SVI.sp.utm, border='pink')
+plot(spatial.matrix.rook, coordinates(SVI.sp.utm), col='black', lwd=2, add=TRUE)
+```
+
+Assign weights to each one based on whether it is a neighbor or not. Using rook's contingency, a binary classification of 1 if a county is a neighbor and 0 if not.
+
+```{r}
+# calculate the spatial weights
+weights.rook <- nb2listw(spatial.matrix.rook, style='B')
+```
+
+Calculate the Moran's scatter plot
+
+```{r}
+## and calculate the moran's plot
+moran.plot(SVI.sp.utm$EP_POV, weights.rook,
+           xlab = "% under poverty",
+           ylab = "Neighbors % under poverty",
+           labels=SVI$COUNTY)
+```
+
+Use the Moran.test command, to assess the significance of the result.
+
+```{r}
+moran.test(SVI$EP_POV, weights.rook)
+```
+
+A Moran's I statistic of 0.31 is a low positive correlation that indicates presence of a weak but significant (p-value\<0.05) autocorrelation of population density.
+
+## SVI analysis write-up
+
+**A description of what the SVI data is:**
+
+The SVI data is a collection of factors that are considered relevant for assessing a community's vulnerability to natural disasters, diseases, or other sources of harm.
+
+**Why it's important.**
+
+The dataset is important because it provides information that is useful for analysis of relative vulnerability and help to inform decision making on what communities would need assistance/support, prior, during or after a disaster.
+
+**What is the unit of observation**
+
+The unit of observation is a census tract. This is a geographic unit that is a subdivision of a county where census data is collected. SVI is calculated base on data collected in a census, so the unit of observation matches that of a census.
+
+**Why you chose the state that you did. Is there something interesting there you want to look at?**
+
+I chose to map the state of Alabama because it is the first state I lived in when I came to the USA. I was curious to see the distribution of poverty levels especially where Madison County (county in which Huntsville city is located) ranks compared to other counties in the state.
+
+**All the relevant code to make the analysis work for you.**
+
+All the code worked.
+
+**What map projection you chose and why.**
+
+I choose to use the UTM map projection. This is because I am mapping a small area (state) and UTM projections are ideal for small areas.
+
+**An exploratory analysis of the data with good spatial maps, for example how does the pattern/process compare to the census data you downloaded earlier.**
+
+Based of results of an exploratory analysis to explain spatial patterns of poverty in Alabama, it seems that out of the 3 variables that were investigated, the spatial pattern of proportion of minority corresponded better with poverty levels. I found it surprising that pattern of unemployment rates do not seem to match those of poverty levels. This may indicate that although minority populations are employed, their income is still below poverty level.
+
+**A full Moran's plot and hypothesis test with the results explained clearly in the text. You should clearly explain what Moran's I is and how to interpret it.**
+
+Moran's I stands for Moran's index, and is a measure of spatial autocorrelation. The index is positive if we have spatial autocorrelation (high values clustering near high values, and low values clustering near low values) and negative if high values tend to be near low values (negative autocorrelation). The index ranges between -1 and 1 where values closer to 0 indicate a week negative or positive autocorrelation.
+
+The Moran's I plot for proportion of people below poverty level in Alabama counties shows an indication of positive spatial autocorrelation. This means that counties with high proportions of people under poverty cluster together and those with low proportions under poverty cluster together.
+
+Moran's I test for significance showed an index of 0.31. This index is positive proving that there is indeed positive spatial autocorrelation. However the autocorrelation is no strong. The p-values is much lower that 0.05, showing that the positive spatial autocorrelation is significant.
+
+Based on the significant p-value, we have enough evidence to reject the null hypothesis that the pattern of percentage of people living below poverty in Alabama counties is caused by an independent random process.

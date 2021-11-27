@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Project: Dealing with Point Data</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut15_coding.html">15. Coding</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
+    </li>
+    <li>
+      <a href="pg_364Lab4_Manip_2021.html">Lab 4: Spatial Intermediate</a>
+    </li>
+    <li>
+      <a href="pg_364Lab5_tobler_2021.html">Lab 5: Join Counts</a>
+    </li>
+    <li>
+      <a href="pg_364Lab6_moran_2021.html">Lab 6: Census Moran</a>
+    </li>
+    <li>
+      <a href="pg_364Lab7_Regression_2021.html">Lab 7: LISA and Regression</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Worked answers
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab5_tobler_2021_WORKED.html">Lab 5</a>
+    </li>
+    <li>
+      <a href="pg_364Lab6_moran_2021_WORKED.html">Lab 6</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    PROJECT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="364Data_TutorialDownload.html">Downloading Secondary datasets</a>
+    </li>
+    <li>
+      <a href="364Data_TutorialWranglePoint.html">Dealing with Point Data</a>
+    </li>
+    <li>
+      <a href="364Data_TutorialWranglePolygon.html">Dealing with Polygon Data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Project: Dealing with Point Data</h1>
+<h3 class="subtitle"><h4 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 11px;
+  font-family: Arial;
+}
+</style>
+<div id="required-libraries" class="section level2">
+<h2>Required libraries</h2>
+</div>
+<div id="cropping-datazooming-in" class="section level2">
+<h2>Cropping data/zooming in</h2>
+<div id="required-libraries-1" class="section level3">
+<h3>Required libraries</h3>
+<pre class="r"><code>library(sp)
+library(sf)
+library(elevatr)
+library(USAboundaries)
+library(raster)
+library(tidycensus)
+library(rnaturalearth)
+library(tmap)
+library(exactextractr)
+library(units)
+library(tigris)
+library(rmapshaper)
+library(FedData)</code></pre>
+</div>
+<div id="filtering-point-data-sf" class="section level3">
+<h3>Filtering point data sf</h3>
+<p>I am basing my examples on Iowan farmers market locations</p>
+<pre class="r"><code>plot(st_geometry(IA_farmersmarket.sf),col=rgb(0,0,0,.5),pch=16)
+plot(st_geometry(border.county.IA.sf),border=&quot;red&quot;,add=TRUE)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
+<p>Make sure your data is in sf format! Now there are a few options. You could filter to one of the columns and crop that way. For my data I have these columns</p>
+<pre class="r"><code>names(IA_farmersmarket.sf)</code></pre>
+<pre><code>##  [1] &quot;FID&quot;         &quot;City&quot;        &quot;County&quot;      &quot;Latitude&quot;    &quot;Location&quot;   
+##  [6] &quot;Longitude&quot;   &quot;Market_Name&quot; &quot;Open_Dates&quot;  &quot;Open_Hours&quot;  &quot;State&quot;      
+## [11] &quot;Weekday&quot;     &quot;geometry&quot;</code></pre>
+<p>So for example</p>
+<pre class="r"><code># THE COMMA AT THE END IS IMPORTANT!
+IA_farmersmarket.MONDAY.sf &lt;- IA_farmersmarket.sf[which(IA_farmersmarket.sf$Weekday %in% &quot;Monday&quot;), ]
+
+#or 
+central_lat &lt;-mean(IA_farmersmarket.sf$Latitude,na.rm=TRUE)
+IA_farmersmarket.SOUTH.sf &lt;- IA_farmersmarket.sf[which(IA_farmersmarket.sf$Latitude  &lt; central_lat), ]
+
+#or
+IA_farmersmarket.UIOWA.sf &lt;- IA_farmersmarket.sf[which(IA_farmersmarket.sf$County  %in% c(&quot;LINN&quot;,&quot;JOHNSON&quot;)), ]
+
+
+map1 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.sf)+tm_dots(size=.1,col=&quot;black&quot;)
+
+map2 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.MONDAY.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+map3 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.SOUTH.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+map4 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.UIOWA.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+tmap_arrange(map1,map2,map3,map4)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map1);rm(map2);rm(map3);rm(map4)</code></pre>
+</div>
+<div id="cropping-to-a-lonlat-box" class="section level3">
+<h3>Cropping to a lon/lat box</h3>
+<p>Ocean folks, this one is for you!</p>
+<pre class="r"><code># Make sure your sf data is in lon/lat
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,4326)
+
+# Turn it into sp data
+IA_farmersmarket.sp &lt;- as(IA_farmersmarket.sf,&quot;Spatial&quot;)
+
+# My new region from https://www.geoplaner.com/
+Crop.Region &lt;- as(extent(-94,-92,41,42), &quot;SpatialPolygons&quot;)
+
+# Subset the polygons to my new region
+IA_farmersmarket.BOX.sp &lt;- crop(IA_farmersmarket.sp, Crop.Region, byid=TRUE)
+
+# and convert back to sf and your other map projection
+IA_farmersmarket.BOX.sf &lt;- st_as_sf(IA_farmersmarket.BOX.sp)
+
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,3744)
+IA_farmersmarket.BOX.sf  &lt;-  st_transform(IA_farmersmarket.BOX.sf,3744)
+
+
+# and plot
+
+map1 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.sf)+tm_dots(size=.1,col=&quot;black&quot;)
+
+map2 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.BOX.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+# tell R the bounding box
+mybox &lt;- st_bbox(IA_farmersmarket.BOX.sf)
+
+map3 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;,bb=mybox)+
+        tm_shape(IA_farmersmarket.BOX.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+tmap_arrange(map2,map1,map3)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map1);rm(map2);rm(map3)</code></pre>
+</div>
+<div id="cropping-to-a-stateshapefile" class="section level3">
+<h3>Cropping to a state/shapefile</h3>
+<p>Sometimes we want to crop to a state/shapefile. For example imagine we want to crop to a city metropoliton area (see Lab 7)</p>
+<pre class="r"><code># This could be any sf boundary you want to crop to.
+# it doesn&#39;t have to be a city - here i look for Des Moines
+pl &lt;- places(state = &quot;IA&quot;, cb = TRUE, year=2017)</code></pre>
+<pre><code>## 
+Downloading: 16 kB     
+Downloading: 16 kB     
+Downloading: 32 kB     
+Downloading: 32 kB     
+Downloading: 65 kB     
+Downloading: 65 kB     
+Downloading: 97 kB     
+Downloading: 97 kB     
+Downloading: 120 kB     
+Downloading: 120 kB     
+Downloading: 150 kB     
+Downloading: 150 kB     
+Downloading: 190 kB     
+Downloading: 190 kB     
+Downloading: 230 kB     
+Downloading: 230 kB     
+Downloading: 230 kB     
+Downloading: 230 kB     
+Downloading: 250 kB     
+Downloading: 250 kB     
+Downloading: 270 kB     
+Downloading: 270 kB     
+Downloading: 310 kB     
+Downloading: 310 kB     
+Downloading: 320 kB     
+Downloading: 320 kB     
+Downloading: 320 kB     
+Downloading: 320 kB</code></pre>
+<pre class="r"><code>DesMoines.borders.sf &lt;- dplyr::filter(pl, NAME == &quot;Des Moines&quot;)
+
+# make sure they are the same map projection
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,4326)
+DesMoines.borders.sf  &lt;-  st_transform(DesMoines.borders.sf,4326)
+
+# and crop and save to a new thing
+DesMoines.Markets.sf &lt;- ms_clip(target = IA_farmersmarket.sf, clip = DesMoines.borders.sf, remove_slivers = TRUE)
+
+# change the map projection back
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,3744)
+DesMoines.borders.sf  &lt;-  st_transform(DesMoines.borders.sf,3744)
+DesMoines.Markets.sf  &lt;-  st_transform(DesMoines.Markets.sf,3744)
+
+
+# and plot
+
+map1 &lt;- qtm(st_geometry(border.county.IA.sf),fill=&quot;white&quot;)+
+        tm_shape(IA_farmersmarket.sf)+tm_dots(size=.05,col=&quot;black&quot;)+
+        tm_shape(DesMoines.borders.sf)+tm_borders()+
+        tm_shape(DesMoines.Markets.sf)+tm_dots(size=.05,col=&quot;red&quot;)
+  
+
+map2 &lt;- qtm(st_geometry(DesMoines.borders.sf),fill=&quot;white&quot;)+
+        tm_shape(DesMoines.Markets.sf)+tm_dots(size=.1,col=&quot;red&quot;)
+
+tmap_arrange(map1,map2)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map1);rm(map2)</code></pre>
+</div>
+</div>
+<div id="adding-in-secondary-data" class="section level2">
+<h2>Adding in secondary data</h2>
+<p>IF IN DOUBT, TRANSFORM EVERYTHING INTO LONG/LAT MAP PROJECTION (4326) - and merge like that, <em>then</em> transform back to the one you want.</p>
+<p>You will need the normal libraries at the top of this tutorial. I am going to extract some data to add to my Iowan Farm Market Locations:</p>
+<div id="extracting-point-values-from-polygons" class="section level3">
+<h3>Extracting point values from polygons</h3>
+<p>This is very easy using the <code>st_join()</code> command from the <code>sf</code> package. To add my census data (or any sf polygon data) to my Iowa farmers market sf, I can simply do</p>
+<pre class="r"><code>#--------------------------------------------------------------
+# Transform all to lon/lat crs=4326 - just in case
+#--------------------------------------------------------------
+ACS_county.sf        &lt;-  st_transform(ACS_county.sf,4326)
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,4326)
+
+#--------------------------------------------------------------
+# MAKE SURE THE POINT DATA GOES FIRST
+# I&#39;m calling it something new so I dont accidentally overwrite
+#--------------------------------------------------------------
+IA_farmers_census.sf &lt;- st_join(IA_farmersmarket.sf,ACS_county.sf)
+
+#--------------------------------------------------------------
+# Transform back
+#--------------------------------------------------------------
+ACS_county.sf        &lt;-  st_transform(ACS_county.sf,3744)
+IA_farmersmarket.sf  &lt;-  st_transform(IA_farmersmarket.sf,3744)
+IA_farmers_census.sf &lt;-  st_transform(IA_farmers_census.sf,3744)
+
+#--------------------------------------------------------------
+# Have a look at your new column names
+#--------------------------------------------------------------
+names(IA_farmers_census.sf)</code></pre>
+<pre><code>##  [1] &quot;FID&quot;                    &quot;City&quot;                   &quot;County&quot;                
+##  [4] &quot;Latitude&quot;               &quot;Location&quot;               &quot;Longitude&quot;             
+##  [7] &quot;Market_Name&quot;            &quot;Open_Dates&quot;             &quot;Open_Hours&quot;            
+## [10] &quot;State&quot;                  &quot;Weekday&quot;                &quot;geometry&quot;              
+## [13] &quot;GEOID&quot;                  &quot;NAME&quot;                   &quot;housevalueE&quot;           
+## [16] &quot;housevalueM&quot;            &quot;total_popE&quot;             &quot;total_popM&quot;            
+## [19] &quot;total_houseE&quot;           &quot;total_houseM&quot;           &quot;med.incomeE&quot;           
+## [22] &quot;med.incomeM&quot;            &quot;County.areaE&quot;           &quot;PopulationDensityE&quot;    
+## [25] &quot;Log_PopulationDensityE&quot;</code></pre>
+<pre class="r"><code>#--------------------------------------------------------------
+# Make my weekdays plot in the right order
+#--------------------------------------------------------------
+IA_farmers_census.sf$Weekday &lt;- as.factor(IA_farmers_census.sf$Weekday)
+levels(IA_farmers_census.sf$Weekday) &lt;- c(&quot;Saturday&quot;,&quot;Sunday&quot;,&quot;Monday&quot;,&quot;Tuesday&quot;,&quot;Wednesday&quot;,&quot;Thursday&quot;,&quot;Friday&quot;)
+
+#--------------------------------------------------------------
+# and plot
+#--------------------------------------------------------------
+tmap_mode(&quot;plot&quot;)
+
+map_Week     &lt;- qtm(IA_farmers_census.sf,dots.col=&quot;Weekday&quot;,title=&quot;Market Day&quot;,
+                    dots.size=.1,dots.palette=&quot;Spectral&quot;)+
+        tm_shape(border.county.IA.sf)+tm_polygons(alpha=0)+
+        tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+map_Popdens &lt;- qtm(IA_farmers_census.sf,dots.col=&quot;med.incomeE&quot;,title=&quot;Median Income&quot;,
+                   dots.size=.1,dots.palette=&quot;Blues&quot;)+
+        tm_shape(border.county.IA.sf)+tm_polygons(alpha=0)+
+        tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+tmap_arrange(map_Week,map_Popdens,ncol=2)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
+<pre class="r"><code># clean up your workspace, optional but good practice unless you later need this map
+rm(map_Week); rm(map_Popdens2)</code></pre>
+</div>
+<div id="extracting-point-values-from-rastersfields" class="section level3">
+<h3>Extracting point values from rasters/fields</h3>
+<p>A raster is a field like elevation or land cover.</p>
+<p>Here the elevation data is numeric whilst the land cover is categorical.</p>
+<div id="extracting-point-values-from-numeric-rasters" class="section level4">
+<h4>Extracting point values from numeric rasters</h4>
+<p>This is very easy using the <code>extract()</code> command from the <code>raster</code> package. To extract my elevation data</p>
+<p>For point data, we choose simply the extract function. Remember to put results=FALSE</p>
+<pre class="r"><code>#--------------------------------------------------------------
+# Turn everything to the same map projection
+#--------------------------------------------------------------
+IA_farmers_census.sf  &lt;-  st_transform(IA_farmers_census.sf,4326)
+elevation.raster_IA &lt;- raster::projectRaster(elevation.raster_IA,crs=4326)
+
+#--------------------------------------------------------------
+# add to point data
+#--------------------------------------------------------------
+IA_farmers_census.sf$Elevation &lt;- raster::extract(elevation.raster_IA,IA_farmersmarket.sf)
+
+#--------------------------------------------------------------
+# Turn everything to the final map projection
+#--------------------------------------------------------------
+elevation.raster_IA  &lt;- raster::projectRaster(elevation.raster_IA,crs=3744)
+IA_farmers_census.sf &lt;-  st_transform(IA_farmers_census.sf,3744)
+
+#--------------------------------------------------------------
+# And plot
+# see here for more colours: https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html
+#--------------------------------------------------------------
+tmap_mode(&quot;plot&quot;)
+
+map_elev     &lt;- tm_shape(elevation.raster_IA)+
+                     tm_raster(title=&quot;Elevation&quot;,palette=&quot;PuRd&quot;)+
+                tm_shape(IA_farmers_census.sf)+
+                     tm_dots(size=.1)+
+                tm_shape(border.county.IA.sf)+
+                     tm_polygons(alpha=0)+
+                tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+
+map_elev2 &lt;- qtm(IA_farmers_census.sf,dots.col=&quot;Elevation&quot;,title=&quot;Height Above Sea Level&quot;,
+                   dots.size=.1,dots.palette=&quot;PuRd&quot;)+
+        tm_shape(border.county.IA.sf)+tm_polygons(alpha=0)+
+        tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+tmap_arrange(map_elev,map_elev2,ncol=2)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map_elev); rm(map_elev2)</code></pre>
+</div>
+<div id="extracting-point-values-from-categorical-rasters" class="section level4">
+<h4>Extracting point values from categorical rasters</h4>
+<p>This is exactly the same. I have an extra step just because I had a separate file with the category names,</p>
+<pre class="r"><code>#--------------------------------------------------------------
+# Turn everything to the same map projection
+#--------------------------------------------------------------
+IA_farmers_census.sf  &lt;-  st_transform(IA_farmers_census.sf,crs(IA_Landcover))
+
+#--------------------------------------------------------------
+# add to point data
+#--------------------------------------------------------------
+IA_farmers_census.sf$LandcoverNumber &lt;-  as.factor(raster::extract(IA_Landcover,IA_farmers_census.sf))
+
+#--------------------------------------------------------------
+# for the landcover data specifically, this might be better
+#--------------------------------------------------------------
+key &lt;- nlcd_colors()[,c(&quot;ID&quot;,&quot;Class&quot;)]
+names(key) &lt;- c(&quot;LandcoverNumber&quot;,&quot;LandcoverClass&quot;)
+
+IA_farmers_census.sf &lt;- merge(IA_farmers_census.sf ,key,by=&quot;LandcoverNumber&quot;,all.x=TRUE,all.y=FALSE)
+IA_farmers_census.sf$LandcoverClass &lt;- as.factor(IA_farmers_census.sf$LandcoverClass )
+
+
+#--------------------------------------------------------------
+# Turn everything to the final map projection
+#--------------------------------------------------------------
+IA_farmers_census.sf &lt;-  st_transform(IA_farmers_census.sf,3744)
+
+#--------------------------------------------------------------
+# And plot
+# see here for more colours: https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html
+#--------------------------------------------------------------
+tmap_mode(&quot;plot&quot;)
+
+map_lc1     &lt;- tm_shape(IA_Landcover)+
+                     tm_raster(title=&quot;Landcover&quot;)+
+                tm_shape(IA_farmers_census.sf)+
+                     tm_dots(size=.1)+
+                tm_shape(border.county.IA.sf)+
+                     tm_polygons(alpha=0)+
+                tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+map_lc2 &lt;- qtm(IA_farmers_census.sf,dots.col=&quot;LandcoverNumber&quot;,title=&quot;Land cover code&quot;, dots.size=.1)+
+           tm_shape(border.county.IA.sf)+
+              tm_polygons(alpha=0)+
+           tm_layout(legend.outside = TRUE,legend.outside.position   = &quot;bottom&quot;)
+
+map_lc3 &lt;- qtm(IA_farmers_census.sf,dots.col=&quot;LandcoverClass&quot;,title=&quot;Land cover&quot;,dots.size=.1)+
+           tm_shape(border.county.IA.sf)+
+              tm_polygons(alpha=0)+
+           tm_layout(legend.outside = TRUE,legend.outside.position   = &quot;bottom&quot;)
+
+
+tmap_arrange(map_lc1,map_lc2,map_lc3,ncol=3)</code></pre>
+<p><img src="364Data_TutorialWrangle_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map_lc1); rm(map_lc1); rm(map_lc3)</code></pre>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>
