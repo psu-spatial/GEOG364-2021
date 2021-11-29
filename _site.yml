@@ -29,8 +29,10 @@ navbar:
           href: pg_Tut10_plot.html   
         - text: "11. Spatial data analysis"
           href: pg_Tut11_spatial101.html 
-        - text: "15. Coding"
-          href: pg_Tut15_coding.html 
+        - text: "12. Point Pattern analysis"
+          href: pg_Tut12_pointpattern.html 
+        - text: "13. Coding"
+          href: pg_Tut13_coding.html 
     - text: "Labs"
       menu:
         - text: "Lab 1: R-Basics"
@@ -47,11 +49,13 @@ navbar:
           href: pg_364Lab6_moran_2021.html 
         - text: "Lab 7: LISA and Regression"
           href: pg_364Lab7_Regression_2021.html
+        - text: "Lab 8: Point Pattern"
+          href: pg_364Lab8_PointPattern_2021.html
     - text: "Worked answers"
       menu:
-        - text: "Lab 5"
+        - text: "Lab 5 Example"
           href: pg_364Lab5_tobler_2021_WORKED.html 
-        - text: "Lab 6"
+        - text: "Lab 6 Example"
           href: pg_364Lab6_moran_2021_WORKED.html           
     - text: "PROJECT"
       menu:

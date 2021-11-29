@@ -386,6 +386,18 @@ tmap_arrange(map_popdens,map_logpopdens)
 ```
 
 
+### Extracting Census data at point locations
+
+See the project tutorial: 
+
+ - https://psu-spatial.github.io/Geog364-2021/364Data_TutorialWranglePoint.html#Extracting_point_values_from_polygons
+ 
+
+
+
+
+
+
 
 ## Elevation data
 

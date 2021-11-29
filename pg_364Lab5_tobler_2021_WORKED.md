@@ -1,7 +1,7 @@
 ---
 title: "GEOG-364 - Lab 5"
 author: "SUSAN WORKED ANSWERS"
-date: "2021-11-27"
+date: "2021-11-29"
 output:
   html_document:
     toc: true
@@ -202,7 +202,7 @@ print(paste0('The mean number of same color joins is ', round(mx)))
 ```
 
 ```
-## [1] "The mean number of same color joins is 53"
+## [1] "The mean number of same color joins is 54"
 ```
 
 12. **Given this output, what is your new expectation of the number of same-color joins if an IRP caused the process?**

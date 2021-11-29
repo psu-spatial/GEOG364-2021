@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Point Pattern Analysis</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+      .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+<link rel="stylesheet" href="styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">GEOG-364</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorials
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_Tut1_about.html">1. About R, R-Studio &amp; R-Studio Cloud</a>
+    </li>
+    <li>
+      <a href="pg_Tut2_startup.html">2. Getting started</a>
+    </li>
+    <li>
+      <a href="pg_Tut3_basics.html">3. Console Basics</a>
+    </li>
+    <li>
+      <a href="pg_Tut4_markdown.html">4. Markdown</a>
+    </li>
+    <li>
+      <a href="pg_Tut5_checklist.html">5. Lab Template</a>
+    </li>
+    <li>
+      <a href="pg_Tut6_input_output.html">6. Reading in/saving data</a>
+    </li>
+    <li>
+      <a href="pg_Tut7_wrangle.html">7. Data wrangling</a>
+    </li>
+    <li>
+      <a href="pg_Tut8_summarystat.html">8. Exploratory Data Analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut9_dist_stats.html">9. Distributions &amp; Inferential Stats</a>
+    </li>
+    <li>
+      <a href="pg_Tut10_plot.html">10. Plotting non-spatial data</a>
+    </li>
+    <li>
+      <a href="pg_Tut11_spatial101.html">11. Spatial data analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut12_pointpattern.html">12. Point Pattern analysis</a>
+    </li>
+    <li>
+      <a href="pg_Tut13_coding.html">13. Coding</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Labs
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab1_Basics_2021.html">Lab 1: R-Basics</a>
+    </li>
+    <li>
+      <a href="pg_364Lab2_Summary_2021.html">Lab 2: Playing with data</a>
+    </li>
+    <li>
+      <a href="pg_364Lab3_Spatial_2021.html">Lab 3: Spatial</a>
+    </li>
+    <li>
+      <a href="pg_364Lab4_Manip_2021.html">Lab 4: Spatial Intermediate</a>
+    </li>
+    <li>
+      <a href="pg_364Lab5_tobler_2021.html">Lab 5: Join Counts</a>
+    </li>
+    <li>
+      <a href="pg_364Lab6_moran_2021.html">Lab 6: Census Moran</a>
+    </li>
+    <li>
+      <a href="pg_364Lab7_Regression_2021.html">Lab 7: LISA and Regression</a>
+    </li>
+    <li>
+      <a href="pg_364Lab8_PointPattern_2021.html">Lab 8: Point Pattern</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Worked answers
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pg_364Lab5_tobler_2021_WORKED.html">Lab 5 Example</a>
+    </li>
+    <li>
+      <a href="pg_364Lab6_moran_2021_WORKED.html">Lab 6 Example</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    PROJECT
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="364Data_TutorialDownload.html">Downloading Secondary datasets</a>
+    </li>
+    <li>
+      <a href="364Data_TutorialWranglePoint.html">Dealing with Point Data</a>
+    </li>
+    <li>
+      <a href="364Data_TutorialWranglePolygon.html">Dealing with Polygon Data</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Point Pattern Analysis</h1>
+<h3 class="subtitle"><h5 style="font-style:normal">
+GEOG-364 - Spatial Analysis
+</h4></h3>
+
+</div>
+
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 0px;
+border-radius: 5px;
+font-style: normal;
+}
+
+h1.title {
+  font-weight: bold;
+  font-family: Arial;  
+}
+
+h2.title {
+  font-family: Arial;  
+}
+
+</style>
+<style type="text/css">
+#TOC {
+  font-size: 12px;
+  font-family: Arial;
+}
+</style>
+<p><br />
+</p>
+<p>Welcome to Tutorial 12 on point pattrn analysis. I work through an example on farmers markets in Iowa. I want to understand the pattern the points make e.g. are they clustered? Is anything causing that clustering?</p>
+<p><br> <br></p>
+<div id="libraries-needed" class="section level2">
+<h2>Libraries needed</h2>
+<p>Some of these might be new that you need to install</p>
+<pre class="r"><code>rm(list=ls())
+
+library(spatstat)
+library(stars)
+library(maptools)
+
+library(elevatr)
+library(raster)
+library(readxl)
+library(sp)
+library(spdep)
+library(sf)
+library(tidycensus)
+library(tidyverse)
+library(tmap)
+library(units)
+library(USAboundaries)
+library(viridis)</code></pre>
+<p><br> <br></p>
+</div>
+<div id="reading-in-my-data" class="section level2">
+<h2>Reading in my data</h2>
+<p><br> <br></p>
+<div id="read-in-state-borders" class="section level3">
+<h3>1. Read in state borders</h3>
+<p>Here I’m using the USAboundaries package. If this code doesn’t work, reinstall the package - it’s recently been upgraded.</p>
+<pre class="r"><code> state.border     &lt;- us_states(states = &quot;iowa&quot;)
+ state.border.utm &lt;- st_transform(state.border,3744)</code></pre>
+<p><br> <br></p>
+</div>
+<div id="read-in-the-farmers-market-data" class="section level3">
+<h3>2. Read in the farmers market data</h3>
+<p>I used data from GIS_IOWA.</p>
+<p><a href="https://github.com/psu-spatial/Geog364.data-2020/raw/main/Point_Iowa_FarmersMarket/Farmers_Markets.xlsx">This link contains the csv used in this tutorial of Iowan farmers markets</a>. Feel free to download it into your project folders and I will also put it on Canvas.</p>
+<pre class="r"><code># Read in my data
+mydata   &lt;- readxl::read_excel(&quot;Farmers_Markets.xlsx&quot;)
+mydata.sf &lt;- st_as_sf(mydata,coords=c(&quot;X&quot;,&quot;Y&quot;),crs=4326)
+head(mydata)</code></pre>
+<pre><code>## # A tibble: 6 × 13
+##       X     Y   FID City    County  Latitude Location  Longitude Market_Name    
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;          
+## 1 -95.1  43.4     1 Arnold… DICKIN…     43.4 Arnolds …     -95.1 Akron Farmers …
+## 2 -91.2  40.8     2 West B… DES MO…     40.8 609 S. G…     -91.2 Ames - North G…
+## 3 -95.7  41.0     3 Glenwo… MILLS       41.0 418 E Sh…     -95.7 Ames - North G…
+## 4 -93.7  41.6     4 Des Mo… POLK        41.6 4944 Fra…     -93.7 Ames Main Stre…
+## 5 -93.9  40.6     5 Lamoni  DECATUR     40.6 610 E Ma…     -93.9 Anamosa Farmer…
+## 6 -91.4  40.5     6 Montro… LEE         40.5 203 N. 1…     -91.4 Anamosa Farmer…
+## # … with 4 more variables: Open_Dates &lt;chr&gt;, Open_Hours &lt;chr&gt;, State &lt;chr&gt;,
+## #   Weekday &lt;chr&gt;</code></pre>
+<p><br> <br></p>
+<div id="sanity-check" class="section level4">
+<h4>Sanity check</h4>
+<p>I want to check my data makes sense.</p>
+<pre class="r"><code># Check it makes sense
+tmap_mode(&quot;plot&quot;)
+qtm(st_geometry(mydata.sf),dots.size=.2)+tm_grid()+
+   tm_shape(state.border)+tm_borders()</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
+<p><br></p>
+<p>I clearly have a point that is not in Iowa. For the sake of this lab, I will remove it. I can see that my point is the only one with a longitude less than -90, so I will use that knowledge to remove it. Now my data looks much better.</p>
+<pre class="r"><code>mydata &lt;- mydata[mydata$X &lt;= -90,]
+
+mydata.sf &lt;- st_as_sf(mydata,coords=c(&quot;X&quot;,&quot;Y&quot;),crs=4326)
+
+# make a quick plot
+tmap_mode(&quot;plot&quot;)
+qtm(st_geometry(mydata.sf),dots.size=.3)+
+   tm_grid()+
+   tm_shape(state.border)+tm_borders()</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+<p><br></p>
+<p>I am now happy and will transform my data to an appropriate UTM projection (THIS IS IMPORTANT!). You can see that the units have now changed to metres. See <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut11_spatial101.html#Map_Projections">Tutorial 11A</a> and <a href="https://psu-spatial.github.io/Geog364-2021/pg_Tut11_spatial101.html#Step_5_Assign_a_new_map_projection_">Tutorial 11B</a> for more.</p>
+<pre class="r"><code>mydata.sf.utm &lt;- st_transform(mydata.sf,3744)
+qtm(st_geometry(mydata.sf.utm),dots.size=.3)+
+   tm_grid()+
+   tm_shape(state.border.utm)+tm_borders()</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="add-in-census-data" class="section level3">
+<h3>Add in census data</h3>
+<p><br> <br></p>
+<div id="download-census-data." class="section level4">
+<h4>Download census data.</h4>
+<p>Now I want to add in some other data that might help me understand why the points have the patterns they do. I will first download census county level data:</p>
+<pre class="r"><code>#-------------------------------------------------
+# Download some data for Iowa using get_acs
+#-------------------------------------------------
+ ACS_county.sf &lt;- get_acs(geography = &quot;county&quot;, 
+                         year = 2019,
+                         variables = c(total_pop  = &quot;B05012_001&quot;,  # total population
+                                       med.income = &quot;B19013_001&quot;), # median income  
+                         state = c(&quot;IA&quot;),
+                         survey = &quot;acs5&quot;,geometry=TRUE,
+                         output = &quot;wide&quot;)
+
+#-------------------------------------------------
+#[1] Find the area of each county Convert to Km sq
+#[2] Calculate population density
+#[3]and the housing density
+#-------------------------------------------------
+ ACS_county.sf$area.m2  &lt;- st_area(ACS_county.sf)
+ ACS_county.sf$area.km2 &lt;- as.numeric(set_units(ACS_county.sf$area.m2, &quot;km^2&quot;))
+ ACS_county.sf &lt;- mutate(ACS_county.sf, pop.density = total_popE/area.km2)
+
+#-------------------------------------------------
+# Change the map projection to UTM Iowa
+#-------------------------------------------------
+ ACS_county.sf.utm &lt;- st_transform(ACS_county.sf,3744)</code></pre>
+<p><br> <br></p>
+</div>
+<div id="adding-log-population-density" class="section level4">
+<h4>Adding log population density</h4>
+<p>Normally population densities are very skewed and nor Normally distributed.</p>
+<pre class="r"><code>tm_shape(ACS_county.sf.utm) +
+     tm_polygons(&quot;pop.density&quot;,border.col = NULL,
+                 title=&quot;Population Density&quot;,palette=&quot;viridis&quot;,
+                 legend.hist = TRUE)+
+   tm_shape(state.border.utm)+tm_borders()+
+   tm_layout(legend.outside=TRUE,legend.outside.position  = &quot;bottom&quot;,
+             legend.hist.width = 1,
+             legend.hist.height = 0.75,legend.stack = &#39;horizontal&#39;)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<p><br></p>
+<p>You can see above that our data is very skewed and not very Normally distributed. The fact the data is so skewed that it can cause issues when we try to do statistical analysis. So instead, we will transform the data by applying the log function</p>
+<pre class="r"><code>ACS_county.sf.utm$pop.density.log &lt;- log(ACS_county.sf.utm$pop.density)</code></pre>
+<p><br></p>
+<p>This data is a lot more normal, but we need to remember that we are looking at log(population density) or transform back when making our conclusions</p>
+<pre class="r"><code>tm_shape(ACS_county.sf.utm) +
+     tm_polygons(&quot;pop.density.log&quot;,border.col = NULL,
+                 title=&quot;Log Population Density&quot;,palette=&quot;viridis&quot;,
+                 legend.hist = TRUE)+
+   tm_shape(state.border.utm)+tm_borders()+
+   tm_layout(legend.outside=TRUE,legend.outside.position  = &quot;bottom&quot;,
+             legend.hist.width = 1,
+             legend.hist.height = 0.75,legend.stack = &#39;horizontal&#39;)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
+<p><br> <br></p>
+</div>
+<div id="extracting-census-data-for-our-points" class="section level4">
+<h4>Extracting census data for our points</h4>
+<pre class="r"><code>#-------------------------------------------------
+# Excounty values of ACS at my point locations
+#-------------------------------------------------
+ mydata.sf.utm &lt;- sf::st_join(mydata.sf.utm,ACS_county.sf.utm)</code></pre>
+<p><br></p>
+<p>You should now see the new columns in your point data (click on mydata.sf.utm in the Environment tab)</p>
+<pre class="r"><code>#-------------------------------------------------
+# You should now see the new values in your data
+#-------------------------------------------------
+ head(mydata.sf.utm)</code></pre>
+<pre><code>## Simple feature collection with 6 features and 21 fields
+## Geometry type: POINT
+## Dimension:     XY
+## Bounding box:  xmin: 773751 ymin: 4509414 xmax: 1160501 ymax: 4808675
+## Projected CRS: NAD83(HARN) / UTM zone 14N
+## # A tibble: 6 × 22
+##     FID City    County  Latitude Location  Longitude Market_Name     Open_Dates 
+##   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;      
+## 1     1 Arnold… DICKIN…     43.4 Arnolds …     -95.1 Akron Farmers … 06/28/2018…
+## 2     2 West B… DES MO…     40.8 609 S. G…     -91.2 Ames - North G… 06/16/2018…
+## 3     3 Glenwo… MILLS       41.0 418 E Sh…     -95.7 Ames - North G… 05/16/2018…
+## 4     4 Des Mo… POLK        41.6 4944 Fra…     -93.7 Ames Main Stre… 06/14/2018…
+## 5     5 Lamoni  DECATUR     40.6 610 E Ma…     -93.9 Anamosa Farmer… 05/16/2018…
+## 6     6 Montro… LEE         40.5 203 N. 1…     -91.4 Anamosa Farmer… 05/08/2018…
+## # … with 14 more variables: Open_Hours &lt;chr&gt;, State &lt;chr&gt;, Weekday &lt;chr&gt;,
+## #   geometry &lt;POINT [m]&gt;, GEOID &lt;chr&gt;, NAME &lt;chr&gt;, total_popE &lt;dbl&gt;,
+## #   total_popM &lt;dbl&gt;, med.incomeE &lt;dbl&gt;, med.incomeM &lt;dbl&gt;, area.m2 [m^2],
+## #   area.km2 &lt;dbl&gt;, pop.density &lt;dbl&gt;, pop.density.log &lt;dbl&gt;</code></pre>
+<p><br></p>
+<pre class="r"><code>#-------------------------------------------------
+# Make a plot to check it all worked
+#-------------------------------------------------
+ tmap_mode(&quot;plot&quot;)
+
+ map1     &lt;- tm_shape(ACS_county.sf.utm) +
+                tm_polygons(&quot;med.incomeE&quot;,border.col = NULL,style=&quot;cont&quot;,
+                            title=&quot;Median Income&quot;,palette=&quot;PuRd&quot;)+
+                tm_shape(state.border.utm)+tm_borders()+
+                tm_layout(legend.outside=TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+ map2 &lt;- qtm(mydata.sf.utm,dots.col=&quot;med.incomeE&quot;,
+                   title=&quot;Median Income&quot;,dots.size=.1,dots.palette=&quot;PuRd&quot;)+
+               tm_shape(state.border.utm)+tm_borders()+
+               tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+ map3     &lt;- tm_shape(ACS_county.sf.utm) +
+                tm_polygons(&quot;pop.density.log&quot;,border.col = NULL,style=&quot;cont&quot;,
+                            title=&quot;Log Population Density&quot;,palette=&quot;YlGnBu&quot;)+
+                tm_shape(state.border.utm)+tm_borders()+
+                tm_layout(legend.outside=TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+ map4 &lt;- qtm(mydata.sf.utm,dots.col=&quot;pop.density.log&quot;,
+                   title=&quot;Log Population Density&quot;,dots.size=.1,dots.palette=&quot;YlGnBu&quot;)+
+               tm_shape(state.border.utm)+tm_borders()+
+               tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+ 
+ tmap_arrange(map1,map2,map3,map4, ncol=2)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-13-1.png" /><!-- --></p>
+<pre class="r"><code> rm(map1);rm(map2); rm(map3);rm(map4)</code></pre>
+<p><br> <br></p>
+</div>
+</div>
+<div id="add-in-elevation-data" class="section level3">
+<h3>Add in elevation data</h3>
+<p>This isn’t likely to impact farmers markets, but I want you to see how to do it for your lab.</p>
+<pre class="r"><code>elevation.utm &lt;- get_elev_raster(state.border.utm, z = 5,clip=&quot;locations&quot;)
+
+# use the extract function to get elevation for our data.
+mydata.sf.utm$Elevation &lt;- raster::extract(elevation.utm,mydata.sf.utm)</code></pre>
+<p><br></p>
+<pre class="r"><code>tmap_mode(&quot;plot&quot;)
+
+map1     &lt;- tm_shape(elevation.utm)+
+                     tm_raster(title=&quot;Elevation&quot;,palette=&quot;Spectral&quot;)+
+                tm_shape(mydata.sf.utm)+
+                     tm_dots(size=.1)+
+                tm_shape(state.border.utm)+tm_borders()+
+                tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+
+map2 &lt;- qtm(mydata.sf.utm,dots.col=&quot;Elevation&quot;,
+                 title=&quot;Height Above Sea Level (m)&quot;,
+                   dots.size=.1,dots.palette=&quot;Spectral&quot;)+
+        tm_shape(state.border.utm)+tm_borders()+
+        tm_layout(legend.outside = TRUE,legend.outside.position  = &quot;bottom&quot;)
+
+tmap_arrange(map1,map2,ncol=2)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-15-1.png" /><!-- --></p>
+<pre class="r"><code>rm(map1); rm(map2)</code></pre>
+<p><br> <br></p>
+</div>
+</div>
+<div id="making-a-ppp-object" class="section level2">
+<h2>Making a ppp object</h2>
+<p>Our data is made up of points, so concepts like “rooks” or “queens” neighbours don’t make much sense. Instead we will use a family of analysis called <strong>Point Pattern Analysis</strong>. There is a specific package in R called <code>spatstat</code> that does this, which reqires us to transform our data into a special <code>ppp</code> (point pattern) format.</p>
+<p>To do this, we first make a window for the state borders (or your study area), then make our data ppp. I suggest adding results=FALSE in your code chunk option.</p>
+<pre class="r"><code># make window
+state.border.utm.window &lt;- as(as_Spatial(state.border.utm), &quot;owin&quot;)
+
+# Convert our data and add the window
+mydata.ppp        &lt;- as.ppp(mydata.sf.utm)
+Window(mydata.ppp) &lt;- state.border.utm.window
+
+# R will work in metres by default. Iowa is big. let&#39;s convert to km
+mydata.ppp.km &lt;- rescale(mydata.ppp, 1000, &quot;km&quot;)</code></pre>
+<p><br></p>
+<pre class="r"><code># and check it worked by making a plot
+ plot(elevation.utm)
+
+ plot(mydata.ppp,use.marks = F,
+      cex = 1, pch = 4,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-17-1.png" /><!-- --></p>
+<p><br> <br></p>
+</div>
+<div id="looking-at-point-density" class="section level2">
+<h2>Looking at point density</h2>
+<p><br> <br></p>
+<div id="global-density" class="section level3">
+<h3>Global density</h3>
+<p>This is simply the number of points per unit area. We don’t even need the special ppp data to do this.</p>
+<pre class="r"><code>NumberPoints  &lt;- nrow(mydata.sf.utm)
+StudyArea     &lt;- st_area(state.border.utm)
+StudyArea.km2 &lt;- as.numeric(set_units(StudyArea, &quot;km^2&quot;))
+
+Density_Global &lt;-  nrow(mydata.sf.utm) / StudyArea.km2 
+Density_Global.3dp &lt;- round(Density_Global,3)</code></pre>
+<p><br></p>
+<p>As you can see, there are 174 over an area of 1.4635922^{5} square kilometers, leading to a global point density of 0.001 point per square kilometer.</p>
+<p>This doesn’t tell us much about the local patterns however, so let’s look at a few measures of local density.</p>
+<p><br> <br></p>
+</div>
+<div id="local-density-1-quadrat-analysis" class="section level3">
+<h3>Local density 1: Quadrat analysis</h3>
+<p>This technique requires that the study area be divided into sub-regions (aka quadrats). Then, the point density is computed for <strong>each quadrat</strong> by dividing the number of points in each quadrat by the quadrat’s area.</p>
+<p>We can compute the quadrat count and intensity using spatstat’s <code>quadratcount()</code> and <code>intensity()</code> functions.</p>
+<p>The following code chunk divides Iowa into a grid of 3 rows and 6 columns then calculates the number of points falling in each quadrat. We can then make a plot.</p>
+<pre class="r"><code>QuadratCount.4.4 &lt;- quadratcount(mydata.ppp.km, nx= 4, ny=4)
+
+# Plot points
+plot(mydata.ppp.km, pch=20, cols=&quot;grey80&quot;, main=NULL,use.marks = F)  
+# Add quadrat grid
+plot(QuadratCount.4.4, add=TRUE)  </code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-19-1.png" /><!-- --></p>
+<p><br></p>
+<p>Here we can see that some quadrats contain 22 farmers markets, whilst others contain only 2.</p>
+<pre class="r"><code># Compute the density for each quadrat and make a mapped version
+Density_Quadrat.4.4 &lt;- intensity(QuadratCount.4.4)
+Density_Quadrat_to.plot.4.4 &lt;- intensity(QuadratCount.4.4, image=TRUE)
+
+
+# Plot the density
+plot(Density_Quadrat_to.plot.4.4, main=NULL, las=1,col=viridis(20))  
+# Add points
+plot(mydata.ppp.km, pch=20, cex=0.6, 
+     col=rgb(0,0,0,.5), use.marks = F, 
+     add=TRUE)  </code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-20-1.png" /><!-- --></p>
+<p><br></p>
+<p>We are doing the same thing here as with global density, just dividing by the area in each box, so we can see that even around Des Moines, there are only 0.0025 markets per square kilometer.</p>
+<p>Of course, this very much depends on grid size….. (hint, what fallacy is happening?)</p>
+<pre class="r"><code>QuadratCount.24.8 &lt;- quadratcount(mydata.ppp.km, nx= 8, ny=24)
+Density_Quadrat.24.8 &lt;- intensity(QuadratCount.24.8)
+Density_Quadrat_to.plot.24.8 &lt;- intensity(QuadratCount.24.8, image=TRUE)
+
+# Plot the density
+plot(Density_Quadrat_to.plot.24.8, main=NULL, las=1,col=viridis(20))   
+# Add points
+plot(mydata.ppp.km, pch=20, cex=0.6, 
+     col=rgb(0,0,0,.5), use.marks = F, 
+     add=TRUE)  </code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-21-1.png" /><!-- --></p>
+<p><br> <br></p>
+<div id="assessing-if-this-pattern-is-unusual" class="section level4">
+<h4>Assessing if this pattern is unusual</h4>
+<p>For these measures to be close to valid, it is typically good to keep the numbers IN EACH QUADRAT to be at least 30. Otherwise you have an even higher likelihood of seeing patterns just by random chance.</p>
+<p>One way is to calculate the Variance Mean Ratio, which gives an assessment about whether the data is clustered, uniform or random (AKA levels of spatial autocorrelation):</p>
+<pre class="r"><code>Data.variance &lt;- var(as.vector(QuadratCount.4.4)) 
+Data.mean &lt;- mean(as.vector(QuadratCount.4.4)) 
+ 
+Data.VMR &lt;- Data.variance / Data.mean
+print(Data.VMR)</code></pre>
+<pre><code>## [1] 4.76262</code></pre>
+<p><br></p>
+<p>From this, we can assess if the data is more, or less clustered than points created using an Independent Random Process using a hypothesis test, but again this is very sensitive to your quadrat boundaries.</p>
+<pre class="r"><code>quadrat.test(QuadratCount.4.4)</code></pre>
+<pre><code>## 
+##  Chi-squared test of CSR using quadrat counts
+## 
+## data:  
+## X2 = 47.426, df = 15, p-value = 6.291e-05
+## alternative hypothesis: two.sided
+## 
+## Quadrats: 16 tiles (irregular windows)</code></pre>
+<p><br></p>
+<p>One way of dealing with this is to split your study region into areas that have meaning, rather than into squares. For example here, <a href="https://mgimond.github.io/Spatial/chp11_0.html#global-density" class="uri">https://mgimond.github.io/Spatial/chp11_0.html#global-density</a>, the data was split by population density vectors.</p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="local-density-2-kernel-smoothing" class="section level3">
+<h3>Local density 2: Kernel smoothing</h3>
+<p>If we don’t care about the maths, we might just want to look at a heat map of the points. R will let us do this easily.</p>
+<p>The kernel density approach is an extension of the quadrat method. Rather than simply splitting our area into set windows, kernel density analysis takes a moving window approach. This moving window is defined by a “kernel” - whose size is the size of the neighbourhood we wish to average over (or the size of the quadrat).</p>
+<p>If we use a very small neighbourhood, then the data will look very spotty, but it allows us to find clusters of points very close together (AKA in this case, cities - Des Moines, Iowa City, Cedar Rapids and Waterloo all stand out).</p>
+<pre class="r"><code># Using a 10km bandwidth
+Density_kernel_10 &lt;- density(mydata.ppp.km, sigma=10) 
+
+plot(Density_kernel_10, main=NULL, las=1)
+contour(Density_kernel_10, add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-24-1.png" /><!-- --></p>
+<p><br></p>
+<p>If we use a larger neighbourhood, then the data will look very smoothed out allowing us to see broad trends (more markets, AKA more people, in the South East).</p>
+<pre class="r"><code># Using a 50km bandwidth
+Density_kernel_50 &lt;- density(mydata.ppp.km, sigma=50) 
+
+plot(Density_kernel_50, main=NULL, las=1)
+contour(Density_kernel_50, add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-25-1.png" /><!-- --></p>
+<p><br> <br></p>
+</div>
+<div id="relationships-between-point-density-and-marks" class="section level3">
+<h3>Relationships between point density and marks</h3>
+<p>Here, I have a guess that the density of farmers markets is being driven by the population density. I can examine this using the <code>rhohat</code> function, which plots the density of a point against one of its marks.</p>
+<p>Rhohat is very fussy. First for it to work, I need to convert the original ACS data fields into a special type of raster</p>
+<pre class="r"><code>#-----------------------------------------------------------
+# Convert to sp, then create a fake raster
+# and use these to convert our log population density and 
+# median income to the special format
+#-----------------------------------------------------------
+ACS_county.sp.utm &lt;- as(ACS_county.sf.utm,&quot;Spatial&quot;)
+r &lt;- raster(ncol=500, nrow=500,extent(ACS_county.sp.utm))
+
+Pop.density.log.img &lt;- as.im.RasterLayer(rasterize(ACS_county.sp.utm,r ,&quot;pop.density.log&quot;,&quot;mean&quot;))
+Pop.density.img      &lt;- as.im.RasterLayer(rasterize(ACS_county.sp.utm,r ,&quot;pop.density&quot;,&quot;mean&quot;))
+
+#-----------------------------------------------------------
+# Elevation is already a raster, so we can just convert
+# to the special format
+#-----------------------------------------------------------
+elev.img &lt;- as.im.RasterLayer(elevation.utm)</code></pre>
+<p><br></p>
+<p>First, let’s look at the relationship with elevation</p>
+<pre class="r"><code>density.elevation &lt;-  rhohat(unmark(mydata.ppp),elev.img)
+plot(density.elevation)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-27-1.png" /><!-- --></p>
+<p><br></p>
+<p>The x-axis on this plot is elevation, e.g. low lying points are to the left and mountainous (for Iowa) points on the right. The y-axis is density. We can see that there are a higher density of points at low elevations. This checks out from my eyeballing of the situation.</p>
+<pre class="r"><code># and check it worked by making a plot
+ plot(elevation.utm,col=terrain.colors(20))
+
+ plot(mydata.ppp,use.marks = F,
+      cex = 1, pch = 4,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-28-1.png" /><!-- --></p>
+<p><br></p>
+<p>I’m guessing however that there might be a lurking variable rather than people checking out their terrian maps before deciding whether to open the next market… My guess is that it is linked to population density. So let’s do the same thing with population density:</p>
+<pre class="r"><code>plot( rhohat(unmark(mydata.ppp),Pop.density.log.img))</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-29-1.png" /><!-- --></p>
+<p><br></p>
+<p>Wow - super spikey. Essentially we can see that the overwhelming majority of points are in cities or towns, where there are a lot of people. AKA.</p>
+<pre class="r"><code>plot(Pop.density.log.img,col=terrain.colors(20))
+
+ plot(mydata.ppp,use.marks = F,
+      cex = 1, pch = 4,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-30-1.png" /><!-- --></p>
+<p><br></p>
+<p>This result is much harder to see in the raw population density, because it’s very hard for us to see the huge number of very rural counties which also have very few farmers markets (although we can see the population densities of different towns!)</p>
+<pre class="r"><code>plot( rhohat(unmark(mydata.ppp),Pop.density.img))</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-31-1.png" /><!-- --></p>
+<p><br></p>
+<pre class="r"><code>plot(Pop.density.img,col=terrain.colors(20))
+plot(mydata.ppp,use.marks = F,cex = 1, pch = 4,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-32-1.png" /><!-- --></p>
+<p><br></p>
+<p>We can go much further than this at this point, as the relationship between the predicted Starbucks store point pattern intensity and the population density distribution can be modeled following a Poisson point process model (just like our regression class, but using a special model to take into account the fact we are modelling intensity of points). If you are interested, see</p>
+<ul>
+<li><a href="https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html#kernel-density-adjusted-for-covariate-1" class="uri">https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html#kernel-density-adjusted-for-covariate-1</a></li>
+<li><a href="http://spatstat.org/Melb2018/solutions/solution03.html" class="uri">http://spatstat.org/Melb2018/solutions/solution03.html</a> (density)</li>
+<li><a href="http://spatstat.org/Melb2018/solutions/solution04.html" class="uri">http://spatstat.org/Melb2018/solutions/solution04.html</a> (poisson)</li>
+<li><a href="http://spatstat.org/Melb2018/solutions/solution05.html" class="uri">http://spatstat.org/Melb2018/solutions/solution05.html</a> (marked)</li>
+</ul>
+<p><br> <br></p>
+</div>
+<div id="regression-analysis-on-points." class="section level3">
+<h3>Regression analysis on points.</h3>
+<p>As you have seen above, predicting the <em>density</em> of points is rather hard (although the code is easy). If that will be an important part of your project, let me know as we can do this together.</p>
+<p>However, predicting some mark/attribute of our points is very standard and the same as in Lab 7.</p>
+<p>For example (as my farmers market data doesn’t have any good attributes), here is whether median income can be predicted by population density at my farmers market locations. A better one if I had the data would be the sales in each market.</p>
+<pre class="r"><code>plot(mydata.sf.utm$med.incomeE~mydata.sf.utm$pop.density.log,
+     xlab=&quot;Log population Density at market locations&quot;,ylab=&quot;Median Income&quot;)
+
+mymodel &lt;- lm(med.incomeE~pop.density.log,mydata.sf.utm)
+abline(mymodel)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-33-1.png" /><!-- --></p>
+<pre class="r"><code>mydata.sf.utm$model.residuals &lt;- mymodel$residuals
+
+tm_shape(ACS_county.sf.utm)+tm_polygons(alpha=0,border.col = &quot;grey&quot;)+
+   qtm(mydata.sf.utm,dots.col=&quot;model.residuals&quot;,dots.size=.2,dots.palette=&quot;RdYlBu&quot;)+
+   tm_layout(legend.outside=TRUE)+
+   tm_shape(state.border.utm)+tm_borders()</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-33-2.png" /><!-- --></p>
+<p><br></p>
+<p>The only difference is that we can’t use rooks or queens to calculate Moran’s I. Instead we will need to use a different measure like distance circles.</p>
+<pre class="r"><code># make an sp version
+mydata.sp.utm &lt;- as(mydata.sf.utm,&quot;Spatial&quot;)
+
+# calculate the distance in kilometers
+weights.matrix.all &lt;- as.matrix(dist(coordinates(mydata.sp.utm)))/1000
+
+# decide on a rule. i said that all markets under 30km were neighbours
+weights.matrix.dist30 &lt;- weights.matrix.all
+weights.matrix.dist30[weights.matrix.all &lt; 30] &lt;- 1
+weights.matrix.dist30[weights.matrix.all &gt;= 30] &lt;- 0</code></pre>
+<p><br></p>
+<pre class="r"><code># calculate the weights matrix
+myweights &lt;- mat2listw(weights.matrix.dist30)
+
+# plot matrix
+plot(myweights,coordinates(mydata.sp.utm))
+plot(st_geometry(state.border.utm),add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-35-1.png" /><!-- --></p>
+<pre class="r"><code># plot/test Moran&#39;s I
+moran.plot(mydata.sp.utm$med.incomeE,myweights)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-35-2.png" /><!-- --></p>
+<pre class="r"><code>moran.test(mydata.sp.utm$med.incomeE,myweights)</code></pre>
+<pre><code>## 
+##  Moran I test under randomisation
+## 
+## data:  mydata.sp.utm$med.incomeE  
+## weights: myweights    
+## 
+## Moran I statistic standard deviate = 23.567, p-value &lt; 2.2e-16
+## alternative hypothesis: greater
+## sample estimates:
+## Moran I statistic       Expectation          Variance 
+##       1.073166059      -0.005780347       0.002096075</code></pre>
+<p><br></p>
+<p>As expected, our residuals are autocorrelated!</p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="distance-based-point-pattern-analysis" class="section level2">
+<h2>Distance based point pattern analysis</h2>
+<p><em>Density based statistics</em> give us an estimate of <strong>first order autocorrelation</strong> e.g. is there a big underlying thing driving the density of points.</p>
+<p><em>Distance based statistics</em> give an estimate of <strong>second order autocorrelation</strong> e.g. does one point change the probability of seeing more points (AKA one infectious person is likely to lead to more in the surrounding area).</p>
+<p>Here are a few of the most common/useful:</p>
+<p><br> <br></p>
+<div id="nearest-neighbour" class="section level3">
+<h3>Nearest neighbour</h3>
+<p>The easiest distance based measure is the distance between each point and its nearest neighbour.</p>
+<pre class="r"><code>#For each point, nndist calculates the distance to the nearest point 
+
+mydata.Nearest_neighbor &lt;- nndist(mydata.ppp.km)
+
+hist(mydata.Nearest_neighbor, main=NULL, las=1,
+     xlab=list(&quot;Distance between each point and its Nearest Neighbour (km)&quot;,cex=.8))</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
+<p><br></p>
+<p>Here we can see that most farmers markets are within 5km of the nearest market, but there are some up to 50km away.</p>
+<p>A global statistic we could use would simply be the average nearest neighbour or the R Ratio (see class)</p>
+<pre class="r"><code>#-----------------------------------
+# Mean nearest neighbour
+#------------------------------------
+MeanNN &lt;-  round(mean(mydata.Nearest_neighbor),2)
+MeanNN
+
+R.Ratio &lt;-  clarkevans(mydata.ppp.km)
+R.Ratio</code></pre>
+<p><br></p>
+<p>AKA, there is on average 10km between farmers markets in Iowa. The output of the R.Ratio likely gives you two values, naive and cdf. CDF is simply a mathematical way of taking into account edge effects.</p>
+<p>We will discuss the R ratio in lectures.</p>
+<p><br> <br></p>
+</div>
+<div id="l-function" class="section level3">
+<h3>L-Function</h3>
+<p>A better local way of looking at our data is the L function:</p>
+<pre class="r"><code>#-----------------------------------------
+# Calculate the L function and its uncertainty envelope
+#-----------------------------------------
+L.DATA &lt;- Lest(mydata.ppp.km)
+
+#-----------------------------------------
+# Rather than simply saying something is “clustered” or “uniform” 
+# depending on how it subjectively looks to the
+# IRP line, we can instead use Monte Carlo simulation to assess our data 
+# against many L patterns that were caused by an Independent Random Pattern. 
+# Here we generate 500 CSRs and calculate the L function for each one
+#-----------------------------------------
+  L_DATA_envelope &lt;- envelope(mydata.ppp.km, Lest, correction = &quot;Ripley&quot;, 
+                              verbose = F,
+                              nsim=200, nrank=1, 
+                              savepatterns = TRUE, savefuns = TRUE)</code></pre>
+<p><br></p>
+<pre class="r"><code>#-----------------------------------------
+# Plot the raw L-function data for different edge effects.  Ignore any warnings
+#-----------------------------------------
+  plot(L.DATA, . - r ~ r,
+       ylim=c(0-(max(L.DATA$iso-L.DATA$r)),max(L.DATA-L.DATA$r)))
+  # Add the uncertainty envelope.
+  plot(L_DATA_envelope, . - r ~ r,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-39-1.png" /><!-- --></p>
+<p><br></p>
+<p>Again we will discuss the interpretation in class, but essentially:</p>
+<ul>
+<li>The x-axis is the distance between any two points.</li>
+<li>The y-axis is the level of clustering or dispersion, above zero means there are more points than expected, below zero means less point than expected</li>
+</ul>
+<p>The grey cloud is the result of a Monte Carlo process, where we created this plot for simulations created using an IRP. For example, here are three patterns that went into the grey IRP cloud, compared to our actual pattern in red.</p>
+<pre class="r"><code>par(mfrow=c(2,2))
+plot(unmark(attributes(L_DATA_envelope)$simpatterns[[1]]),cols=rgb(0,0,0,.5),
+     main=NULL,pch=16,cex=.5)
+plot(unmark(attributes(L_DATA_envelope)$simpatterns[[2]]),  cols=rgb(0,0,0,.5),
+     main=NULL,pch=16,cex=.5)
+plot(unmark(attributes(L_DATA_envelope)$simpatterns[[3]]), cols=rgb(0,0,0,.5),    
+     main=NULL,pch=16,cex=.5)
+plot(unmark(mydata.ppp.km),cols=&quot;purple&quot;,  main=NULL,pch=16,cex=.5)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-40-1.png" /><!-- --></p>
+<p><br></p>
+<p>And we can compare their L functions with the one we actually observe:</p>
+<pre class="r"><code>Lest1 &lt;- Lest(attributes(L_DATA_envelope)$simpatterns[[1]])
+Lest2 &lt;- Lest(attributes(L_DATA_envelope)$simpatterns[[2]])
+Lest3 &lt;- Lest(attributes(L_DATA_envelope)$simpatterns[[3]])
+Lest4 &lt;- Lest(attributes(L_DATA_envelope)$simpatterns[[4]])</code></pre>
+<p><br></p>
+<pre class="r"><code>plot(L.DATA, border - r ~ r,col=&quot;purple&quot;,
+     ylim=c(0-(max(L.DATA$iso-L.DATA$r)),max(L.DATA-L.DATA$r)))
+plot(L.DATA, theo - r ~ r,add=TRUE)
+plot(Lest1,border - r ~ r,col=&quot;grey&quot;,add=TRUE)
+plot(Lest3,border - r ~ r,col=&quot;grey&quot;,add=TRUE)
+plot(Lest3,border - r ~ r,col=&quot;grey&quot;,add=TRUE)
+plot(Lest4,border - r ~ r,col=&quot;grey&quot;,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
+<p><br></p>
+<p>Now looking back at the actual plot, instead of 3 IRP patterns there are 200.</p>
+<pre class="r"><code> plot(L.DATA, . - r ~ r,
+       ylim=c(0-(max(L.DATA$iso-L.DATA$r)),max(L.DATA-L.DATA$r)))
+  # Add the uncertainty envelope.
+  plot(L_DATA_envelope, . - r ~ r,add=TRUE)</code></pre>
+<p><img src="pg_Tut12_pointpattern_files/figure-html/unnamed-chunk-43-1.png" /><!-- --></p>
+<p><br></p>
+<p>From this I can see that farmers markets are more clustered than average up to approximately 60km. Beyond that, there is no difference between the pattern and one we might see by random chance or an IRP.</p>
+<p><br> <br></p>
+</div>
+</div>
+<div id="carrying-on-further" class="section level2">
+<h2>Carrying on further</h2>
+<p>As before, there is a lot further we can take this. If you are interested, see:</p>
+<ul>
+<li><p><a href="https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html#pair-correlation-function-g" class="uri">https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html#pair-correlation-function-g</a></p></li>
+<li><p><a href="http://spatstat.org/Melb2018/solutions/solution06.html" class="uri">http://spatstat.org/Melb2018/solutions/solution06.html</a> (K and L functions)</p></li>
+<li><p><a href="https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html" class="uri">https://mgimond.github.io/Spatial/point-pattern-analysis-in-r.html</a></p></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+
+</body>
+</html>
