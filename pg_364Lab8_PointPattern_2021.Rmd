@@ -105,7 +105,7 @@ See [**your canvas assignment here**](https://psu.instructure.com/courses/212004
 
 2. Go to Canvas and download the .Rmd with the code, the data file on fossils and the worked example data file on farmers markets in Iowa. Put them in your project folder.<br><br>
 
-3. Use the code provided to work through [Tutorial 12](https://psu-spatial.github.io/Geog364-2021/pg_Tut2_startup.html#Tutorial_12).  Make sure all the libraries are installed, all the code chunks run, that it knits, and that there are no errors.  <br><br>
+3. Use the code provided to work through [Tutorial 12](https://psu-spatial.github.io/Geog364-2021/pg_Tut12_pointpattern.html).  Make sure all the libraries are installed, all the code chunks run, that it knits, and that there are no errors.  <br><br>
 
    +  This is an excellent time to comment the code and write notes to yourself about what the code does! <br>You will need to understand what is going on for part 2...<br><br>
    
