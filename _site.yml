@@ -50,13 +50,7 @@ navbar:
         - text: "Lab 7: LISA and Regression"
           href: pg_364Lab7_Regression_2021.html
         - text: "Lab 8: Point Pattern"
-          href: pg_364Lab8_PointPattern_2021.html
-    - text: "Worked answers"
-      menu:
-        - text: "Lab 5 Example"
-          href: pg_364Lab5_tobler_2021_WORKED.html 
-        - text: "Lab 6 Example"
-          href: pg_364Lab6_moran_2021_WORKED.html           
+          href: pg_364Lab8_PointPattern_2021.html     
     - text: "PROJECT"
       menu:
         - text: "Downloading Secondary datasets"

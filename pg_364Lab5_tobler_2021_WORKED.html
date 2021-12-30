@@ -11,7 +11,7 @@
 
 <meta name="author" content="SUSAN WORKED ANSWERS" />
 
-<meta name="date" content="2021-11-30" />
+<meta name="date" content="2021-12-29" />
 
 <title>GEOG-364 - Lab 5</title>
 
@@ -409,21 +409,6 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Worked answers
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="pg_364Lab5_tobler_2021_WORKED.html">Lab 5 Example</a>
-    </li>
-    <li>
-      <a href="pg_364Lab6_moran_2021_WORKED.html">Lab 6 Example</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     PROJECT
      
     <span class="caret"></span>
@@ -454,7 +439,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">GEOG-364 - Lab 5</h1>
 <h4 class="author">SUSAN WORKED ANSWERS</h4>
-<h4 class="date">2021-11-30</h4>
+<h4 class="date">2021-12-29</h4>
 
 </div>
 
@@ -472,7 +457,7 @@ library(rnaturalearth)
 library(readxl)
 library(USAboundaries)</code></pre>
 <div id="join-counts" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Join Counts</h1>
+<h1><span class="header-section-number">1</span> Join Counts</h1>
 <ol start="2" style="list-style-type: decimal">
 <li><strong>Briefly explain what join counts are and why it is only appropriate to use use them for categorical or binary (yes/no ; TRUE/FALSE) data.</strong></li>
 </ol>
@@ -508,7 +493,7 @@ text(coordinates(ToyB_raster), labels=ToyB_raster[], cex=1.5)</code></pre>
 <p><img src="pg_364Lab5_tobler_2021_WORKED_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
 </div>
 <div id="spatial-weights-matrix" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> Spatial weights matrix</h1>
+<h1><span class="header-section-number">2</span> Spatial weights matrix</h1>
 <ol start="5" style="list-style-type: decimal">
 <li><strong>What is a spatial-weights-matrix?</strong> A spatial weights matrix is a representation of the spatial structure of data. It quantifies the spatial relationships among feature of the data.</li>
 </ol>
@@ -537,7 +522,7 @@ plot(ToyB_nb.qn, coordinates(ToyB_spdep), col=&#39;red&#39;, lwd=2, add=TRUE)</c
 <p>The rooks adjacency plot only includes border to border joins but the queens adjacency plot includes both border to border and corner to corner joins.</p>
 </div>
 <div id="join-count-analysis" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Join count analysis</h1>
+<h1><span class="header-section-number">3</span> Join count analysis</h1>
 <p><strong><em>Using an Independent Random Process to create a matrix of the same shape but filled with random 1s and 0s - this is important for understanding (on average) how many green-green, white-white, green-white boundaries there would be if an Independent Random Process caused the pattern.</em></strong></p>
 <pre class="r"><code>toyIRP &lt;- function(matrix_input, silent=FALSE){
 
