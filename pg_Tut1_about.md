@@ -93,10 +93,35 @@ More recently, **R-studio** has been designed as a piece of software to make it 
 
 It’s Microsoft Word is compared to notepad; many more options and things to click. For example, you can easily see help files, run code, see your output and edit interactive visualisations.  R-Studio also allows us to make interactive documents called R-Markdown files.  
 
+
 <div class="figure">
-<img src="pg_Tut1_about_fig1.png" alt="*R-studio is much more sophisticated*" width="1686" />
+<img src="pg_Tut1_about_fig2.png" alt="*R-studio is much more sophisticated*" width="2848" />
 <p class="caption">*R-studio is much more sophisticated*</p>
 </div>
+
+To learn more about R studio, see here: https://www.rstudio.com/products/rstudio/ (1 minute video), or a slightly longer one here:
+
+
+```{=html}
+<div class="vembedr">
+<div>
+<iframe src="https://www.youtube.com/embed/SdMPh5uphO0" width="533" height="300" frameborder="0" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+```
+
+You can also see more about the interactive R Markdown documents we will be making here:
+
+
+```{=html}
+<div class="vembedr">
+<div>
+<iframe class="vimeo-embed" src="https://player.vimeo.com/video/178485416" width="533" height="300" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="" data-external="1"></iframe>
+</div>
+</div>
+```
+
+
 <br>
 <br>
 
@@ -116,7 +141,7 @@ c. [Lab computers and the TLT server](#Tut1Bc_Campus) (NOT recommended)
 
 R is free and having it on your own computer will give you a lot more freedom to complete the labs, especially if there is social distancing later in the semester.
 
-**If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.**  The easiest way to do this is to first uninstall both programmes, then reinstall fresh.  If you are worried this will affect another class, chat with Dr Greatrex before starting out..
+**If you already have R and/or R-Studio, it is very important you update both of them to the most recent version.**  The easiest way to do this is to first uninstall both programmes, then re-install fresh.  If you are worried this will affect another class, chat with Dr Greatrex before starting out..
 
 <br> 
 
@@ -140,7 +165,7 @@ R is free and having it on your own computer will give you a lot more freedom to
 
 <br>
 
-<p class="comment">**Your R AND R-Studio MUST be up to date, or things wont' work**. R should be a minimum of 4.1.0 (2021-05-18) -- "Camp Pontanezen" and R-studio a minimum of Version 1.4.1717</p>
+<p class="comment">**Your R AND R-Studio MUST be up to date, or things wont' work**. R should be a minimum of 4.1.2 (2021-11-01) -- "Bird Hippie" and R-studio a minimum of Version 1.4.1717</p>
 
 
 <div style="margin-bottom:25px;">
@@ -165,7 +190,7 @@ The geography lab computers should have the most up to date version of R, but so
 
 There is also a free Penn State server called the TLT server (also a second called the science server).  In both cases R studio is out of date, which will likely cause issues.
 
-*If you go down these routes, proceed with care!*
+*If you go down these routes, proceed with care and talk to Dr Greatrex first*
 
 <br>
 <br>
